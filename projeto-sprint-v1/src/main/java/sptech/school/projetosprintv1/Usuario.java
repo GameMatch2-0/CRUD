@@ -1,35 +1,34 @@
-package sptech.school.projetosprintv1.web;
+package sptech.school.projetosprintv1;
+
+import sptech.school.projetosprintv1.Tags;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 public class Usuario {
     private String nome;
     private String orientacaoSexual;
-    private Date dtNascimento;
+    private LocalDate dtNascimento;
     private String email;
     private String senha;
-    private String confirmarSenha;
-    private int dia;
-    private int mes;
-    private int ano;
     private LocalDate dtCadastro;
-
-    private List<Tags> tags = new ArrayList<>();
+    private String[] jogosFavoritos = new String[5];
+    private boolean deleted = false;
 
     public Usuario() {
     }
 
-    public Usuario(String nome, String orientacaoSexual, Date dtNascimento, String email, String senha, String confirmarSenha, int dia, int mes, int ano) {
+    public Usuario(String nome, String orientacaoSexual, String email, String senha, int dia, int mes, int ano, String[] jogosFavoritos) {
         this.nome = nome;
         this.orientacaoSexual = orientacaoSexual;
-        this.dtNascimento = dtNascimento;
+        this.dtNascimento = LocalDate.of(ano, mes, dia);
         this.email = email;
         this.senha = senha;
-        this.confirmarSenha = confirmarSenha;
-        this.dtCadastro = LocalDate.of(ano, mes, dia);
+        this.dtCadastro = LocalDate.now();
+        this.jogosFavoritos = jogosFavoritos;
     }
 
     public String getNome() {
@@ -48,11 +47,11 @@ public class Usuario {
         this.orientacaoSexual = orientacaoSexual;
     }
 
-    public Date getDtNascimento() {
+    public LocalDate getDtNascimento() {
         return dtNascimento;
     }
 
-    public void setDtNascimento(Date dtNascimento) {
+    public void setDtNascimento(LocalDate dtNascimento) {
         this.dtNascimento = dtNascimento;
     }
 
@@ -72,38 +71,6 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public String getConfirmarSenha() {
-        return confirmarSenha;
-    }
-
-    public void setConfirmarSenha(String confirmarSenha) {
-        this.confirmarSenha = confirmarSenha;
-    }
-
-    public int getDia() {
-        return dia;
-    }
-
-    public void setDia(int dia) {
-        this.dia = dia;
-    }
-
-    public int getMes() {
-        return mes;
-    }
-
-    public void setMes(int mes) {
-        this.mes = mes;
-    }
-
-    public int getAno() {
-        return ano;
-    }
-
-    public void setAno(int ano) {
-        this.ano = ano;
-    }
-
     public LocalDate getDtCadastro() {
         return dtCadastro;
     }
@@ -112,24 +79,32 @@ public class Usuario {
         this.dtCadastro = dtCadastro;
     }
 
-    public void addTag(Tags tag) {
-        tags.add(tag);
+    public String[] getJogosFavoritos() {
+        return jogosFavoritos;
     }
 
-    public List<Tags> getTags() {
-        return tags;
+    public void setJogosFavoritos(String[] jogosFavoritos) {
+        this.jogosFavoritos = jogosFavoritos;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     @Override
     public String toString() {
-        return "Dados do Cadastro:" +
+        return "Usuario{" +
                 "nome='" + nome + '\'' +
                 ", orientacaoSexual='" + orientacaoSexual + '\'' +
                 ", dtNascimento=" + dtNascimento +
                 ", email='" + email + '\'' +
-                ", dtCadastro=" + dtCadastro + "\n";
-    }
-
-    public void add(String s) {
+                ", senha='" + senha + '\'' +
+                ", dtCadastro=" + dtCadastro +
+                ", jogosFavoritos=" + Arrays.toString(jogosFavoritos) +
+                '}';
     }
 }

@@ -1,4 +1,4 @@
-package sptech.school.projetosprintv1.web;
+package sptech.school.projetosprintv1;
 
 public class Tags {
 

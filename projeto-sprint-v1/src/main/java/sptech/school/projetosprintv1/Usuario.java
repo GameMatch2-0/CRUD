@@ -1,33 +1,30 @@
 package sptech.school.projetosprintv1;
 
-import sptech.school.projetosprintv1.Tags;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
 public class Usuario {
     private String nome;
     private String orientacaoSexual;
     private LocalDate dtNascimento;
     private String email;
+    private Integer celular;
     private String senha;
-    private LocalDate dtCadastro;
+    private LocalDateTime dtCadastro;
     private String[] jogosFavoritos = new String[5];
     private boolean deleted = false;
 
     public Usuario() {
     }
 
-    public Usuario(String nome, String orientacaoSexual, String email, String senha, int dia, int mes, int ano, String[] jogosFavoritos) {
+    public Usuario(String nome, String orientacaoSexual, String email, LocalDate dtNascimento, Integer celular, String senha, String[] jogosFavoritos) {
         this.nome = nome;
         this.orientacaoSexual = orientacaoSexual;
-        this.dtNascimento = LocalDate.of(ano, mes, dia);
         this.email = email;
+        this.dtNascimento = dtNascimento;
+        this.celular = celular;
         this.senha = senha;
-        this.dtCadastro = LocalDate.now();
         this.jogosFavoritos = jogosFavoritos;
     }
 
@@ -47,8 +44,8 @@ public class Usuario {
         this.orientacaoSexual = orientacaoSexual;
     }
 
-    public LocalDate getDtNascimento() {
-        return dtNascimento;
+    public String getDtNascimento() {
+        return dtNascimento.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public void setDtNascimento(LocalDate dtNascimento) {
@@ -63,6 +60,14 @@ public class Usuario {
         this.email = email;
     }
 
+    public int getCelular() {
+        return celular;
+    }
+
+    public void setCelular(Integer celular) {
+        this.celular = celular;
+    }
+
     public String getSenha() {
         return senha;
     }
@@ -71,11 +76,11 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public LocalDate getDtCadastro() {
-        return dtCadastro;
+    public String getDtCadastro() {
+        return dtCadastro.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
     }
 
-    public void setDtCadastro(LocalDate dtCadastro) {
+    public void setDtCadastro(LocalDateTime dtCadastro) {
         this.dtCadastro = dtCadastro;
     }
 

@@ -1,30 +1,4 @@
 # CRUD de usuário do 
-Formato do JSON para testar métodos no insomnia(Para copiar basta clicar em copy raw no canto superior direito(icone de copiar que normalmente é usado na maioria dos sites)): <br>
-{ 
-    "nome": "Adam Sandler", 
-    "orientacaoSexual": "Pansexual", 
-    "email": "Adam@sandler.com", 
-    "dtNascimento": "1997-04-07", 
-    "celular": 1111111111, 
-    "senha": "adam123S@ndler", 
-    "jogosFavoritos": ["Valorant", "LOL", "PUBG", "Minecraft", "Tetris"] 
-} <br><br>
- 
-retorno esperado: <br>
-{ 
-    "nome": "Adam Sandler", 
-    "orientacaoSexual": "Pansexual", 
-    "dtNascimento": "07/04/1997", 
-    "email": "Adam@sandler.com", 
-    "celular": 1111111111, 
-    "senha": "adam123S@ndler", 
-    "dtCadastro": "13/09/2023 21:02:08", 
-    "jogosFavoritos": [ 
-        "Valorant", 
-        "LOL", 
-        "PUBG", 
-        "Minecraft", 
-        "Tetris" 
-    ], 
-    "deleted": false 
-} <br>
+Arquivo para importar GET's, POST's, PUT's, DELETE's do insomnia junto com seus JSON's:<br><br>
+<a href="https://www.mediafire.com/file/wed1w9onss6oxme/CRUD-usuario-sprint1.json/file">Metodos-Insomnia</a><br><br>
+Basta clicar para baixar, entrar no insomnia, ir na home(icone de casinha) e no canto superior direito clicar no +(icone de adição) e ir em "Import", enviar o arquivo, clicar em scan e depois em import, pronto, basta acessar o "Web" e utilizar dos metodos enquanto a aplicação estiver rodando

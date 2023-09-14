@@ -1,30 +1,30 @@
-# CRUD de usuário do <br>
-Formato do JSON para testar métodos no insomnia: <br>
-{ <br>
-    "nome": "Adam Sandler", <br>
-    "orientacaoSexual": "Pansexual", <br>
-    "email": "Adam@sandler.com", <br>
-    "dtNascimento": "1997-04-07", <br>
-    "celular": 1111111111, <br>
-    "senha": "adam123S@ndler", <br>
-    "jogosFavoritos": ["Valorant", "LOL", "PUBG", "Minecraft", "Tetris"] <br>
-} <br>
- <br>
-retorno esperado: <br>
-{ <br>
-    "nome": "Adam Sandler", <br>
-    "orientacaoSexual": "Pansexual", <br>
-    "dtNascimento": "07/04/1997", <br>
-    "email": "Adam@sandler.com", <br>
-    "celular": 1111111111, <br>
-    "senha": "adam123S@ndler", <br>
-    "dtCadastro": "13/09/2023 21:02:08", <br>
-    "jogosFavoritos": [ <br>
-        "Valorant", <br>
-        "LOL", <br>
-        "PUBG", <br>
-        "Minecraft", <br>
-        "Tetris" <br>
-    ], <br>
-    "deleted": false <br>
-} <br>
+# CRUD de usuário do 
+Formato do JSON para testar métodos no insomnia(Para copiar basta clicar em copy raw no canto superior direito(icone de copiar que normalmente é usado na maioria dos sites)):
+{ 
+    "nome": "Adam Sandler", 
+    "orientacaoSexual": "Pansexual", 
+    "email": "Adam@sandler.com", 
+    "dtNascimento": "1997-04-07", 
+    "celular": 1111111111, 
+    "senha": "adam123S@ndler", 
+    "jogosFavoritos": ["Valorant", "LOL", "PUBG", "Minecraft", "Tetris"] 
+} 
+ 
+retorno esperado: 
+{ 
+    "nome": "Adam Sandler", 
+    "orientacaoSexual": "Pansexual", 
+    "dtNascimento": "07/04/1997", 
+    "email": "Adam@sandler.com", 
+    "celular": 1111111111, 
+    "senha": "adam123S@ndler", 
+    "dtCadastro": "13/09/2023 21:02:08", 
+    "jogosFavoritos": [ 
+        "Valorant", 
+        "LOL", 
+        "PUBG", 
+        "Minecraft", 
+        "Tetris" 
+    ], 
+    "deleted": false 
+} 

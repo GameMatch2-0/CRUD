@@ -1,5 +1,5 @@
 # CRUD de usuário do 
-Formato do JSON para testar métodos no insomnia(Para copiar basta clicar em copy raw no canto superior direito(icone de copiar que normalmente é usado na maioria dos sites)):
+Formato do JSON para testar métodos no insomnia(Para copiar basta clicar em copy raw no canto superior direito(icone de copiar que normalmente é usado na maioria dos sites)): <br>
 { 
     "nome": "Adam Sandler", 
     "orientacaoSexual": "Pansexual", 
@@ -8,9 +8,9 @@ Formato do JSON para testar métodos no insomnia(Para copiar basta clicar em cop
     "celular": 1111111111, 
     "senha": "adam123S@ndler", 
     "jogosFavoritos": ["Valorant", "LOL", "PUBG", "Minecraft", "Tetris"] 
-} 
+} <br><br>
  
-retorno esperado: 
+retorno esperado: <br>
 { 
     "nome": "Adam Sandler", 
     "orientacaoSexual": "Pansexual", 
@@ -27,4 +27,4 @@ retorno esperado:
         "Tetris" 
     ], 
     "deleted": false 
-} 
+} <br>

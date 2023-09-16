@@ -81,7 +81,12 @@ public class UsuarioController {
         } else if (!validaUsuario(usuario)) {
             return ResponseEntity.status(400).build();
         } else {
-            usuarioLista.set(id, usuario);
+            Usuario u = usuarioLista.get(id);
+            u.setNome(usuario.getNome());
+            u.setCelular(usuario.getCelular());
+            u.setEmail(usuario.getEmail());
+            u.setJogosFavoritos(usuario.getJogosFavoritos());
+            u.setSenha(usuario.getSenha());
             return ResponseEntity.status(200).build();
         }
     }

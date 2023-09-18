@@ -34,7 +34,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> buscar(@PathVariable int id) {
-        if (id < 0 || id >= usuarioLista.size() || usuarioLista.get(id).isDeleted()) {
+        if (!validaId(id) || usuarioLista.get(id).isDeleted()) {
             return ResponseEntity.status(404).build();
         } else {
             return ResponseEntity.status(200).body(usuarioLista.get(id));
@@ -76,7 +76,7 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> alterar(@PathVariable int id, @RequestBody Usuario usuario) {
-        if (id < 0 || id > usuarioLista.size() || usuarioLista.get(id).isDeleted()) {
+        if (!validaId(id) || usuarioLista.get(id).isDeleted()) {
             return ResponseEntity.status(404).build();
         } else if (!validaUsuario(usuario)) {
             return ResponseEntity.status(400).build();
@@ -88,7 +88,7 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Usuario> deletar(@PathVariable int id) {
-        if (id < 0 || id > usuarioLista.size() || usuarioLista.get(id).isDeleted()) {
+        if (!validaId(id) || usuarioLista.get(id).isDeleted()) {
             return ResponseEntity.status(404).build();
         } else {
             usuarioLista.get(id).setDeleted(true);
@@ -105,6 +105,10 @@ public class UsuarioController {
                 && !usuario.getSenha().isEmpty() && usuario.getDtNascimento() != null
                 && !usuario.getDtNascimento().toString().isEmpty()
                 && usuario.getJogosFavoritos() != null && usuario.getJogosFavoritos().length != 0;
+    }
+
+    public boolean validaId(int id) {
+        return id >= 0 && id < usuarioLista.size();
     }
 
 

@@ -1,4 +1,4 @@
-package sptech.school.projetosprintv1;
+package sptech.school.matchmaker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

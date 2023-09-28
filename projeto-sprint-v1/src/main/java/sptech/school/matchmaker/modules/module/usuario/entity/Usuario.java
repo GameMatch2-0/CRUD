@@ -1,15 +1,18 @@
-package sptech.school.projetosprintv1;
+package sptech.school.matchmaker.modules.module.usuario.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class Usuario {
+
+    private UUID id;
     private String nome;
     private String orientacaoSexual;
     private LocalDate dtNascimento;
     private String email;
-    private Integer celular;
+    private String contato;
     private String senha;
     private LocalDateTime dtCadastro;
     private String[] jogosFavoritos = new String[5];
@@ -18,14 +21,13 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nome, String orientacaoSexual, String email, LocalDate dtNascimento, Integer celular, String senha, String[] jogosFavoritos) {
-        this.nome = nome;
-        this.orientacaoSexual = orientacaoSexual;
-        this.email = email;
-        this.dtNascimento = dtNascimento;
-        this.celular = celular;
-        this.senha = senha;
-        this.jogosFavoritos = jogosFavoritos;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -60,12 +62,12 @@ public class Usuario {
         this.email = email;
     }
 
-    public int getCelular() {
-        return celular;
+    public String getContato() {
+        return contato;
     }
 
-    public void setCelular(Integer celular) {
-        this.celular = celular;
+    public void setContato(String contato) {
+        this.contato = contato;
     }
 
     public String getSenha() {

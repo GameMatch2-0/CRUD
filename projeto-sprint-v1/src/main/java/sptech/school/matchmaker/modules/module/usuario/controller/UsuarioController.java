@@ -1,10 +1,9 @@
-package sptech.school.projetosprintv1.controller;
+package sptech.school.matchmaker.modules.module.usuario.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sptech.school.projetosprintv1.Usuario;
+import sptech.school.matchmaker.modules.module.usuario.entity.Usuario;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package sptech.school.projetosprintv1;
+package sptech.school.matchmaker.modules;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

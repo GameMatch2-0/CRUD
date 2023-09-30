@@ -1,10 +1,11 @@
 package com.example.matchmaker.matchmakerapi.module.usuario.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,8 +18,9 @@ public class Usuario {
     private String email;
     private String contato;
     private String senha;
-    private LocalDateTime dtCadastro;
-    private String[] jogosFavoritos = new String[5];
+    private LocalDateTime dtCadastro = LocalDateTime.now();
+    @ElementCollection
+    private List<String> jogosFavoritos = new ArrayList<>();
     private boolean deleted = false;
 
     public Usuario() {
@@ -89,11 +91,11 @@ public class Usuario {
         this.dtCadastro = dtCadastro;
     }
 
-    public String[] getJogosFavoritos() {
+    public List<String> getJogosFavoritos() {
         return jogosFavoritos;
     }
 
-    public void setJogosFavoritos(String[] jogosFavoritos) {
+    public void setJogosFavoritos(List<String> jogosFavoritos) {
         this.jogosFavoritos = jogosFavoritos;
     }
 

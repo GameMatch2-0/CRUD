@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +50,7 @@ public class UsuarioController {
         }
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Usuario> cadastrar(@RequestBody UsuarioRequestDto usuarioRequestDto) {
         Optional<Usuario> usuarioOptional = this.usuarioRepository.findByEmailAndDeletedFalse(usuarioRequestDto.getEmail());
 
@@ -68,14 +67,12 @@ public class UsuarioController {
         usuario.setContato(usuarioRequestDto.getContato());
         usuario.setDtNascimento(usuarioRequestDto.getDtNascimento());
         usuario.setEmail(usuarioRequestDto.getEmail());
-        usuario.setJogosFavoritos(usuario.getJogosFavoritos());
+        usuario.setJogosFavoritos(usuarioRequestDto.getJogosFavoritos());
         usuario.setOrientacaoSexual(usuarioRequestDto.getOrientacaoSexual());
         usuario.setSenha(usuarioRequestDto.getSenha());
-        usuarioRequestDto.setDtCadastro(LocalDateTime.now());
 
         Usuario novoUsuario = this.usuarioRepository.save(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
-
     }
 
     @PutMapping("/{id}")
@@ -88,7 +85,7 @@ public class UsuarioController {
 
         Usuario usuario = optionalUsuario.get();
 
-        if (validaUsuario(usuarioRequestDto)) {
+        if (!validaUsuario(usuarioRequestDto)) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -108,7 +105,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> deletar(@PathVariable String id) {
         Optional<Usuario> optionalUsuario = this.usuarioRepository.findById(id);
 
-        if (optionalUsuario.isEmpty()){
+        if (optionalUsuario.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -127,7 +124,9 @@ public class UsuarioController {
                 && usuario.getEmail().contains("@") && usuario.getSenha() != null
                 && !usuario.getSenha().isEmpty() && usuario.getDtNascimento() != null
                 && !usuario.getDtNascimento().toString().isEmpty()
-                && usuario.getJogosFavoritos() != null && usuario.getJogosFavoritos().length != 0;
+                && usuario.getJogosFavoritos() != null && usuario.getJogosFavoritos().size() != 0
+                && usuario.getJogosFavoritos().size() < 6;
+
     }
 
 

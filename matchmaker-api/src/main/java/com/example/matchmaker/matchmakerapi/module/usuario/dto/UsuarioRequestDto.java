@@ -1,7 +1,13 @@
 package com.example.matchmaker.matchmakerapi.module.usuario.dto;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioRequestDto {
     private String nome;
@@ -11,7 +17,8 @@ public class UsuarioRequestDto {
     private String contato;
     private String senha;
     private LocalDateTime dtCadastro;
-    private String[] jogosFavoritos;
+    @ElementCollection
+    private List<String> jogosFavoritos;
 
     public String getNome() {
         return nome;
@@ -69,11 +76,11 @@ public class UsuarioRequestDto {
         this.dtCadastro = dtCadastro;
     }
 
-    public String[] getJogosFavoritos() {
+    public List<String> getJogosFavoritos() {
         return jogosFavoritos;
     }
 
-    public void setJogosFavoritos(String[] jogosFavoritos) {
+    public void setJogosFavoritos(List<String> jogosFavoritos) {
         this.jogosFavoritos = jogosFavoritos;
     }
 

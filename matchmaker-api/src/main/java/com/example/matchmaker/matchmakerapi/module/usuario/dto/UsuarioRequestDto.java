@@ -11,6 +11,7 @@ import java.util.List;
 
 public class UsuarioRequestDto {
     private String nome;
+    private String apelido;
     private String orientacaoSexual;
     private LocalDate dtNascimento;
     private String email;
@@ -26,6 +27,14 @@ public class UsuarioRequestDto {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getApelido() {
+        return apelido;
+    }
+
+    public void setApelido(String apelido) {
+        this.apelido = apelido;
     }
 
     public String getOrientacaoSexual() {
@@ -83,5 +92,4 @@ public class UsuarioRequestDto {
     public void setJogosFavoritos(List<String> jogosFavoritos) {
         this.jogosFavoritos = jogosFavoritos;
     }
-
 }

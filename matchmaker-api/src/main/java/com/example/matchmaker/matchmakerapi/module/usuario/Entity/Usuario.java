@@ -13,6 +13,7 @@ public class Usuario {
     @Id
     private String id = String.valueOf(UUID.randomUUID());
     private String nome;
+    private String apelido;
     private String orientacaoSexual;
     private LocalDate dtNascimento;
     private String email;
@@ -22,10 +23,6 @@ public class Usuario {
     @ElementCollection
     private List<String> jogosFavoritos = new ArrayList<>();
     private boolean deleted = false;
-
-    public Usuario() {
-    }
-
 
     public String getId() {
         return id;
@@ -41,6 +38,14 @@ public class Usuario {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getApelido() {
+        return apelido;
+    }
+
+    public void setApelido(String apelido) {
+        this.apelido = apelido;
     }
 
     public String getOrientacaoSexual() {

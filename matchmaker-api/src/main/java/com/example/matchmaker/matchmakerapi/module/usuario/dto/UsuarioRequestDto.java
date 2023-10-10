@@ -27,4 +27,6 @@ public class UsuarioRequestDto {
     private LocalDateTime dtCadastro;
     @ElementCollection
     private List<String> jogosFavoritos;
+
+
 }

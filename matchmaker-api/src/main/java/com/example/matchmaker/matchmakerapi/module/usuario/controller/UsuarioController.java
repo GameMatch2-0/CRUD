@@ -2,10 +2,8 @@ package com.example.matchmaker.matchmakerapi.module.usuario.controller;
 
 import com.example.matchmaker.matchmakerapi.module.usuario.Entity.Usuario;
 import com.example.matchmaker.matchmakerapi.module.usuario.dto.UsuarioRequestDto;
-import com.example.matchmaker.matchmakerapi.module.usuario.repository.UsuarioRepository;
 import com.example.matchmaker.matchmakerapi.module.usuario.service.UsuarioService;
-import com.example.matchmaker.matchmakerapi.module.usuario.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +13,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
+@RequiredArgsConstructor
 public class UsuarioController {
-    @Autowired
-    private UsuarioService service;
+
+    private final UsuarioService usuarioService;
 
     @GetMapping
     public ResponseEntity<List<Usuario>> listar() {
-        List<Usuario> usuarioList = this.service.listar();
+        List<Usuario> usuarioList = this.usuarioService.listar();
 
         if (usuarioList.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -32,7 +31,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Usuario>> buscar(@PathVariable String id) {
-        Optional<Usuario> usuario = this.service.buscarPorId(id);
+        Optional<Usuario> usuario = this.usuarioService.buscarPorId(id);
 
         if (usuario.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -43,7 +42,7 @@ public class UsuarioController {
 
     @GetMapping("/apagados")
     public ResponseEntity<List<Usuario>> listarApagados() {
-        List<Usuario> usuarioList = this.service.listarApagados();
+        List<Usuario> usuarioList = this.usuarioService.listarApagados();
 
         if (usuarioList.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -54,23 +53,23 @@ public class UsuarioController {
 
     @PostMapping()
     public ResponseEntity<Usuario> cadastrar(@RequestBody UsuarioRequestDto usuarioRequestDto) {
-        Optional<Usuario> usuarioOptional = this.service.buscarPorEmail(usuarioRequestDto.getEmail());
+        Optional<Usuario> usuarioOptional = this.usuarioService.buscarPorEmail(usuarioRequestDto.getEmail());
 
         if (usuarioOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        if (!validaUsuario(usuarioRequestDto)) {
+        if (!this.usuarioService.validaUsuario(usuarioRequestDto)) {
             return ResponseEntity.badRequest().build();
         }
 
-        Usuario novoUsuario = this.service.criar(usuarioRequestDto);
+        Usuario novoUsuario = this.usuarioService.criar(usuarioRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> alterar(@PathVariable String id, @RequestBody UsuarioRequestDto usuarioRequestDto) {
-        Optional<Usuario> optionalUsuario = this.service.buscarPorId(id);
+        Optional<Usuario> optionalUsuario = this.usuarioService.buscarPorId(id);
 
         if (optionalUsuario.isEmpty() || optionalUsuario.get().isDeleted()) {
             return ResponseEntity.notFound().build();
@@ -78,16 +77,16 @@ public class UsuarioController {
 
         Usuario usuario = optionalUsuario.get();
 
-        if (!validaUsuario(usuarioRequestDto)) {
+        if (!this.usuarioService.validaUsuario(usuarioRequestDto)) {
             return ResponseEntity.badRequest().build();
         }
-        Usuario updateUsuario = this.service.atualizar(id, usuario, usuarioRequestDto);
+        Usuario updateUsuario = this.usuarioService.atualizar(id, usuario, usuarioRequestDto);
         return ResponseEntity.ok(usuario);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Usuario> deletar(@PathVariable String id) {
-        Optional<Usuario> optionalUsuario = this.service.buscarPorId(id);
+        Optional<Usuario> optionalUsuario = this.usuarioService.buscarPorId(id);
 
         if (optionalUsuario.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -95,22 +94,11 @@ public class UsuarioController {
 
         Usuario usuario = optionalUsuario.get();
 
-        this.service.deletar(id, usuario);
+        this.usuarioService.deletar(id, usuario);
         return ResponseEntity.noContent().build();
     }
 
-    public boolean validaUsuario(UsuarioRequestDto usuario) {
-        return usuario.getNome() != null && !usuario.getNome().isEmpty()
-                && usuario.getOrientacaoSexual() != null
-                && !usuario.getOrientacaoSexual().isEmpty() && usuario.getEmail() != null
-                && !usuario.getEmail().isEmpty() && usuario.getEmail().length() >= 3
-                && usuario.getEmail().contains("@") && usuario.getSenha() != null
-                && !usuario.getSenha().isEmpty() && usuario.getDtNascimento() != null
-                && !usuario.getDtNascimento().toString().isEmpty()
-                && usuario.getJogosFavoritos() != null && usuario.getJogosFavoritos().size() != 0
-                && usuario.getJogosFavoritos().size() < 6;
 
-    }
 
 
 }

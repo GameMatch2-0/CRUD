@@ -1,9 +1,6 @@
-package com.example.matchmaker.matchmakerapi.module.usuario.dto.response;
+package com.example.matchmaker.matchmakerapi.service.dto.response;
 
-import com.example.matchmaker.matchmakerapi.module.usuario.Entity.Usuario;
-import com.example.matchmaker.matchmakerapi.module.usuario.dto.request.UsuarioRequest;
-
-import java.time.LocalDateTime;
+import com.example.matchmaker.matchmakerapi.domain.Usuario;
 
 public class UsuarioResponseMapper {
 

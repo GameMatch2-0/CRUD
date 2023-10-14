@@ -1,4 +1,4 @@
-package com.example.matchmaker.matchmakerapi.module.usuario.Entity;
+package com.example.matchmaker.matchmakerapi.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

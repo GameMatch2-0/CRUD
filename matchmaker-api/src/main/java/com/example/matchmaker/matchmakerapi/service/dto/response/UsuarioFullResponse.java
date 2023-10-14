@@ -1,4 +1,4 @@
-package com.example.matchmaker.matchmakerapi.module.usuario.dto.response;
+package com.example.matchmaker.matchmakerapi.service.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

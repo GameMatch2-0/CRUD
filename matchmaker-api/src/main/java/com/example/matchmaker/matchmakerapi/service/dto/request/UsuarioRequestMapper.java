@@ -1,6 +1,7 @@
-package com.example.matchmaker.matchmakerapi.module.usuario.dto.request;
+package com.example.matchmaker.matchmakerapi.service.dto.request;
 
-import com.example.matchmaker.matchmakerapi.module.usuario.Entity.Usuario;
+import com.example.matchmaker.matchmakerapi.domain.Usuario;
+import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +21,17 @@ public class UsuarioRequestMapper {
         usuario.setJogosFavoritos(usuarioRequest.getJogosFavoritos());
 
         return usuario;
+    }
+
+    public static UsuarioTokenDto of(Usuario usuario, String token){
+        UsuarioTokenDto usuarioTokenDto = new UsuarioTokenDto();
+
+        usuarioTokenDto.setUserId(usuario.getId());
+        usuarioTokenDto.setEmail(usuario.getEmail());
+        usuarioTokenDto.setNome(usuario.getNome());
+        usuarioTokenDto.setToken(token);
+
+        return usuarioTokenDto;
     }
 
 }

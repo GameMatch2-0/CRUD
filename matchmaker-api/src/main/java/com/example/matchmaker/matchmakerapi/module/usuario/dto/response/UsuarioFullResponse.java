@@ -1,20 +1,17 @@
-package com.example.matchmaker.matchmakerapi.module.usuario.dto;
+package com.example.matchmaker.matchmakerapi.module.usuario.dto.response;
 
-import jakarta.persistence.ElementCollection;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioResponse {
+public class UsuarioFullResponse {
     private String id;
     private String nome;
     private String apelido;

@@ -1,16 +1,15 @@
 package com.example.matchmaker.matchmakerapi.service;
 
-import com.example.matchmaker.matchmakerapi.domain.Usuario;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLoginDto;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequestMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioResponseMapper;
-import com.example.matchmaker.matchmakerapi.domain.repository.UsuarioRepository;
+import com.example.matchmaker.matchmakerapi.entity.repository.UsuarioRepository;
 import com.example.matchmaker.matchmakerapi.api.configuration.security.jwt.GerenciadorTokenJwt;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,11 +1,12 @@
 package com.example.matchmaker.matchmakerapi.service.dto.response;
 
-import com.example.matchmaker.matchmakerapi.domain.Usuario;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
 
 public class UsuarioResponseMapper {
 
     public static UsuarioFullResponse of(Usuario usuario){
-        UsuarioFullResponse usuarioFullResponse = new UsuarioFullResponse(
+
+        return new UsuarioFullResponse(
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getApelido(),
@@ -18,8 +19,6 @@ public class UsuarioResponseMapper {
                 usuario.getJogosFavoritos(),
                 usuario.isDeleted()
         );
-
-        return usuarioFullResponse;
 
     }
 

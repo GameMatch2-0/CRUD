@@ -1,6 +1,6 @@
 package com.example.matchmaker.matchmakerapi.api.controller.usuario;
 
-import com.example.matchmaker.matchmakerapi.domain.Usuario;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLoginDto;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;

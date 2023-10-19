@@ -1,6 +1,6 @@
 package com.example.matchmaker.matchmakerapi.service.dto.request;
 
-import com.example.matchmaker.matchmakerapi.domain.Usuario;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 
 import java.time.LocalDateTime;

@@ -1,8 +1,8 @@
 package com.example.matchmaker.matchmakerapi.service.authentication;
 
-import com.example.matchmaker.matchmakerapi.domain.Usuario;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioDetalhesDto;
-import com.example.matchmaker.matchmakerapi.domain.repository.UsuarioRepository;
+import com.example.matchmaker.matchmakerapi.entity.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

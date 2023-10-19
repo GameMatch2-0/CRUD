@@ -1,6 +1,6 @@
-package com.example.matchmaker.matchmakerapi.domain.repository;
+package com.example.matchmaker.matchmakerapi.entity.repository;
 
-import com.example.matchmaker.matchmakerapi.domain.Usuario;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

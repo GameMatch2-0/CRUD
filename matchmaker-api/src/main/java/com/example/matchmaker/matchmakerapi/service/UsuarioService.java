@@ -19,8 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -138,5 +143,50 @@ public class UsuarioService {
         return this.usuarioRepository.existsById(id);
     }
 
+    public void gravaArquivoCsv(List<UsuarioFullResponse> lista, String nomeArq) {
+        if (lista.isEmpty()) {
+            System.out.println("A lista está vazia. Não há nada para gravar");
+            return;
+        } else {
+            FileWriter arq = null; // Representa o arquivo que será gravado
+            Formatter saida = null; // Objeto que será usado para escrever no arquivo
+            Boolean deuRuim = false; // Flag para indicar se deu erro
 
+            nomeArq += ".csv";
+
+            // Criando o arquivo
+            try {
+                arq = new FileWriter(nomeArq, false); // Abre o arquivo
+                saida = new Formatter(arq); // Instancia o obj saida, associando-o ao arquivo saida
+            } catch (IOException erro) {
+                System.out.println("Erro ao abrir o arquivo");
+                System.exit(1);
+            }
+
+            // Gravando os objetos no arquivo
+            try {
+                // Percorre a lista, escrevendo cada objeto no arquivo e gravando um registro para cada Cachorro
+                for (int i = 0; i < lista.size(); i++) {
+                    // Instancia um objeto Cachorro para receber cada elemento da lista
+                    UsuarioFullResponse user= lista.get(i);
+                    saida.format("%s;%s;%s;%s;%s;%s;%s;%b\n", user.getId(), user.getNome(), user.getApelido(), user.getDtNascimento(), user.getEmail(), user.getContato(), user.getDtCadastro(), user.isDeleted());
+                }
+            } catch (FormatterClosedException erro) {
+                System.out.println("Erro ao gravar no arquivo");
+                erro.printStackTrace();
+                deuRuim = true;
+            } finally {
+                saida.close(); // Fecha o arquivo
+                try {
+                    arq.close(); // Fecha o arquivo
+                } catch (IOException err) {
+                    System.out.println("Erro ao fechar o arquivo");
+                    deuRuim = true;
+                }
+                if (deuRuim) {
+                    System.exit(1);
+                }
+            }
+        }
+    }
 }

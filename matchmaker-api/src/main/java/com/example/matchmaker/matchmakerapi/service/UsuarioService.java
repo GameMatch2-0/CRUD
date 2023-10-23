@@ -4,9 +4,9 @@ import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLoginDto;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
-import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequestMapper;
+import com.example.matchmaker.matchmakerapi.service.dto.request.mapper.UsuarioRequestMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
-import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioResponseMapper;
+import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.UsuarioResponseMapper;
 import com.example.matchmaker.matchmakerapi.entity.repository.UsuarioRepository;
 import com.example.matchmaker.matchmakerapi.api.configuration.security.jwt.GerenciadorTokenJwt;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,6 @@ public class UsuarioService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
-
 
     public UsuarioTokenDto autenticar(UsuarioLoginDto usuarioLoginDto){
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
@@ -65,7 +64,6 @@ public class UsuarioService {
         this.usuarioRepository.save(novoUsuario);
     }
 
-
     public List<UsuarioFullResponse> listar() {
         List<Usuario> usuarioList = this.usuarioRepository.findAllByDeletedFalse();
 
@@ -81,7 +79,6 @@ public class UsuarioService {
                 .map(UsuarioResponseMapper::of)
                 .collect(Collectors.toList());
     }
-
 
     public UsuarioFullResponse buscarPorId(String id) {
         Usuario usuario = this.usuarioRepository.findById(id).orElseThrow(
@@ -100,7 +97,7 @@ public class UsuarioService {
     }
 
     // Esse metodo vai ser usado quando formos atras de usuarios com jogos em comum, recebe os jogosFavoritos do usuario que esta logado
-    public Optional<Usuario> buscarPorJogosFavoritosEmComum(String[] jogosFavoritos) {
+    public Optional<Usuario> buscarPorJogosFavoritosEmComum(List<String> jogosFavoritos) {
         return this.usuarioRepository.findByJogosFavoritosInAndDeletedFalse(jogosFavoritos);
     }
 
@@ -137,6 +134,5 @@ public class UsuarioService {
     public boolean existsById(String id) {
         return this.usuarioRepository.existsById(id);
     }
-
 
 }

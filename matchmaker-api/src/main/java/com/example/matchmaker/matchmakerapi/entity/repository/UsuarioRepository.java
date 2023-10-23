@@ -24,6 +24,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     // Busca por usuarios pelo email e que foram apagados
     public Optional<Usuario> findByEmailAndDeletedTrue(String email);
     // Busca por usuarios com JogosFavoritos em comum
-    public Optional<Usuario> findByJogosFavoritosInAndDeletedFalse(String[] jogosFavoritos);
+    public Optional<Usuario> findByJogosFavoritosInAndDeletedFalse(List<String> jogosFavoritos);
 
 }

@@ -21,11 +21,11 @@ public class Mensagem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMensagem;
-    private Long idConversa;
+    private Integer idConversa;
     private String idUsuario;
     private LocalDateTime dtEnvio;
     private String corpoMensagem;
-    private boolean visivel = false;
+    private boolean visivel = true;
 
     public String getDtEnvio() {
         return dtEnvio.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));

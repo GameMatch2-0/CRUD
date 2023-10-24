@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class MensagemFullResponse {
     private Long idMensagem;
-    private Long idConversa;
+    private Integer idConversa;
     private String idUsuario;
     private String dtEnvio;
     private String corpoMensagem;

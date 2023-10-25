@@ -1,14 +1,12 @@
-package com.example.matchmaker.matchmakerapi.module.usuario.dto.response;
+package com.example.matchmaker.matchmakerapi.service.dto.response;
 
-import com.example.matchmaker.matchmakerapi.module.usuario.Entity.Usuario;
-import com.example.matchmaker.matchmakerapi.module.usuario.dto.request.UsuarioRequest;
-
-import java.time.LocalDateTime;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
 
 public class UsuarioResponseMapper {
 
     public static UsuarioFullResponse of(Usuario usuario){
-        UsuarioFullResponse usuarioFullResponse = new UsuarioFullResponse(
+
+        return new UsuarioFullResponse(
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getApelido(),
@@ -21,8 +19,6 @@ public class UsuarioResponseMapper {
                 usuario.getJogosFavoritos(),
                 usuario.isDeleted()
         );
-
-        return usuarioFullResponse;
 
     }
 

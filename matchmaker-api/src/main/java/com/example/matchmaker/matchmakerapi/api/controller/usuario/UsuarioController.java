@@ -1,9 +1,11 @@
-package com.example.matchmaker.matchmakerapi.module.usuario.controller;
+package com.example.matchmaker.matchmakerapi.api.controller.usuario;
 
-import com.example.matchmaker.matchmakerapi.module.usuario.Entity.Usuario;
-import com.example.matchmaker.matchmakerapi.module.usuario.dto.request.UsuarioRequest;
-import com.example.matchmaker.matchmakerapi.module.usuario.dto.response.UsuarioFullResponse;
-import com.example.matchmaker.matchmakerapi.module.usuario.service.UsuarioService;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
+import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLoginDto;
+import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
+import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
+import com.example.matchmaker.matchmakerapi.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,12 @@ import java.util.Optional;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+
+    @PostMapping("/login")
+    public ResponseEntity<UsuarioTokenDto> login (@RequestBody UsuarioLoginDto usuarioLoginDto){
+        UsuarioTokenDto usuarioToken = this.usuarioService.autenticar(usuarioLoginDto);
+        return ResponseEntity.ok(usuarioToken);
+    }
 
     @GetMapping
     public ResponseEntity<List<UsuarioFullResponse>> listar() {

@@ -1,4 +1,4 @@
-package com.example.matchmaker.matchmakerapi.module.usuario.dto.request;
+package com.example.matchmaker.matchmakerapi.service.dto.request;
 
 import jakarta.persistence.ElementCollection;
 import lombok.AllArgsConstructor;

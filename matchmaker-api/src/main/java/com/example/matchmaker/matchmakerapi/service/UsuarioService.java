@@ -1,17 +1,24 @@
-package com.example.matchmaker.matchmakerapi.module.usuario.service;
+package com.example.matchmaker.matchmakerapi.service;
 
-import com.example.matchmaker.matchmakerapi.module.usuario.Entity.Usuario;
-import com.example.matchmaker.matchmakerapi.module.usuario.dto.request.UsuarioRequest;
-import com.example.matchmaker.matchmakerapi.module.usuario.dto.request.UsuarioRequestMapper;
-import com.example.matchmaker.matchmakerapi.module.usuario.dto.response.UsuarioFullResponse;
-import com.example.matchmaker.matchmakerapi.module.usuario.dto.response.UsuarioResponseMapper;
-import com.example.matchmaker.matchmakerapi.module.usuario.repository.UsuarioRepository;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
+import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLoginDto;
+import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
+import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequestMapper;
+import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
+import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioResponseMapper;
+import com.example.matchmaker.matchmakerapi.entity.repository.UsuarioRepository;
+import com.example.matchmaker.matchmakerapi.api.configuration.security.jwt.GerenciadorTokenJwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,8 +26,31 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
+    private final GerenciadorTokenJwt gerenciadorTokenJwt;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
 
+
+    public UsuarioTokenDto autenticar(UsuarioLoginDto usuarioLoginDto){
+        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
+                usuarioLoginDto.getEmail(), usuarioLoginDto.getSenha()
+        );
+
+        final Authentication authentication = this.authenticationManager.authenticate(credentials);
+
+        Usuario usuarioAutenticado =
+                this.usuarioRepository.findByEmailAndDeletedFalse(usuarioLoginDto.getEmail())
+                        .orElseThrow(
+                                () -> new ResponseStatusException(404, "Email do usuario não encontrado", null)
+                        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final String token = gerenciadorTokenJwt.generateToken(authentication);
+
+        return UsuarioRequestMapper.of(usuarioAutenticado, token);
+    }
 
     public Usuario salvar(Usuario usuario) {
         return this.usuarioRepository.save(usuario);
@@ -28,6 +58,10 @@ public class UsuarioService {
 
     public void criar(UsuarioRequest usuarioRequest) {
         final Usuario novoUsuario = UsuarioRequestMapper.of(usuarioRequest);
+
+        String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
+        novoUsuario.setSenha(senhaCriptografada);
+
         this.usuarioRepository.save(novoUsuario);
     }
 

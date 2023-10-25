@@ -1,4 +1,4 @@
-package com.example.matchmaker.matchmakerapi.module.usuario.Entity;
+package com.example.matchmaker.matchmakerapi.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

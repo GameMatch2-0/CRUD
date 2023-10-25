@@ -44,6 +44,8 @@ public class UsuarioService {
                         .orElseThrow(
                                 () -> new ResponseStatusException(404, "Email do usuario não encontrado", null)
                         );
+        usuarioAutenticado.setLogado(true);
+        this.usuarioRepository.save(usuarioAutenticado);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

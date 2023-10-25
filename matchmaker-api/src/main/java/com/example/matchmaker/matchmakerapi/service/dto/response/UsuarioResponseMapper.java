@@ -17,7 +17,8 @@ public class UsuarioResponseMapper {
                 usuario.getSenha(),
                 usuario.getDtCadastro(),
                 usuario.getJogosFavoritos(),
-                usuario.isDeleted()
+                usuario.isDeleted(),
+                usuario.isLogado()
         );
 
     }

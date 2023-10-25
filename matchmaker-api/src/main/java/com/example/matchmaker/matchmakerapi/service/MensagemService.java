@@ -39,7 +39,7 @@ public class MensagemService {
         return repo.save(mensagemAtualizada);
     }
 
-    public Mensagem buscarPorId(Long idMensagem) {
-        return repo.findByIdMensagemAndVisivelTrue(idMensagem);
+    public Mensagem buscarPorIdMensagemAndIdConversa(Long idMensagem, Integer idConversa) {
+        return repo.findByIdMensagemAndIdConversaAndVisivelTrue(idMensagem, idConversa);
     }
 }

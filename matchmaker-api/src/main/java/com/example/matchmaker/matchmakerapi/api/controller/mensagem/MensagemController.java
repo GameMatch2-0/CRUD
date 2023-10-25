@@ -34,9 +34,9 @@ public class MensagemController {
         return ResponseEntity.ok(mensagemEnviada);
     }
 
-    @PutMapping
-    public ResponseEntity<Mensagem> atualizarMensagem(@RequestBody MensagemRequest mensagem) {
-        Mensagem mensagemSalva = mensagemService.buscarPorId(mensagem.getIdMensagem());
+    @PutMapping("/{idConversa}")
+    public ResponseEntity<Mensagem> atualizarMensagem(@PathVariable Integer idConversa, @RequestBody MensagemRequest mensagem) {
+        Mensagem mensagemSalva = mensagemService.buscarPorIdMensagemAndIdConversa(mensagem.getIdMensagem(), idConversa);
         if (mensagemSalva.getCorpoMensagem().equals(mensagem.getCorpoMensagem())) {
             return ResponseEntity.status(409).build();
         }

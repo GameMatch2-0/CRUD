@@ -26,7 +26,7 @@ public class Mensagem {
     private LocalDateTime dtEnvio;
     private LocalDateTime dtEdicao;
     private String corpoMensagem;
-    private boolean visivel = true;
+    private Boolean visivel = true;
 
     public String getDtEnvio() {
         return dtEnvio.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));

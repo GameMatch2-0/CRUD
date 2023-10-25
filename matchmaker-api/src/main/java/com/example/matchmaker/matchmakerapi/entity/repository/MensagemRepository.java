@@ -13,6 +13,6 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Long> {
     Mensagem findByIdMensagemAndVisivelFalse(Long idMensagem);
     Mensagem findByCorpoMensagemContainsIgnoreCaseAndVisivelTrue(String corpoMensagem);
     Mensagem findAllByVisivelTrue();
-    Mensagem findByIdMensagemAndVisivelTrue(Long idMensagem);
+    Mensagem findByIdMensagemAndidConversaAndVisivelTrue(Long idMensagem, Integer idConversa);
     Mensagem findByIdMensagemAndIdConversaAndVisivelTrue(Long idMensagem, Integer idConversa);
 }

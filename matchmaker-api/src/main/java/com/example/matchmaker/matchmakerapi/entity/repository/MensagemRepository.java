@@ -9,9 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface MensagemRepository extends JpaRepository<Mensagem, Long> {
-    public List<Mensagem> findTop30ByIdConversa(Integer idConversa);
-    public Mensagem findByIdMensagemAndVisivelFalse(Long idMensagem);
-    public Mensagem findByCorpoMensagemContainsIgnoreCaseAndVisivelFalse(String corpoMensagem);
-    public Optional<Mensagem> findAllByVisivelFalse();
-    public Mensagem findAllByVisivelTrue();
+    List<Mensagem> findTop30ByIdConversa(Integer idConversa);
+    Mensagem findByIdMensagemAndVisivelFalse(Long idMensagem);
+    Mensagem findByCorpoMensagemContainsIgnoreCaseAndVisivelTrue(String corpoMensagem);
+    Mensagem findAllByVisivelTrue();
+    Mensagem findByIdMensagemAndVisivelTrue(Long idMensagem);
+    Mensagem findByIdMensagemAndIdConversaAndVisivelTrue(Long idMensagem, Integer idConversa);
 }

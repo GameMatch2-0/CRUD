@@ -10,6 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MensagemRequest {
-    private Long idConversa;
-    private String mensagem;
+    private Integer idConversa;
+    private Long idMensagem;
+    private String corpoMensagem;
+    private Boolean visivel;
 }

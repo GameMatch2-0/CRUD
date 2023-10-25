@@ -12,6 +12,7 @@ public class MensagemResponseMapper {
                     mensagem.getIdMensagem(),
                     mensagem.getIdConversa(),
                     mensagem.getDtEnvio(),
+                    mensagem.getDtEdicao(),
                     mensagem.getIdUsuario(),
                     mensagem.getCorpoMensagem(),
                     mensagem.isVisivel()

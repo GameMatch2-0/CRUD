@@ -24,6 +24,7 @@ public class Mensagem {
     private Integer idConversa;
     private String idUsuario;
     private LocalDateTime dtEnvio;
+    private LocalDateTime dtEdicao;
     private String corpoMensagem;
     private boolean visivel = true;
 
@@ -35,6 +36,11 @@ public class Mensagem {
         this.dtEnvio = dtEnvio;
     }
 
+    public String getDtEdicao() {
+        return dtEdicao.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+    }
 
-
+    public void setDtEdicao(LocalDateTime dtEdicao) {
+        this.dtEdicao = dtEdicao;
+    }
 }

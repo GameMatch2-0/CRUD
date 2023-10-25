@@ -3,6 +3,7 @@ package com.example.matchmaker.matchmakerapi.api.controller.mensagem;
 import com.example.matchmaker.matchmakerapi.entity.Mensagem;
 import com.example.matchmaker.matchmakerapi.service.ConversaService;
 import com.example.matchmaker.matchmakerapi.service.MensagemService;
+import com.example.matchmaker.matchmakerapi.service.dto.request.MensagemRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,8 @@ public class MensagemController {
     private final MensagemService mensagemService;
 
     // Endpoint para listar as ultimas 30 mensagens de uma conversa ao entrar nela
-    @GetMapping
-    public ResponseEntity<List<Mensagem>> listarMensagens(@RequestParam Integer idConversa) {
+    @GetMapping("/{idConversa}")
+    public ResponseEntity<List<Mensagem>> listarMensagens(@PathVariable Integer idConversa) {
         List<Mensagem> listaMensagens = mensagemService.getUltimas30Mensagens(idConversa);
 
         if (listaMensagens.isEmpty()) {
@@ -27,17 +28,25 @@ public class MensagemController {
         return ResponseEntity.ok(listaMensagens);
     }
 
-    @PostMapping("/{idConversa}/{idUsuario}")
-    public ResponseEntity<Mensagem> enviarMensagem(@PathVariable Integer idConversa, @PathVariable String idUsuario, @RequestBody Mensagem mensagem) {
-        Mensagem mensagemEnviada = mensagemService.salvar(mensagem);
+    @PostMapping("/{idConversa}")
+    public ResponseEntity<Mensagem> enviarMensagem(@PathVariable Integer idConversa, @RequestBody Mensagem mensagem) {
+        Mensagem mensagemEnviada = mensagemService.salvar(idConversa, mensagem);
         return ResponseEntity.ok(mensagemEnviada);
     }
 
     @PutMapping
+    public ResponseEntity<Mensagem> atualizarMensagem(@RequestBody MensagemRequest mensagem) {
+        Mensagem mensagemSalva = mensagemService.buscarPorId(mensagem.getIdMensagem());
+        if (mensagemSalva.getCorpoMensagem().equals(mensagem.getCorpoMensagem())) {
+            return ResponseEntity.status(409).build();
+        }
+        Mensagem mensagemAtualizada = mensagemService.atualizarMensagem(mensagem);
+        return ResponseEntity.ok(mensagemAtualizada);
+    }
 
-    @DeleteMapping
-    public ResponseEntity<Mensagem> deletarMensagem(@RequestBody Mensagem mensagem) {
-        Mensagem mensagemDeletada = mensagemService.deletar(mensagem);
+    @DeleteMapping("/{idConversa}")
+    public ResponseEntity<Mensagem> deletarMensagem(@PathVariable Integer idConversa, @PathVariable Long idMensagem) {
+        Mensagem mensagemDeletada = mensagemService.deletar(idMensagem, idConversa);
         return ResponseEntity.ok(mensagemDeletada);
     }
 

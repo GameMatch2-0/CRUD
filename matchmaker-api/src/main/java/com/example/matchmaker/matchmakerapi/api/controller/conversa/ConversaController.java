@@ -29,13 +29,16 @@ public class ConversaController {
     }
 
     @PostMapping("/{idUsuarioLogado}/{idUsuarioConversa}")
-    public ResponseEntity<ConversaFullResponse> novaConversa(@PathVariable String idUsuarioLogado, String idUsuarioConversa){
+    public ResponseEntity<ConversaFullResponse> novaConversa(@PathVariable String idUsuarioLogado,@PathVariable String idUsuarioConversa){
+        if (idUsuarioLogado.equals(idUsuarioConversa)){
+            ResponseEntity.status(409).build();
+        }
         ConversaFullResponse conversa = this.conversaService.novaConversa(idUsuarioLogado, idUsuarioConversa);
         return ResponseEntity.ok(conversa);
     }
 
     @DeleteMapping("/{idConversa}")
-    public ResponseEntity<ConversaFullResponse> deletarConversa(Integer idConversa){
+    public ResponseEntity<ConversaFullResponse> deletarConversa(@PathVariable Integer idConversa){
         ConversaFullResponse conversa = this.conversaService.deletarConversa(idConversa);
         return ResponseEntity.ok(conversa);
     }

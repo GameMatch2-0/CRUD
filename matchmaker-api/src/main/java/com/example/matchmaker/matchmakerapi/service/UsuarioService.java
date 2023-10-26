@@ -107,6 +107,9 @@ public class UsuarioService {
         );
 
         Usuario updateUsuario = UsuarioRequestMapper.of(usuarioRequest);
+        updateUsuario.setId(id);
+        String senhaCriptografada = passwordEncoder.encode(updateUsuario.getSenha());
+        updateUsuario.setSenha(senhaCriptografada);
         return salvar(updateUsuario);
     }
 

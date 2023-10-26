@@ -15,7 +15,7 @@ public class MensagemResponseMapper {
                     mensagem.getDtEdicao(),
                     mensagem.getIdUsuario(),
                     mensagem.getCorpoMensagem(),
-                    mensagem.isVisivel()
+                    mensagem.getVisivel()
             );
 
         }

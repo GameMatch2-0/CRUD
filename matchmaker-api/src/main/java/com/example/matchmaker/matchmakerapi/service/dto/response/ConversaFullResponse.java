@@ -15,5 +15,5 @@ public class ConversaFullResponse {
     private String idUsuarioConversa;
     private int notificacoes;
     private int alertaNotificacao;
-    private boolean deleted = false;
+    private Boolean deleted = true;
 }

@@ -2,6 +2,7 @@ package com.example.matchmaker.matchmakerapi.api.controller.mensagem;
 
 import com.example.matchmaker.matchmakerapi.entity.Mensagem;
 import com.example.matchmaker.matchmakerapi.service.ConversaService;
+import com.example.matchmaker.matchmakerapi.service.ListaObj;
 import com.example.matchmaker.matchmakerapi.service.MensagemService;
 import com.example.matchmaker.matchmakerapi.service.dto.request.MensagemRequest;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +29,22 @@ public class MensagemController {
         return ResponseEntity.ok(listaMensagens);
     }
 
-    @PostMapping("/{idConversa}")
-    public ResponseEntity<Mensagem> enviarMensagem(@PathVariable Integer idConversa, @RequestBody Mensagem mensagem) {
-        Mensagem mensagemEnviada = mensagemService.salvar(idConversa, mensagem);
+    @PostMapping
+    public ResponseEntity<Mensagem> enviarMensagem(@RequestBody Mensagem mensagem) {
+        Mensagem mensagemEnviada = mensagemService.salvar(mensagem.getIdConversa()  , mensagem);
+
+        if (mensagemEnviada.getCorpoMensagem().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(mensagemEnviada);
     }
 
-    @PutMapping("/{idConversa}")
-    public ResponseEntity<Mensagem> atualizarMensagem(@PathVariable Integer idConversa, @RequestBody MensagemRequest mensagem) {
-        Mensagem mensagemSalva = mensagemService.buscarPorIdMensagemAndIdConversa(mensagem.getIdMensagem(), idConversa);
+    @PutMapping
+    public ResponseEntity<Mensagem> atualizarMensagem(@RequestBody MensagemRequest mensagem) {
+        Mensagem mensagemSalva = mensagemService.buscarPorIdMensagemAndIdConversa(mensagem.getIdMensagem(), mensagem.getIdConversa());
+        if (mensagemSalva == null) {
+            return ResponseEntity.notFound().build();
+        }
         if (mensagemSalva.getCorpoMensagem().equals(mensagem.getCorpoMensagem())) {
             return ResponseEntity.status(409).build();
         }
@@ -44,10 +52,36 @@ public class MensagemController {
         return ResponseEntity.ok(mensagemAtualizada);
     }
 
-    @DeleteMapping("/{idConversa}")
+    @DeleteMapping("/{idConversa}/{idMensagem}")
     public ResponseEntity<Mensagem> deletarMensagem(@PathVariable Integer idConversa, @PathVariable Long idMensagem) {
         Mensagem mensagemDeletada = mensagemService.deletar(idMensagem, idConversa);
-        return ResponseEntity.ok(mensagemDeletada);
+        if (mensagemDeletada == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 
+    // Endpoint para trazer todas mensagens de uma conversa no modelo da ListaObj
+//    @GetMapping("/todas/{idConversa}")
+//    public ResponseEntity<List<Mensagem>> listarTodasMensagens(@PathVariable Integer idConversa) {
+//        List<Mensagem> listaMensagens = mensagemService.listarTodasMensagens(idConversa);
+//
+//        if (listaMensagens.isEmpty()) {
+//            return ResponseEntity.noContent().build();
+//        }
+//
+//        return ResponseEntity.ok(listaMensagens);
+//    }
+    
+    // Endpoint para trazer todas mensagens de uma conversa no modelo da ListaObj ordenando por data de envio
+    @GetMapping("/todas/{idConversa}/ordenado")
+    public ResponseEntity<List<Mensagem>> listarTodasMensagensPorData(@PathVariable Integer idConversa) {
+        List<Mensagem> listaMensagens = mensagemService.listarTodasMensagensOrdenadasPorDataEnvio(idConversa);
+
+        if (listaMensagens.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(listaMensagens);
+    }
 }

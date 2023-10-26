@@ -3,8 +3,10 @@ package com.example.matchmaker.matchmakerapi.api.controller.conversa;
 import com.example.matchmaker.matchmakerapi.entity.Conversa;
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.ConversaService;
+import com.example.matchmaker.matchmakerapi.service.UsuarioService;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.response.ConversaFullResponse;
+import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +31,7 @@ public class ConversaController {
     }
 
     @PostMapping("/{idUsuarioLogado}/{idUsuarioConversa}")
-    public ResponseEntity<ConversaFullResponse> novaConversa(@PathVariable String idUsuarioLogado,@PathVariable String idUsuarioConversa){
+    public ResponseEntity<ConversaFullResponse> novaConversa(@PathVariable String idUsuarioLogado, @PathVariable String idUsuarioConversa){
         if (idUsuarioLogado.equals(idUsuarioConversa)){
             ResponseEntity.status(409).build();
         }
@@ -40,7 +42,12 @@ public class ConversaController {
     @DeleteMapping("/{idConversa}")
     public ResponseEntity<ConversaFullResponse> deletarConversa(@PathVariable Integer idConversa){
         ConversaFullResponse conversa = this.conversaService.deletarConversa(idConversa);
-        return ResponseEntity.ok(conversa);
+
+        if (conversa == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
     }
 
 }

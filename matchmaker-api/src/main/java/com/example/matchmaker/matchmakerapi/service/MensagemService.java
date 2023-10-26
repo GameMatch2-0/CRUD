@@ -6,7 +6,11 @@ import com.example.matchmaker.matchmakerapi.service.dto.request.MensagemRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,7 +32,11 @@ public class MensagemService {
 
     public Mensagem deletar(Long idMensagem, Integer idConversa) {
         Mensagem mensagemDeletada = repo.findByIdMensagemAndIdConversaAndVisivelTrue(idMensagem, idConversa);
-        mensagemDeletada.setVisivel(false);
+        if (mensagemDeletada != null) {
+            mensagemDeletada.setVisivel(false);
+        }
+        mensagemDeletada.setDtEdicao(LocalDateTime.now());
+
         return repo.save(mensagemDeletada);
     }
 
@@ -42,4 +50,34 @@ public class MensagemService {
     public Mensagem buscarPorIdMensagemAndIdConversa(Long idMensagem, Integer idConversa) {
         return repo.findByIdMensagemAndIdConversaAndVisivelTrue(idMensagem, idConversa);
     }
+
+    public List<Mensagem> listarTodasMensagensOrdenadasPorDataEnvio(Integer idConversa) {
+        ListaObj<Mensagem> listaMensagens = new ListaObj<>(30);
+        List<Mensagem> mensagens = repo.findTop30ByIdConversa(idConversa);
+        for (Mensagem mensagem : mensagens) {
+            listaMensagens.adiciona(mensagem);
+        }
+
+        listaMensagens.ordenaPorDataEnvio();
+
+        List<Mensagem> listaFormatada = new ArrayList<>();
+        for (int i = 0; i< listaMensagens.getTamanho(); i++) {
+            listaFormatada.add(listaMensagens.getElemento(i));
+        }
+        return listaFormatada;
+    }
+
+//    public ListaObj<Mensagem> listarTodasMensagensOrdenadasPorDataEnvio(Integer idConversa) {
+//        ListaObj<Mensagem> listaMensagens = new ListaObj<>(30);
+//        List<Mensagem> mensagens = repo.findTop30ByIdConversa(idConversa);
+//
+//        for (Mensagem mensagem : mensagens) {
+//            listaMensagens.adiciona(mensagem);
+//        }
+//
+//        listaMensagens.ordenaPorDataEnvio();
+//
+//        return listaMensagens;
+//    }
+
 }

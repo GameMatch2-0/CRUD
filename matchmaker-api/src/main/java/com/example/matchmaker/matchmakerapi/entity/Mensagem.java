@@ -40,6 +40,10 @@ public class Mensagem {
         return dtEdicao.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
     }
 
+    public LocalDateTime dtEdicaoSemFormatar() {
+        return dtEdicao;
+    }
+
     public void setDtEdicao(LocalDateTime dtEdicao) {
         this.dtEdicao = dtEdicao;
     }

@@ -36,9 +36,6 @@ public class ConversaService {
 
     public ConversaFullResponse deletarConversa(Integer idConversa){
         Conversa conversa = repo.findByIdConversaAndDeletedFalse(idConversa);
-        if (conversa == null){
-            throw new RuntimeException("Conversa não encontrada");
-        }
         conversa.setDeleted(true);
         repo.save(conversa);
         return ConversaResponseMapper.of(conversa);

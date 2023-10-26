@@ -102,5 +102,15 @@ public class UsuarioController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/gerarCsv")
+    public ResponseEntity<Usuario> generateCsvArchiveDeletedUsers(@RequestParam String nomeArq){
+        List<Usuario> lista = this.usuarioService.listarUsuariosParaCsv();
+        if(lista.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        this.usuarioService.gravaArquivoCsv(lista, nomeArq);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

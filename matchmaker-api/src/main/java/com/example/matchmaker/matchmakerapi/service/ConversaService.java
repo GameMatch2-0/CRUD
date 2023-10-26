@@ -5,7 +5,9 @@ import com.example.matchmaker.matchmakerapi.entity.repository.ConversaRepository
 import com.example.matchmaker.matchmakerapi.service.dto.response.ConversaFullResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ConversaResponseMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,9 +37,18 @@ public class ConversaService {
     }
 
     public ConversaFullResponse deletarConversa(Integer idConversa){
-        Conversa conversa = repo.findByIdConversaAndDeletedFalse(idConversa);
+        Conversa conversa = repo.findByIdConversaAndDeletedFalse(idConversa).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Conversa não encontrada")
+        );
         conversa.setDeleted(true);
         repo.save(conversa);
+        return ConversaResponseMapper.of(conversa);
+    }
+
+    public ConversaFullResponse buscarPorIdConversa(Integer idConversa){
+        Conversa conversa = repo.findByIdConversaAndDeletedFalse(idConversa).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Conversa não encontrada")
+        );
         return ConversaResponseMapper.of(conversa);
     }
 

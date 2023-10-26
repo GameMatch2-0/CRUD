@@ -4,7 +4,9 @@ import com.example.matchmaker.matchmakerapi.entity.Mensagem;
 import com.example.matchmaker.matchmakerapi.entity.repository.MensagemRepository;
 import com.example.matchmaker.matchmakerapi.service.dto.request.MensagemRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -31,7 +33,9 @@ public class MensagemService {
     }
 
     public Mensagem deletar(Long idMensagem, Integer idConversa) {
-        Mensagem mensagemDeletada = repo.findByIdMensagemAndIdConversaAndVisivelTrue(idMensagem, idConversa);
+        Mensagem mensagemDeletada = repo.findByIdMensagemAndIdConversaAndVisivelTrue(idMensagem, idConversa).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado")
+        );
         if (mensagemDeletada != null) {
             mensagemDeletada.setVisivel(false);
         }
@@ -41,14 +45,18 @@ public class MensagemService {
     }
 
     public Mensagem atualizarMensagem(MensagemRequest mensagem) {
-        Mensagem mensagemAtualizada = repo.findByIdMensagemAndIdConversaAndVisivelTrue(mensagem.getIdMensagem(), mensagem.getIdConversa());
+        Mensagem mensagemAtualizada = repo.findByIdMensagemAndIdConversaAndVisivelTrue(mensagem.getIdMensagem(), mensagem.getIdConversa()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mensagem ou conversa não encontrado")
+        );
         mensagemAtualizada.setCorpoMensagem(mensagem.getCorpoMensagem());
         mensagemAtualizada.setDtEdicao(LocalDateTime.now());
         return repo.save(mensagemAtualizada);
     }
 
     public Mensagem buscarPorIdMensagemAndIdConversa(Long idMensagem, Integer idConversa) {
-        return repo.findByIdMensagemAndIdConversaAndVisivelTrue(idMensagem, idConversa);
+        return repo.findByIdMensagemAndIdConversaAndVisivelTrue(idMensagem, idConversa).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Mensagem ou conversa não encontrado")
+        );
     }
 
     public List<Mensagem> listarTodasMensagensOrdenadasPorDataEnvio(Integer idConversa) {

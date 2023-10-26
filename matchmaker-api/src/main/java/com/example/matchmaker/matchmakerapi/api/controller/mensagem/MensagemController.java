@@ -1,10 +1,12 @@
 package com.example.matchmaker.matchmakerapi.api.controller.mensagem;
 
+import com.example.matchmaker.matchmakerapi.entity.Conversa;
 import com.example.matchmaker.matchmakerapi.entity.Mensagem;
 import com.example.matchmaker.matchmakerapi.service.ConversaService;
 import com.example.matchmaker.matchmakerapi.service.ListaObj;
 import com.example.matchmaker.matchmakerapi.service.MensagemService;
 import com.example.matchmaker.matchmakerapi.service.dto.request.MensagemRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.response.ConversaFullResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MensagemController {
     private final MensagemService mensagemService;
+    private final ConversaService conversaService;
 
     // Endpoint para listar as ultimas 30 mensagens de uma conversa ao entrar nela
     @GetMapping("/{idConversa}")
@@ -76,6 +79,10 @@ public class MensagemController {
     // Endpoint para trazer todas mensagens de uma conversa no modelo da ListaObj ordenando por data de envio
     @GetMapping("/todas/{idConversa}/ordenado")
     public ResponseEntity<List<Mensagem>> listarTodasMensagensPorData(@PathVariable Integer idConversa) {
+        ConversaFullResponse conversa = conversaService.buscarPorIdConversa(idConversa);
+        if (conversa == null) {
+            return ResponseEntity.notFound().build();
+        }
         List<Mensagem> listaMensagens = mensagemService.listarTodasMensagensOrdenadasPorDataEnvio(idConversa);
 
         if (listaMensagens.isEmpty()) {

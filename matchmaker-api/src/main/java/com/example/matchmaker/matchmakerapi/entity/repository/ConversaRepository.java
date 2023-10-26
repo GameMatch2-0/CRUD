@@ -10,10 +10,12 @@ import java.util.Optional;
 @Repository
 
 public interface ConversaRepository extends JpaRepository<Conversa, Integer> {
-    public Conversa findByIdConversaAndDeletedFalse(Integer idConversa);
+    public Optional<Conversa> findByIdConversaAndDeletedFalse(Integer idConversa);
     public List<Conversa> findAllByIdUsuarioLogadoAndDeletedFalse(String idUsuarioLogado);
     public List<Conversa> findByIdUsuarioConversaAndDeletedFalse(String idUsuarioConversa);
     public List<Conversa> findByNotificacoesAndDeletedFalse(int notificacoes);
     public List<Conversa> findAllByDeletedTrue();
+
+
 
 }

@@ -14,5 +14,5 @@ public interface MensagemRepository extends JpaRepository<Mensagem, Long> {
 //    Mensagem findByCorpoMensagemContainsIgnoreCaseAndVisivelTrue(String corpoMensagem);
     List<Mensagem> findAllByVisivelTrue();
 //    Mensagem findByIdMensagemAndidConversaAndVisivelTrue(Long idMensagem, Integer idConversa);
-    Mensagem findByIdMensagemAndIdConversaAndVisivelTrue(Long idMensagem, Integer idConversa);
+    Optional<Mensagem> findByIdMensagemAndIdConversaAndVisivelTrue(Long idMensagem, Integer idConversa);
 }

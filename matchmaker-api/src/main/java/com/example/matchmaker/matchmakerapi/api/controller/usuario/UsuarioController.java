@@ -6,6 +6,7 @@ import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTo
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
 import com.example.matchmaker.matchmakerapi.service.UsuarioService;
+import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.UsuarioResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,12 @@ public class UsuarioController {
     public ResponseEntity<UsuarioTokenDto> login (@RequestBody UsuarioLoginDto usuarioLoginDto){
         UsuarioTokenDto usuarioToken = this.usuarioService.autenticar(usuarioLoginDto);
         return ResponseEntity.ok(usuarioToken);
+    }
+
+    @PostMapping("/logoff/{id}")
+    public ResponseEntity<Usuario> logoff (@PathVariable String id){
+        this.usuarioService.logof(id);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
@@ -82,7 +89,7 @@ public class UsuarioController {
             return ResponseEntity.badRequest().build();
         }
         Usuario usuarioAtualizado = this.usuarioService.atualizar(id, usuarioRequest);
-        return ResponseEntity.ok(this.usuarioService.buscarPorId(id));
+        return ResponseEntity.ok(UsuarioResponseMapper.of(usuarioAtualizado));
     }
 
     @DeleteMapping("/{id}")

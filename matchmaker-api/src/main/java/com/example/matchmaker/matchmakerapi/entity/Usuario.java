@@ -31,6 +31,7 @@ public class Usuario {
     @ElementCollection
     private List<String> jogosFavoritos = new ArrayList<>();
     private boolean deleted = false;
+    private boolean logado = false;
 
 
 

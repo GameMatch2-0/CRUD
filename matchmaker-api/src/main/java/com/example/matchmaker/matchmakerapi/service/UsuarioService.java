@@ -4,9 +4,9 @@ import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLoginDto;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
-import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequestMapper;
+import com.example.matchmaker.matchmakerapi.service.dto.request.mapper.UsuarioRequestMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
-import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioResponseMapper;
+import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.UsuarioResponseMapper;
 import com.example.matchmaker.matchmakerapi.entity.repository.UsuarioRepository;
 import com.example.matchmaker.matchmakerapi.api.configuration.security.jwt.GerenciadorTokenJwt;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,6 +51,8 @@ public class UsuarioService {
                         .orElseThrow(
                                 () -> new ResponseStatusException(404, "Email do usuario não encontrado", null)
                         );
+        usuarioAutenticado.setLogado(true);
+        this.usuarioRepository.save(usuarioAutenticado);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -56,6 +60,16 @@ public class UsuarioService {
 
         return UsuarioRequestMapper.of(usuarioAutenticado, token);
     }
+
+    public void logof(String id){
+        Usuario usuario = this.usuarioRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao fazer logout")
+        );
+
+        usuario.setLogado(false);
+        this.usuarioRepository.save(usuario);
+    }
+
 
     public Usuario salvar(Usuario usuario) {
         return this.usuarioRepository.save(usuario);
@@ -69,7 +83,6 @@ public class UsuarioService {
 
         this.usuarioRepository.save(novoUsuario);
     }
-
 
     public List<UsuarioFullResponse> listar() {
         List<Usuario> usuarioList = this.usuarioRepository.findAllByDeletedFalse();
@@ -86,7 +99,6 @@ public class UsuarioService {
                 .map(UsuarioResponseMapper::of)
                 .collect(Collectors.toList());
     }
-
 
     public UsuarioFullResponse buscarPorId(String id) {
         Usuario usuario = this.usuarioRepository.findById(id).orElseThrow(
@@ -105,7 +117,7 @@ public class UsuarioService {
     }
 
     // Esse metodo vai ser usado quando formos atras de usuarios com jogos em comum, recebe os jogosFavoritos do usuario que esta logado
-    public Optional<Usuario> buscarPorJogosFavoritosEmComum(String[] jogosFavoritos) {
+    public Optional<Usuario> buscarPorJogosFavoritosEmComum(List<String> jogosFavoritos) {
         return this.usuarioRepository.findByJogosFavoritosInAndDeletedFalse(jogosFavoritos);
     }
 
@@ -115,6 +127,9 @@ public class UsuarioService {
         );
 
         Usuario updateUsuario = UsuarioRequestMapper.of(usuarioRequest);
+        updateUsuario.setId(id);
+        String senhaCriptografada = passwordEncoder.encode(updateUsuario.getSenha());
+        updateUsuario.setSenha(senhaCriptografada);
         return salvar(updateUsuario);
     }
 

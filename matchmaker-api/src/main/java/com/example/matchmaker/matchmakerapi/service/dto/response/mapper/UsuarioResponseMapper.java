@@ -1,6 +1,7 @@
-package com.example.matchmaker.matchmakerapi.service.dto.response;
+package com.example.matchmaker.matchmakerapi.service.dto.response.mapper;
 
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
+import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
 
 public class UsuarioResponseMapper {
 
@@ -17,7 +18,8 @@ public class UsuarioResponseMapper {
                 usuario.getSenha(),
                 usuario.getDtCadastro(),
                 usuario.getJogosFavoritos(),
-                usuario.isDeleted()
+                usuario.isDeleted(),
+                usuario.isLogado()
         );
 
     }

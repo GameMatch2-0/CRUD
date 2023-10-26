@@ -1,6 +1,7 @@
-package com.example.matchmaker.matchmakerapi.service.dto.response;
+package com.example.matchmaker.matchmakerapi.service.dto.response.mapper;
 
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
+import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
 
 public class UsuarioResponseMapper {
 

@@ -92,6 +92,12 @@ public class UsuarioService {
                 .collect(Collectors.toList());
     }
 
+    public List<Usuario> listarUsuariosParaCsv() {
+        List<Usuario> usuarioList = this.usuarioRepository.findAllByDeletedFalse();
+
+        return usuarioList;
+    }
+
     public List<UsuarioFullResponse> listarApagados() {
         List<Usuario> usuarioList = this.usuarioRepository.findAllByDeletedTrue();
 
@@ -158,7 +164,7 @@ public class UsuarioService {
         return this.usuarioRepository.existsById(id);
     }
 
-    public void gravaArquivoCsv(List<UsuarioFullResponse> lista, String nomeArq) {
+    public void gravaArquivoCsv(List<Usuario> lista, String nomeArq) {
         if (lista.isEmpty()) {
             System.out.println("A lista está vazia. Não há nada para gravar");
             return;
@@ -183,8 +189,8 @@ public class UsuarioService {
                 // Percorre a lista, escrevendo cada objeto no arquivo e gravando um registro para cada Cachorro
                 for (int i = 0; i < lista.size(); i++) {
                     // Instancia um objeto Cachorro para receber cada elemento da lista
-                    UsuarioFullResponse user= lista.get(i);
-                    saida.format("%s;%s;%s;%s;%s;%s;%s;%b\n", user.getId(), user.getNome(), user.getApelido(), user.getDtNascimento(), user.getEmail(), user.getContato(), user.getDtCadastro(), user.isDeleted());
+                    Usuario user= lista.get(i);
+                    saida.format("%s;%s;%s;%s;%s;%s;%s;%b;%b\n", user.getId(), user.getNome(), user.getApelido(), user.getDtNascimento(), user.getEmail(), user.getContato(), user.getDtCadastro(), user.isDeleted(), user.isLogado());
                 }
             } catch (FormatterClosedException erro) {
                 System.out.println("Erro ao gravar no arquivo");

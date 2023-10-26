@@ -23,5 +23,6 @@ public class UsuarioFullResponse {
     private String dtCadastro;
     private List<String> jogosFavoritos;
     private boolean deleted = false;
+    private boolean logado = false;
 
 }

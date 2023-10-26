@@ -24,6 +24,7 @@ public class UsuarioRequest {
     private LocalDateTime dtCadastro;
     @ElementCollection
     private List<String> jogosFavoritos;
+    private boolean logado = false;
 
 
 }

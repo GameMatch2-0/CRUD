@@ -103,7 +103,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/gerarCsv")
-    public ResponseEntity<Usuario> generateCsvArchiveDeletedUsers(@RequestParam String nomeArq){
+    public ResponseEntity<?> generateCsvArchiveDeletedUsers(@RequestParam String nomeArq){
         List<Usuario> lista = this.usuarioService.listarUsuariosParaCsv();
         if(lista.isEmpty()){
             return ResponseEntity.notFound().build();

@@ -105,9 +105,8 @@ public class ListaObj<T> {
     }
 
     // Metodo para ordenar a lista utilizando o algoritmo de ordenacao Bubble Sort
-    public List<T> ordenaPorDataEnvio() {
+    public T[] ordenaPorDataEnvio() {
         for (int i = 0; i < nroElem - 1; i++) {
-
             for (int j = 1; j < nroElem - i; j++) {
                 Mensagem mensagem1 = (Mensagem) vetor[j-1];
                 Mensagem mensagem2 = (Mensagem) vetor[j];
@@ -120,12 +119,8 @@ public class ListaObj<T> {
                 }
             }
         }
-        List<T> listaMensagens = new ArrayList<>();
-        for (int i = 0; i < nroElem; i++) {
-            listaMensagens.add(vetor[i]);
-        }
 
-        return listaMensagens;
+        return vetor;
     }
 
 

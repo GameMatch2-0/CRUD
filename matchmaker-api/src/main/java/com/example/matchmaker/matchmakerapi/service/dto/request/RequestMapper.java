@@ -5,25 +5,23 @@ import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTo
 
 import java.time.LocalDateTime;
 
-public class UsuarioRequestMapper {
+public class RequestMapper {
 
-    public static Usuario of(UsuarioRequest usuarioRequest){
+    public static Usuario toEntity(UsuarioRequest usuarioRequest){
         Usuario usuario = new Usuario();
 
         usuario.setNome(usuarioRequest.getNome());
-        usuario.setApelido(usuarioRequest.getApelido());
-        usuario.setOrientacaoSexual(usuarioRequest.getOrientacaoSexual());
+        usuario.setSobrenome(usuarioRequest.getSobrenome());
+        usuario.setIdentidadeGenero(usuarioRequest.getIdentidadeGenero());
         usuario.setDtNascimento(usuarioRequest.getDtNascimento());
         usuario.setContato(usuarioRequest.getContato());
         usuario.setEmail(usuarioRequest.getEmail());
         usuario.setSenha(usuarioRequest.getSenha());
-        usuario.setDtCadastro(LocalDateTime.now());
-        usuario.setJogosFavoritos(usuarioRequest.getJogosFavoritos());
 
         return usuario;
     }
 
-    public static UsuarioTokenDto of(Usuario usuario, String token){
+    public static UsuarioTokenDto toUsuarioTokenDto(Usuario usuario, String token){
         UsuarioTokenDto usuarioTokenDto = new UsuarioTokenDto();
 
         usuarioTokenDto.setUserId(usuario.getId());

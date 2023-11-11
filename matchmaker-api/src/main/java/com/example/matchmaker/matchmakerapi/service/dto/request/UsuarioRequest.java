@@ -15,16 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 public class UsuarioRequest {
     private String nome;
-    private String apelido;
-    private String orientacaoSexual;
-    private LocalDate dtNascimento;
+    private String sobrenome;
     private String email;
     private String contato;
     private String senha;
+    private LocalDate dtNascimento;
+    private String identidadeGenero;
     private LocalDateTime dtCadastro;
-    @ElementCollection
-    private List<String> jogosFavoritos;
-    private boolean logado = false;
 
 
 }

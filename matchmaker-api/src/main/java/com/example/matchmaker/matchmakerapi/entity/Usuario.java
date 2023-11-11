@@ -19,46 +19,17 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Usuario {
     @Id
+    @Column(name = "idUsuario")
     private String id = String.valueOf(UUID.randomUUID());
     private String nome;
-    private String apelido;
-    private String orientacaoSexual;
+    private String sobrenome;
     private LocalDate dtNascimento;
     private String email;
     private String contato;
     private String senha;
+    private String identidadeGenero;
     private LocalDateTime dtCadastro = LocalDateTime.now();
-    @ElementCollection
-    private List<String> jogosFavoritos = new ArrayList<>();
     private boolean deleted = false;
     private boolean logado = false;
-
-
-
-    public String getDtNascimento() {
-        return dtNascimento.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-    }
-
-    public void setDtNascimento(LocalDate dtNascimento) {
-        this.dtNascimento = dtNascimento;
-    }
-
-
-    public String getDtCadastro() {
-        return dtCadastro.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-    }
-
-    public void setDtCadastro(LocalDateTime dtCadastro) {
-        this.dtCadastro = dtCadastro;
-    }
-
-    public List<String> getJogosFavoritos() {
-        return jogosFavoritos;
-    }
-
-    public void setJogosFavoritos(List<String> jogosFavoritos) {
-        this.jogosFavoritos = jogosFavoritos;
-    }
-
 
 }

@@ -4,9 +4,9 @@ import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLoginDto;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
-import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequestMapper;
+import com.example.matchmaker.matchmakerapi.service.dto.request.RequestMapper;
+import com.example.matchmaker.matchmakerapi.service.dto.response.ResponseMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
-import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioResponseMapper;
 import com.example.matchmaker.matchmakerapi.entity.repository.UsuarioRepository;
 import com.example.matchmaker.matchmakerapi.api.configuration.security.jwt.GerenciadorTokenJwt;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +51,7 @@ public class UsuarioService {
 
         final String token = gerenciadorTokenJwt.generateToken(authentication);
 
-        return UsuarioRequestMapper.of(usuarioAutenticado, token);
+        return RequestMapper.toUsuarioTokenDto(usuarioAutenticado, token);
     }
 
     public void logof(String id){
@@ -69,7 +69,7 @@ public class UsuarioService {
     }
 
     public void criar(UsuarioRequest usuarioRequest) {
-        final Usuario novoUsuario = UsuarioRequestMapper.of(usuarioRequest);
+        final Usuario novoUsuario = RequestMapper.toEntity(usuarioRequest);
 
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
         novoUsuario.setSenha(senhaCriptografada);
@@ -82,7 +82,7 @@ public class UsuarioService {
         List<Usuario> usuarioList = this.usuarioRepository.findAllByDeletedFalse();
 
         return usuarioList.stream()
-                .map(UsuarioResponseMapper::of)
+                .map(ResponseMapper::toUsuarioFullResponse)
                 .collect(Collectors.toList());
     }
 
@@ -90,7 +90,7 @@ public class UsuarioService {
         List<Usuario> usuarioList = this.usuarioRepository.findAllByDeletedTrue();
 
         return usuarioList.stream()
-                .map(UsuarioResponseMapper::of)
+                .map(ResponseMapper::toUsuarioFullResponse)
                 .collect(Collectors.toList());
     }
 
@@ -100,7 +100,7 @@ public class UsuarioService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado")
         );
 
-        return UsuarioResponseMapper.of(usuario);
+        return ResponseMapper.toUsuarioFullResponse(usuario);
     }
 
     public Optional<Usuario> buscarPorNome(String nome) {
@@ -111,17 +111,12 @@ public class UsuarioService {
         return this.usuarioRepository.findByEmailAndDeletedFalse(email);
     }
 
-    // Esse metodo vai ser usado quando formos atras de usuarios com jogos em comum, recebe os jogosFavoritos do usuario que esta logado
-    public Optional<Usuario> buscarPorJogosFavoritosEmComum(String[] jogosFavoritos) {
-        return this.usuarioRepository.findByJogosFavoritosInAndDeletedFalse(jogosFavoritos);
-    }
-
     public Usuario atualizar(String id, UsuarioRequest usuarioRequest) {
         this.usuarioRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado")
         );
 
-        Usuario updateUsuario = UsuarioRequestMapper.of(usuarioRequest);
+        Usuario updateUsuario = RequestMapper.toEntity(usuarioRequest);
         return salvar(updateUsuario);
     }
 
@@ -135,14 +130,12 @@ public class UsuarioService {
 
     public boolean validaUsuario(UsuarioRequest usuario) {
         return usuario.getNome() != null && !usuario.getNome().isEmpty()
-                && usuario.getOrientacaoSexual() != null
-                && !usuario.getOrientacaoSexual().isEmpty() && usuario.getEmail() != null
+                && usuario.getIdentidadeGenero() != null
+                && !usuario.getIdentidadeGenero().isEmpty() && usuario.getEmail() != null
                 && !usuario.getEmail().isEmpty() && usuario.getEmail().length() >= 3
                 && usuario.getEmail().contains("@") && usuario.getSenha() != null
                 && !usuario.getSenha().isEmpty() && usuario.getDtNascimento() != null
-                && !usuario.getDtNascimento().toString().isEmpty()
-                && usuario.getJogosFavoritos() != null && usuario.getJogosFavoritos().size() != 0
-                && usuario.getJogosFavoritos().size() < 6;
+                && !usuario.getDtNascimento().toString().isEmpty();
 
     }
 

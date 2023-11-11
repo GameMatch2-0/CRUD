@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS Plano (
 CREATE TABLE IF NOT EXISTS Perfil(
   idUsuario INT primary key,
   username VARCHAR(45) ,
-  biografia VARCHAR(255) ,
+  biografia VARCHAR(255),
   nota FLOAT ,
   orientacaoSexual VARCHAR(45) ,
   procuraAmizade TINYINT ,

@@ -32,4 +32,7 @@ public class Usuario {
     private boolean deleted = false;
     private boolean logado = false;
 
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Perfil perfil;
+
 }

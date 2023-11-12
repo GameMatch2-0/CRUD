@@ -19,6 +19,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     public List<Usuario> findAllByDeletedTrue();
     // Busca por usuarios pelo email e que não foram apagados
     public Optional<Usuario> findByEmailAndDeletedFalse(String email);
-    // Busca por usuarios pelo email e que foram apagados
+
 
 }

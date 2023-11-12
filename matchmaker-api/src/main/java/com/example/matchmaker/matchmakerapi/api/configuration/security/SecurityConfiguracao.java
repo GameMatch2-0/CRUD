@@ -3,6 +3,7 @@ package com.example.matchmaker.matchmakerapi.api.configuration.security;
 import com.example.matchmaker.matchmakerapi.api.configuration.security.jwt.GerenciadorTokenJwt;
 import com.example.matchmaker.matchmakerapi.service.authentication.AutenticacaoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;

@@ -1,7 +1,8 @@
-package com.example.matchmaker.matchmakerapi.service.dto.request;
+package com.example.matchmaker.matchmakerapi.service.dto.request.mapper;
 
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
+import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
 
 import java.time.LocalDateTime;
 

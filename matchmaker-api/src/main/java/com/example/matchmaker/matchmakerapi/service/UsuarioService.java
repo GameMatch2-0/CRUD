@@ -1,14 +1,14 @@
 package com.example.matchmaker.matchmakerapi.service;
 
+import com.example.matchmaker.matchmakerapi.api.configuration.security.jwt.GerenciadorTokenJwt;
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
+import com.example.matchmaker.matchmakerapi.entity.repository.UsuarioRepository;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLoginDto;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
-import com.example.matchmaker.matchmakerapi.service.dto.request.RequestMapper;
+import com.example.matchmaker.matchmakerapi.service.dto.request.mapper.RequestMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.ResponseMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
-import com.example.matchmaker.matchmakerapi.entity.repository.UsuarioRepository;
-import com.example.matchmaker.matchmakerapi.api.configuration.security.jwt.GerenciadorTokenJwt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Formatter;
+import java.util.FormatterClosedException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,6 +90,12 @@ public class UsuarioService {
                 .collect(Collectors.toList());
     }
 
+    public List<Usuario> listarUsuariosParaCsv() {
+        List<Usuario> usuarioList = this.usuarioRepository.findAllByDeletedFalse();
+
+        return usuarioList;
+    }
+
     public List<UsuarioFullResponse> listarApagados() {
         List<Usuario> usuarioList = this.usuarioRepository.findAllByDeletedTrue();
 
@@ -143,5 +153,50 @@ public class UsuarioService {
         return this.usuarioRepository.existsById(id);
     }
 
+    public void gravaArquivoCsv(List<Usuario> lista, String nomeArq) {
+        if (lista.isEmpty()) {
+            System.out.println("A lista está vazia. Não há nada para gravar");
+            return;
+        } else {
+            FileWriter arq = null; // Representa o arquivo que será gravado
+            Formatter saida = null; // Objeto que será usado para escrever no arquivo
+            Boolean deuRuim = false; // Flag para indicar se deu erro
 
+            nomeArq += ".csv";
+
+            // Criando o arquivo
+            try {
+                arq = new FileWriter(nomeArq, false); // Abre o arquivo
+                saida = new Formatter(arq); // Instancia o obj saida, associando-o ao arquivo saida
+            } catch (IOException erro) {
+                System.out.println("Erro ao abrir o arquivo");
+                System.exit(1);
+            }
+
+            // Gravando os objetos no arquivo
+            try {
+                // Percorre a lista, escrevendo cada objeto no arquivo e gravando um registro para cada Cachorro
+                for (int i = 0; i < lista.size(); i++) {
+                    // Instancia um objeto Cachorro para receber cada elemento da lista
+                    Usuario user= lista.get(i);
+                    saida.format("%s;%s;%s;%s;%s;%s;%s;%b;%b\n", user.getId(), user.getNome(), user.getSobrenome(), user.getDtNascimento(), user.getEmail(), user.getContato(), user.getDtCadastro(), user.isDeleted(), user.isLogado());
+                }
+            } catch (FormatterClosedException erro) {
+                System.out.println("Erro ao gravar no arquivo");
+                erro.printStackTrace();
+                deuRuim = true;
+            } finally {
+                saida.close(); // Fecha o arquivo
+                try {
+                    arq.close(); // Fecha o arquivo
+                } catch (IOException err) {
+                    System.out.println("Erro ao fechar o arquivo");
+                    deuRuim = true;
+                }
+                if (deuRuim) {
+                    System.exit(1);
+                }
+            }
+        }
+    }
 }

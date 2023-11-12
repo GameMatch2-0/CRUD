@@ -1,11 +1,12 @@
 package com.example.matchmaker.matchmakerapi.api.controller.usuario;
 
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
+import com.example.matchmaker.matchmakerapi.service.UsuarioService;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLoginDto;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.response.ResponseMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
-import com.example.matchmaker.matchmakerapi.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,7 +89,7 @@ public class UsuarioController {
             return ResponseEntity.badRequest().build();
         }
         Usuario usuarioAtualizado = this.usuarioService.atualizar(id, usuarioRequest);
-        return ResponseEntity.ok(this.usuarioService.buscarPorId(id));
+        return ResponseEntity.ok(ResponseMapper.toUsuarioFullResponse(usuarioAtualizado));
     }
 
     @DeleteMapping("/{id}")
@@ -99,6 +100,16 @@ public class UsuarioController {
 
         this.usuarioService.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/gerarCsv")
+    public ResponseEntity<?> generateCsvArchiveDeletedUsers(@RequestParam String nomeArq){
+        List<Usuario> lista = this.usuarioService.listarUsuariosParaCsv();
+        if(lista.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        this.usuarioService.gravaArquivoCsv(lista, nomeArq);
+        return ResponseEntity.ok().build();
     }
 
 

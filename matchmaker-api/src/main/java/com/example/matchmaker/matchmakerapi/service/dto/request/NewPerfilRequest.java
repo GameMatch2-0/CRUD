@@ -1,22 +1,16 @@
-package com.example.matchmaker.matchmakerapi.entity;
+package com.example.matchmaker.matchmakerapi.service.dto.request;
 
-import jakarta.persistence.*;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Perfil{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPerfil;
-    @OneToOne
-    @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
+public class NewPerfilRequest {
     private Usuario usuario;
     private String username;
     private String biografia;
@@ -26,8 +20,4 @@ public class Perfil{
     private boolean procuraNamoro;
     private boolean procuraPlayer2;
     private boolean isPremium = false;
-
-    @ManyToOne
-    @JoinColumn(name = "idPlano")
-    private Plano plano;
 }

@@ -7,7 +7,7 @@ import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLo
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
 import com.example.matchmaker.matchmakerapi.service.dto.request.mapper.RequestMapper;
-import com.example.matchmaker.matchmakerapi.service.dto.response.ResponseMapper;
+import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

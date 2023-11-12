@@ -1,11 +1,11 @@
-package com.example.matchmaker.matchmakerapi.api.controller.usuario;
+package com.example.matchmaker.matchmakerapi.api.controller;
 
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.UsuarioService;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioLoginDto;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
-import com.example.matchmaker.matchmakerapi.service.dto.response.ResponseMapper;
+import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

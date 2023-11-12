@@ -1,4 +1,4 @@
-package com.example.matchmaker.matchmakerapi.api.controller.mensagem;
+package com.example.matchmaker.matchmakerapi.api.controller.chat;
 
 import com.example.matchmaker.matchmakerapi.entity.Mensagem;
 import com.example.matchmaker.matchmakerapi.service.ConversaService;

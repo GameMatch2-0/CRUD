@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Repository
 public interface PerfilRepository extends JpaRepository<Perfil, String> {
-    // @Procedure("SP_curtir_usuario")
-    // void curtirOutroUsuario(Integer idUsuarioLogado, Integer idUsuarioCurtido, LocalDate dataHora);
+    // @Procedure("SP_curtir_perfil")
+    // void curtirOutroPerfil(Integer idPerfilLogado, Integer idPerfilCurtido, LocalDate dataHora);
 
 }

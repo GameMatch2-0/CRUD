@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS perfil (
   is_premium TINYINT DEFAULT FALSE,
   id_plano INT ,
   is_deleted TINYINT DEFAULT FALSE,
-  PRIMARY KEY(id_perfil, id_usuario)
+  PRIMARY KEY(id_perfil, id_usuario),
   CONSTRAINT fk_perfil_usuario
     FOREIGN KEY perfil(id_usuario)
     REFERENCES usuario(id_usuario),
@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS perfis_priorizados (
   id_priorizacao INT AUTO_INCREMENT,
   id_perfil_priorizado INT,
   id_perfil_fila INT,
-  is_valido TINYINT DEFAULT FALSE,
+  is_valido TINYINT DEFAULT TRUE,
   PRIMARY KEY(id_priorizacao, id_perfil_priorizado, id_perfil_fila),
   CONSTRAINT fk_priorizacao_perfil1
     FOREIGN KEY perfis_priorizados(id_perfil_priorizado)
@@ -233,6 +233,23 @@ CREATE TABLE IF NOT EXISTS perfis_priorizados (
   CONSTRAINT fk_priorizacao_perfil2
     FOREIGN KEY perfis_priorizados(id_perfil_fila)
     REFERENCES perfil(id_perfil));
+    
+CREATE INDEX id_perfis_priorizados_idx ON perfis_priorizados(id_priorizacao);
+
+CREATE INDEX fk_perfis_priorizados_perfil_priorizado_idx ON perfis_priorizados(id_perfil_priorizado);
+
+CREATE INDEX fk_perfis_priorizados_perfil_fila_idx ON perfis_priorizados(id_perfil_fila);
+
+CREATE TABLE IF NOT EXISTS perfis_descurtidos(
+id_perfil INT,
+id_perfil_descurtido INT,
+is_valido TINYINT DEFAULT TRUE,
+primary key(id_perfil, id_perfil_descurtido)
+);
+
+CREATE INDEX fk_perfis_descurtidos_perfil_idx ON perfis_descurtidos(id_perfil);
+
+CREATE INDEX fk_perfis_descurtidos_perfil_descurtido_idx ON perfis_descurtidos(id_perfis_descurtidos);
 
 DELIMITER $$
 CREATE PROCEDURE SP_curtir_perfil(
@@ -256,5 +273,45 @@ BEGIN
   ELSE
     INSERT INTO perfis_priorizados (id_perfil_priorizado, id_perfil_fila) VALUES (var_id_perfil1, var_id_perfil2);
   END IF;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE SP_nova_avaliacao(
+  IN var_id_perfil_avaliado INT,
+  IN var_id_perfil_avaliador INT,
+  IN var_avaliacao FLOAT,  -- essa avaliação já tem que vir afetada pela própria avaliacao do cara
+  -- nota anterior é uma variavel com select e  nota nova é a media
+  IN var_descricao VARCHAR(255),
+  IN var_horario DATETIME
+)
+BEGIN
+ DECLARE var_nota_nova FLOAT;
+ DECLARE var_nota_anterior FLOAT;
+ 
+ SELECT p.nota 
+ INTO var_nota_anterior
+ FROM perfil as p
+ WHERE p.id_perfil= var_id_perfil_avaliado;
+ 
+ INSERT INTO avaliacao (
+  id_perfil_avaliado,
+  id_perfil_avaliador,
+  avaliacao ,
+  descricao ,
+  nota_anterior,
+  horario)
+  VALUES (var_id_perfil_avaliado, var_id_perfil_avaliador, var_avaliacao, var_descricao, var_nota_anterior ,var_horario);
+ 
+ SELECT AVG(a.avaliacao) 
+ INTO var_nota_nova
+ FROM avaliacao AS a
+ WHERE a.id_perfil_avaliado=var_id_perfil_avaliado AND a.is_ativa = 1;
+  
+UPDATE avaliacao as a set a.nota_nova = var_nota_nova 
+WHERE a.id_perfil_avaliado =var_id_perfil_avaliado AND a.id_perfil_avaliador = var_id_perfil_avaliador AND a.nota_nova = null;
+
+UPDATE perfil as p set p.nota = var_nota_nova
+where p.id_perfil = var_id_perfil_avaliado;
 END $$
 DELIMITER ;

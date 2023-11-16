@@ -14,13 +14,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Conversa {
+public class GeneroJogos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idConversa;
-    private String idUsuarioLogado;
-    private String idUsuarioConversa;
-    private int notificacoes;
-    private boolean alertaNotificacao;
-    private boolean deleted = false;
+    private Integer idGeneroJogos;
+    private String nome;
+    private String descricao;
 }

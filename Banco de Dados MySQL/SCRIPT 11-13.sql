@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS usuario (
   id_usuario VARCHAR(255) PRIMARY KEY,
   nome VARCHAR(45) ,
   sobrenome VARCHAR(100) ,
-  email VARCHAR(100) UNIQUE ,
+  email VARCHAR(100),
   celular CHAR(11) ,
   senha VARCHAR(45) ,
   dt_nascimento DATE ,
@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS perfil (
 CREATE UNIQUE INDEX perfil_id_usuario_idx ON perfil(id_usuario);
 
 CREATE TABLE IF NOT EXISTS avaliacao (
+  id_avaliacao INT,
   id_perfil_avaliado INT,
   id_perfil_avaliador INT,
   avaliacao FLOAT ,
@@ -52,8 +53,8 @@ CREATE TABLE IF NOT EXISTS avaliacao (
   nota_anterior FLOAT ,
   nota_nova FLOAT ,
   horario DATETIME ,
-  ativa TINYINT NOT NULL DEFAULT TRUE,
-  PRIMARY KEY(id_perfil_avaliado, id_perfil_avaliador),
+  is_ativa TINYINT NOT NULL DEFAULT TRUE,
+  PRIMARY KEY(id_avaliacao, id_perfil_avaliado, id_perfil_avaliador),
   CONSTRAINT fk_avaliacao_perfil1
     FOREIGN KEY avaliacao(id_perfil_avaliado)
     REFERENCES perfil(id_perfil),
@@ -142,9 +143,9 @@ CREATE INDEX fk_console_perfil_perfil_idx ON console_perfil(id_console);
 CREATE INDEX fk_console_perfil_console_idx ON console_perfil(id_perfil);
 
 CREATE TABLE IF NOT EXISTS interesse (
-  id_interesses INT PRIMARY KEY AUTO_INCREMENT,
-  nome VARCHAR(45) NULL,
-  descricao VARCHAR(100) NULL);
+  id_interesse INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(45),
+  descricao VARCHAR(100));
 
 CREATE TABLE IF NOT EXISTS genero_jogos (
   id_genero_jogos INT PRIMARY KEY AUTO_INCREMENT,

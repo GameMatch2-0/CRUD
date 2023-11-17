@@ -1,11 +1,8 @@
 package com.example.matchmaker.matchmakerapi;
 
-import com.example.matchmaker.matchmakerapi.entity.Perfil;
-import com.example.matchmaker.matchmakerapi.entity.Plano;
-import com.example.matchmaker.matchmakerapi.entity.Usuario;
-import com.example.matchmaker.matchmakerapi.entity.repository.PerfilRepository;
-import com.example.matchmaker.matchmakerapi.entity.repository.PlanoRepository;
-import com.example.matchmaker.matchmakerapi.entity.repository.UsuarioRepository;
+import com.example.matchmaker.matchmakerapi.entity.*;
+import com.example.matchmaker.matchmakerapi.entity.embeddable.GeneroJogoPerfilId;
+import com.example.matchmaker.matchmakerapi.entity.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -20,6 +17,8 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 	private final UsuarioRepository usuarioRepository;
 	private final PlanoRepository planoRepository;
 	private final PerfilRepository perfilRepository;
+	private final GeneroJogoRepository generoJogoRepository;
+	private final GeneroJogoPerfilRepository generoJogoPerfilRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MatchmakerApiApplication.class, args);
@@ -41,8 +40,14 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 
 		usuarioRepository.save(usuario);
 
-		Perfil perfil = new Perfil(10L,usuario, "adamSandMan", "ola sou o famoso ator de Bollywood", 10.0F, "Hetero", false, true, false, true, plano);
+		Perfil perfil = new Perfil(1L,usuario, "adamSandMan", "ola sou o famoso ator de Bollywood", 10.0F, "Hetero", false, true, false, true, plano,null);
 		perfilRepository.save(perfil);
 
+		GeneroJogo generoJogo = new GeneroJogo(1L, "Esportes", "Jogos como EaFC24, F1 23, NBA 2K");
+		generoJogoRepository.save(generoJogo);
+
+		GeneroJogoPerfilId generoJogoPerfilId = new GeneroJogoPerfilId(perfil.getIdPerfil(), generoJogo.getIdGeneroJogos());
+		GeneroJogoPerfil generoJogoPerfil = new GeneroJogoPerfil(generoJogoPerfilId, perfil, generoJogo, true);
+		generoJogoPerfilRepository.save(generoJogoPerfil);
 	}
 }

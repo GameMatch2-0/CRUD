@@ -19,12 +19,8 @@ public class PerfilController {
 
     @GetMapping
     public List<PerfilFullResponse> getPerfil(){
-        List<Perfil> perfilList = this.perfilService.getPerfil();
-        List<PerfilFullResponse> perfilFullResponseList = new ArrayList<>();
-        perfilList.forEach(it ->{
-            perfilFullResponseList.add(ResponseMapper.toPerfilFullResponse(it));
-        });
-        return perfilFullResponseList;
+        List<PerfilFullResponse> perfilList = this.perfilService.getPerfil();
+        return perfilList;
     }
 
 

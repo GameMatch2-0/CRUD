@@ -1,9 +1,14 @@
 package com.example.matchmaker.matchmakerapi.service.dto.response.mapper;
 
+import com.example.matchmaker.matchmakerapi.entity.GeneroJogo;
+import com.example.matchmaker.matchmakerapi.entity.GeneroJogoPerfil;
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
+import com.example.matchmaker.matchmakerapi.service.dto.response.GeneroJogoPerfilResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.PerfilFullResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
+
+import java.util.List;
 
 public class ResponseMapper {
     public static UsuarioFullResponse toUsuarioFullResponse(Usuario usuario){
@@ -24,7 +29,7 @@ public class ResponseMapper {
 
     }
 
-    public static PerfilFullResponse toPerfilFullResponse(Perfil perfil){
+    public static PerfilFullResponse toPerfilFullResponse(Perfil perfil, List<GeneroJogo> generoJogoList){
         PerfilFullResponse perfilFullResponse = new PerfilFullResponse();
 
         perfilFullResponse.setIdPerfil(perfil.getIdPerfil());
@@ -37,7 +42,18 @@ public class ResponseMapper {
         perfilFullResponse.setProcuraNamoro(perfil.isProcuraNamoro());
         perfilFullResponse.setProcuraPlayer2(perfil.isProcuraPlayer2());
         perfilFullResponse.setPremium(perfilFullResponse.isPremium());
+        perfilFullResponse.setGenerosJogos(generoJogoList);
 
         return perfilFullResponse;
+    }
+
+    public static GeneroJogoPerfilResponse toGeneroJogoPerfilResponse(GeneroJogoPerfil generoJogoPerfil){
+        GeneroJogoPerfilResponse resposta = new GeneroJogoPerfilResponse();
+
+        resposta.setPerfilId(generoJogoPerfil.getId().getIdPerfil());
+        resposta.setGeneroJogoId(generoJogoPerfil.getId().getIdGeneroJogos());
+        resposta.setVisible(generoJogoPerfil.isVisivel());
+
+        return resposta;
     }
 }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -14,6 +16,7 @@ import lombok.Setter;
 public class Perfil{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idPerfil")
     private Long idPerfil;
     @OneToOne
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
@@ -26,8 +29,9 @@ public class Perfil{
     private boolean procuraNamoro;
     private boolean procuraPlayer2;
     private boolean isPremium = false;
-
     @ManyToOne
     @JoinColumn(name = "idPlano")
     private Plano plano;
+    @OneToMany(mappedBy = "perfil", cascade = CascadeType.ALL)
+    private List<GeneroJogoPerfil> generosJogosPerfil;
 }

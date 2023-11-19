@@ -30,7 +30,7 @@ public class ConversaService {
         conversa.setIdUsuarioLogado(idUsuarioLogado);
         conversa.setIdUsuarioConversa(idUsuarioConversa);
         conversa.setNotificacoes(0);
-        conversa.setAlertaNotificacao(0);
+        conversa.setAlertaNotificacao(false);
         conversa.setDeleted(false);
         repo.save(conversa);
         return ConversaResponseMapper.of(conversa);

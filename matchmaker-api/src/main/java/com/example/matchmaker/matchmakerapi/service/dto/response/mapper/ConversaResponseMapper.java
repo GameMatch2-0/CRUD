@@ -12,7 +12,7 @@ public class ConversaResponseMapper {
                 conversa.getIdUsuarioLogado(),
                 conversa.getIdUsuarioConversa(),
                 conversa.getNotificacoes(),
-                conversa.getAlertaNotificacao(),
+                conversa.isAlertaNotificacao(),
                 conversa.isDeleted()
         );
 

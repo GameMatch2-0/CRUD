@@ -43,11 +43,11 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 		Perfil perfil = new Perfil(1L,usuario, "adamSandMan", "ola sou o famoso ator de Bollywood", 10.0F, "Hetero", false, true, false, true, plano,null);
 		perfilRepository.save(perfil);
 
-		GeneroJogo generoJogo = new GeneroJogo(1L, "Esportes", "Jogos como EaFC24, F1 23, NBA 2K");
-		generoJogoRepository.save(generoJogo);
-
-		GeneroJogoPerfilId generoJogoPerfilId = new GeneroJogoPerfilId(perfil.getIdPerfil(), generoJogo.getIdGeneroJogos());
-		GeneroJogoPerfil generoJogoPerfil = new GeneroJogoPerfil(generoJogoPerfilId, perfil, generoJogo, true);
-		generoJogoPerfilRepository.save(generoJogoPerfil);
+//		GeneroJogo generoJogo = new GeneroJogo(1L, "Esportes", "Jogos como EaFC24, F1 23, NBA 2K");
+//		generoJogoRepository.save(generoJogo);
+//
+//		GeneroJogoPerfilId generoJogoPerfilId = new GeneroJogoPerfilId(perfil.getIdPerfil(), generoJogo.getIdGeneroJogos());
+//		GeneroJogoPerfil generoJogoPerfil = new GeneroJogoPerfil(generoJogoPerfilId, perfil, generoJogo, true);
+//		generoJogoPerfilRepository.save(generoJogoPerfil);
 	}
 }

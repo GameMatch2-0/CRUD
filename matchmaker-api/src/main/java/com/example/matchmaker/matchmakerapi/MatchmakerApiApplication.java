@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -43,11 +44,14 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 		Perfil perfil = new Perfil(1L,usuario, "adamSandMan", "ola sou o famoso ator de Bollywood", 10.0F, "Hetero", false, true, false, true, plano,null);
 		perfilRepository.save(perfil);
 
-//		GeneroJogo generoJogo = new GeneroJogo(1L, "Esportes", "Jogos como EaFC24, F1 23, NBA 2K");
-//		generoJogoRepository.save(generoJogo);
-//
-//		GeneroJogoPerfilId generoJogoPerfilId = new GeneroJogoPerfilId(perfil.getIdPerfil(), generoJogo.getIdGeneroJogos());
-//		GeneroJogoPerfil generoJogoPerfil = new GeneroJogoPerfil(generoJogoPerfilId, perfil, generoJogo, true);
-//		generoJogoPerfilRepository.save(generoJogoPerfil);
+		GeneroJogo generoJogo = new GeneroJogo(1L, "Esportes", "Jogos como EaFC24, F1 23, NBA 2K");
+		GeneroJogo generoJogo1 = new GeneroJogo(2L, "FPS", "Jogos como CoD, Battlefield, Cs:Go");
+		generoJogoRepository.saveAll(Arrays.asList(generoJogo,generoJogo1));
+
+		GeneroJogoPerfilId generoJogoPerfilId = new GeneroJogoPerfilId(perfil.getIdPerfil(), generoJogo.getIdGeneroJogos());
+		GeneroJogoPerfilId generoJogoPerfilId1 = new GeneroJogoPerfilId(perfil.getIdPerfil(), generoJogo1.getIdGeneroJogos());
+		GeneroJogoPerfil generoJogoPerfil = new GeneroJogoPerfil(generoJogoPerfilId, perfil, generoJogo, true);
+		GeneroJogoPerfil generoJogoPerfil1 = new GeneroJogoPerfil(generoJogoPerfilId1, perfil, generoJogo1, true);
+		generoJogoPerfilRepository.saveAll(Arrays.asList(generoJogoPerfil,generoJogoPerfil1));
 	}
 }

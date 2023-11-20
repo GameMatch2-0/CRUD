@@ -3,6 +3,7 @@ package com.example.matchmaker.matchmakerapi.service;
 import com.example.matchmaker.matchmakerapi.entity.GeneroJogo;
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
 import com.example.matchmaker.matchmakerapi.entity.repository.PerfilRepository;
+import com.example.matchmaker.matchmakerapi.service.dto.response.JogoInPerfilResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.PerfilFullResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 public class PerfilService {
     private final PerfilRepository perfilRepository;
     private final GeneroJogoService generoJogoService;
+    private final GeneroJogoPerfilService generoJogoPerfilService;
 
     public List<PerfilFullResponse> getPerfil() {
         List<PerfilFullResponse> responseMapperList = new ArrayList<>();
@@ -27,7 +29,7 @@ public class PerfilService {
         }
 
         perfilList.forEach(it ->{
-            List<GeneroJogo> generoJogoList;
+            List<JogoInPerfilResponse> generoJogoList;
             generoJogoList = getGeneroJogosPorPerfilId(it.getIdPerfil());
             responseMapperList.add(ResponseMapper.toPerfilFullResponse(it ,generoJogoList));
         });
@@ -41,13 +43,15 @@ public class PerfilService {
         );
     }
 
-    public List<GeneroJogo> getGeneroJogosPorPerfilId(Long id) {
-        List<GeneroJogo> generoJogoList = new ArrayList<>();
-        Perfil perfil = getPerfilId(id);
+    public List<JogoInPerfilResponse> getGeneroJogosPorPerfilId(Long perfilId) {
+        List<JogoInPerfilResponse> generoJogoList = new ArrayList<>();
+        boolean isVisible = this.generoJogoPerfilService.getIsVisibleByPerfilId(perfilId);
 
-        perfil.getGenerosJogosPerfil().forEach(it ->{
-            generoJogoList.add(this.generoJogoService.getGeneroJogoId(it.getId().getIdGeneroJogos()));
+        List<GeneroJogo> generoJogos = this.generoJogoService.getGeneroJogoByPerfilId(perfilId);
+        generoJogos.forEach(it -> {
+            generoJogoList.add(ResponseMapper.toJogoInPerfilResponse(it, isVisible));
         });
+
         return generoJogoList;
     }
 }

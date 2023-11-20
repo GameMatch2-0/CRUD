@@ -3,7 +3,9 @@ package com.example.matchmaker.matchmakerapi.service;
 import com.example.matchmaker.matchmakerapi.entity.GeneroJogoPerfil;
 import com.example.matchmaker.matchmakerapi.entity.repository.GeneroJogoPerfilRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,5 +16,21 @@ public class GeneroJogoPerfilService {
 
     public List<GeneroJogoPerfil> getGeneroJogoPerfil(){
         return this.generoJogoPerfilRepository.findAll();
+    }
+
+    public boolean getIsVisibleByPerfilId(Long perfilId){
+        List<GeneroJogoPerfil> list = this.generoJogoPerfilRepository.findAllByIdIdPerfil(perfilId);
+        if (list.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum Genero de jogo vinculado a este perfil");
+        }
+        return list.get(0).isVisivel();
+    }
+
+    public List<GeneroJogoPerfil> getGeneroIdByPerfilId(Long perfilId){
+        List<GeneroJogoPerfil> list = this.generoJogoPerfilRepository.findAllByIdIdPerfil(perfilId);
+        if (list.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum Genero de jogo vinculado a este perfil");
+        }
+        return list;
     }
 }

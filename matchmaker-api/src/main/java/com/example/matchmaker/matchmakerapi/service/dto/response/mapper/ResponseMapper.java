@@ -5,6 +5,7 @@ import com.example.matchmaker.matchmakerapi.entity.GeneroJogoPerfil;
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.dto.response.GeneroJogoPerfilResponse;
+import com.example.matchmaker.matchmakerapi.service.dto.response.JogoInPerfilResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.PerfilFullResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
 
@@ -29,7 +30,7 @@ public class ResponseMapper {
 
     }
 
-    public static PerfilFullResponse toPerfilFullResponse(Perfil perfil, List<GeneroJogo> generoJogoList){
+    public static PerfilFullResponse toPerfilFullResponse(Perfil perfil, List<JogoInPerfilResponse> generoJogoList){
         PerfilFullResponse perfilFullResponse = new PerfilFullResponse();
 
         perfilFullResponse.setIdPerfil(perfil.getIdPerfil());
@@ -55,5 +56,14 @@ public class ResponseMapper {
         resposta.setVisible(generoJogoPerfil.isVisivel());
 
         return resposta;
+    }
+
+    public static JogoInPerfilResponse toJogoInPerfilResponse(GeneroJogo generoJogo, boolean isVisible){
+        JogoInPerfilResponse response = new JogoInPerfilResponse();
+
+        response.setId(generoJogo.getIdGeneroJogos());
+        response.setNome(generoJogo.getNome());
+        response.setVisible(isVisible);
+        return response;
     }
 }

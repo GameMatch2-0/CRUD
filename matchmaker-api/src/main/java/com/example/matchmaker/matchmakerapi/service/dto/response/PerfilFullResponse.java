@@ -27,5 +27,5 @@ public class PerfilFullResponse {
     private boolean procuraNamoro;
     private boolean procuraPlayer2;
     private boolean isPremium = false;
-    private List<GeneroJogo> generosJogos;
+    private List<JogoInPerfilResponse> generosJogos;
 }

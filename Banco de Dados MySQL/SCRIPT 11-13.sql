@@ -1,4 +1,3 @@
-DROP DATABASE MATCH_MAKING;
 CREATE DATABASE IF NOT EXISTS match_making;
 USE match_making;
 
@@ -46,7 +45,7 @@ CREATE TABLE IF NOT EXISTS perfil (
 CREATE UNIQUE INDEX perfil_id_usuario_idx ON perfil(id_usuario);
 
 CREATE TABLE IF NOT EXISTS avaliacao (
-  id_avaliacao INT,
+  id_avaliacao INT auto_increment,
   id_perfil_avaliado INT,
   id_perfil_avaliador INT,
   avaliacao FLOAT ,
@@ -63,9 +62,7 @@ CREATE TABLE IF NOT EXISTS avaliacao (
     FOREIGN KEY avaliacao(id_perfil_avaliador)
     REFERENCES perfil(id_perfil));
     
-CREATE UNIQUE INDEX avaliacao_id_perfil1_idx ON avaliacao(id_perfil_avaliado);
-
-CREATE UNIQUE INDEX avaliacao_id_perfil2_idx ON avaliacao(id_perfil_avaliador);
+CREATE UNIQUE INDEX avaliacao_unique_idx ON avaliacao(id_avaliacao);
 
 CREATE TABLE IF NOT EXISTS tipo_midia (
   id_tipo INT PRIMARY KEY AUTO_INCREMENT,
@@ -339,7 +336,7 @@ SELECT p.procura_player2 into var_procura_player2 from perfil as p where p.id_pe
 
 IF var_procura_amizade =1 AND var_procura_namoro in (null, 0) AND var_procura_player2 in (null, 0) THEN 
 	SELECT p.* FROM perfis_priorizados as pp
-JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+JOIN perfil as p ON p.id_perfil = pp.id_perfil_priorizado
 WHERE pp.id_perfil_fila = var_id_perfil
 UNION DISTINCT
 		SELECT p.* FROM perfil as p 
@@ -365,7 +362,7 @@ UNION DISTINCT
 			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2 LIMIT 50;
 ELSEIF var_procura_amizade in (null,0) AND var_procura_namoro in (null, 0) AND var_procura_player2=1 THEN 
 	SELECT p.* FROM perfis_priorizados as pp
-JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+JOIN perfil as p ON p.id_perfil = pp.id_perfil_priorizado
 WHERE pp.id_perfil_fila = var_id_perfil
 UNION DISTINCT
 		SELECT p.* FROM perfil as p 
@@ -391,7 +388,7 @@ UNION DISTINCT
 			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2 LIMIT 50;
 ELSEIF var_procura_amizade in (null, 0) AND var_procura_namoro =1  AND var_procura_player2 in (null, 0) THEN 
 	SELECT p.* FROM perfis_priorizados as pp
-JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+JOIN perfil as p ON p.id_perfil = pp.id_perfil_priorizado
 WHERE pp.id_perfil_fila = var_id_perfil
 UNION DISTINCT
 		SELECT p.* FROM perfil as p 
@@ -417,7 +414,7 @@ UNION DISTINCT
 			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2 LIMIT 50;
 ELSEIF var_procura_amizade =1 AND var_procura_namoro=1 AND var_procura_player2 in (null, 0) THEN 
 	SELECT p.* FROM perfis_priorizados as pp
-JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+JOIN perfil as p ON p.id_perfil = pp.id_perfil_priorizado
 WHERE pp.id_perfil_fila = var_id_perfil
 UNION DISTINCT
 		SELECT p.* FROM perfil as p 
@@ -443,7 +440,7 @@ UNION DISTINCT
 			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2 LIMIT 50;
 ELSEIF var_procura_amizade in (null, 0) AND var_procura_namoro = 1 AND var_procura_player2 = 1 THEN 
 	SELECT p.* FROM perfis_priorizados as pp
-JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+JOIN perfil as p ON p.id_perfil = pp.id_perfil_priorizado
 WHERE pp.id_perfil_fila = var_id_perfil
 UNION DISTINCT
 		SELECT p.* FROM perfil as p 
@@ -469,7 +466,7 @@ UNION DISTINCT
 			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2  LIMIT 50;
 ELSEIF var_procura_amizade =1 AND var_procura_namoro in (null, 0) AND var_procura_player2 = 1 THEN 
 	SELECT p.* FROM perfis_priorizados as pp
-JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+JOIN perfil as p ON p.id_perfil = pp.id_perfil_priorizado
 WHERE pp.id_perfil_fila = var_id_perfil
 UNION DISTINCT
 		SELECT p.* FROM perfil as p 
@@ -494,7 +491,7 @@ UNION DISTINCT
 		HAVING
 			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2 LIMIT 50;
 ELSE SELECT p.* FROM perfis_priorizados as pp
-JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+JOIN perfil as p ON p.id_perfil = pp.id_perfil_priorizado
 WHERE pp.id_perfil_fila = var_id_perfil
 UNION DISTINCT
 		SELECT p.* FROM perfil as p 
@@ -523,4 +520,78 @@ END IF;
 
 END$$
 DELIMITER ;
+
+-- TESTES E INSERTS
+-- Inserts para a tabela usuario
+INSERT INTO usuario (id_usuario, nome, sobrenome, email, celular, senha, dt_nascimento, identidade_genero, dt_cadastro)
+VALUES
+('1', 'João', 'Silva', 'joao@example.com', '987654321', 'senha123', '1990-01-01', 'Masculino', NOW()),
+('2', 'Maria', 'Santos', 'maria@example.com', '987654322', 'senha456', '1985-05-15', 'Feminino', NOW()),
+('3', 'Carlos', 'Oliveira', 'carlos@example.com', '987654323', 'senha789', '1995-08-20', 'Masculino', NOW()),
+('4', 'Ana', 'Costa', 'ana@example.com', '987654324', 'senhaabc', '1988-11-10', 'Feminino', NOW()),
+('5', 'Pedro', 'Ribeiro', 'pedro@example.com', '987654325', 'senhaxyz', '1992-03-25', 'Masculino', NOW());
+
+-- Inserts para a tabela plano
+INSERT INTO plano (nome, descricao, preco)
+VALUES
+('Básico', 'Plano de recursos básicos', 9.99),
+('Premium', 'Plano premium com recursos adicionais', 19.99),
+('Gold', 'Plano com todos os recursos', 29.99),
+('Free', 'Plano gratuito com recursos limitados', 0.00),
+('Teste', 'Plano de teste', 5.99);
+
+-- Inserts para a tabela perfil
+INSERT INTO perfil (id_usuario, username, biografia, nota, orientacao_sexual, procura_amizade, procura_namoro, procura_player2, is_premium, id_plano)
+VALUES
+('1', 'joao_silva', 'Olá, sou o João!', 4.5, 'Heterossexual', 1, 1, 1, 1, 3),
+('2', 'maria_santos', 'Oi, eu sou a Maria!', 4.8, 'Heterossexual', 1, 1, 1, 1, 2),
+('3', 'carlos_oliveira', 'E aí, sou o Carlos!', 3.9, 'Homossexual', 1, 1, 1, 0, 1),
+('4', 'ana_costa', 'Oi, sou a Ana!', 4.2, 'Homossexual', 1, 1, 1, 1, 4),
+('5', 'pedro_ribeiro', 'Oi, aqui é o Pedro!', 4.1, 'Heterossexual', 1, 1, 1, 0, 5);
+
+-- Inserts para a tabela interesse
+INSERT INTO interesse (nome, descricao)
+VALUES
+('Esportes', 'Interesse em praticar e assistir esportes'),
+('Música', 'Interesse por diversos gêneros musicais'),
+('Tecnologia', 'Interesse em gadgets e novas tecnologias'),
+('Viagens', 'Interesse em explorar novos lugares'),
+('Leitura', 'Interesse em livros e literatura');
+
+-- Inserts para a tabela genero_jogos
+INSERT INTO genero_jogos (nome, descricao)
+VALUES
+('Ação', 'Jogos de ação com muita adrenalina'),
+('RPG', 'Jogos de interpretação de papéis'),
+('Estratégia', 'Jogos que exigem estratégia'),
+('Esportes', 'Jogos de esportes virtuais'),
+('Aventura', 'Jogos de aventura e exploração');
+
+INSERT into genero_jogos_perfil (id_perfil, id_genero_jogos, is_visivel) VALUES
+(1, 1,1),
+(1, 2,1),
+(2, 2,1),
+(2, 3,1),
+(2, 1,1),
+(5, 4,1),
+(5, 5,1),
+(3, 1,1),
+(3, 4,1),
+(4, 4,1),
+(4, 3,1);
+
+INSERT into interesse_perfil (id_perfil, id_interesses, is_visivel) VALUES
+(1, 1,1),
+(1, 2,1),
+(2, 2,1),
+(2, 3,1),
+(2, 1,1),
+(5, 4,1),
+(5, 5,1),
+(3, 1,1),
+(3, 4,1),
+(4, 4,1),
+(4, 3,1);
+
+
 

@@ -1,3 +1,4 @@
+DROP DATABASE MATCH_MAKING;
 CREATE DATABASE IF NOT EXISTS match_making;
 USE match_making;
 
@@ -143,7 +144,7 @@ CREATE INDEX fk_console_perfil_perfil_idx ON console_perfil(id_console);
 CREATE INDEX fk_console_perfil_console_idx ON console_perfil(id_perfil);
 
 CREATE TABLE IF NOT EXISTS interesse (
-  id_interesse INT PRIMARY KEY AUTO_INCREMENT,
+  id_interesses INT PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(45),
   descricao VARCHAR(100));
 
@@ -249,7 +250,7 @@ primary key(id_perfil, id_perfil_descurtido)
 
 CREATE INDEX fk_perfis_descurtidos_perfil_idx ON perfis_descurtidos(id_perfil);
 
-CREATE INDEX fk_perfis_descurtidos_perfil_descurtido_idx ON perfis_descurtidos(id_perfis_descurtidos);
+CREATE INDEX fk_perfis_descurtidos_perfil_descurtido_idx ON perfis_descurtidos(id_perfil_descurtido);
 
 DELIMITER $$
 CREATE PROCEDURE SP_curtir_perfil(
@@ -315,3 +316,211 @@ UPDATE perfil as p set p.nota = var_nota_nova
 where p.id_perfil = var_id_perfil_avaliado;
 END $$
 DELIMITER ;
+
+-- criado procedure cardapio
+DELIMITER $$
+CREATE PROCEDURE SP_busca_carrossel(
+-- parametros
+IN var_id_perfil INT
+)
+BEGIN
+
+-- declarar variaveis boleanas para oq o user procura
+DECLARE var_procura_amizade TINYINT;
+DECLARE var_procura_namoro TINYINT;
+DECLARE var_procura_player2 TINYINT;
+
+DROP VIEW IF EXISTS VW_perfis_compativeis;
+
+-- select do perfil para atrubuir valor as boleanas
+SELECT p.procura_amizade into var_procura_amizade from perfil as p where p.id_perfil = var_id_perfil;
+SELECT p.procura_namoro into var_procura_namoro from perfil as p where p.id_perfil = var_id_perfil;
+SELECT p.procura_player2 into var_procura_player2 from perfil as p where p.id_perfil = var_id_perfil;
+
+IF var_procura_amizade =1 AND var_procura_namoro in (null, 0) AND var_procura_player2 in (null, 0) THEN 
+	SELECT p.* FROM perfis_priorizados as pp
+JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+WHERE pp.id_perfil_fila = var_id_perfil
+UNION DISTINCT
+		SELECT p.* FROM perfil as p 
+		JOIN interesse_perfil ip ON p.id_perfil = ip.id_perfil
+        JOIN interesse_perfil ip2 ON ip.id_interesses = ip2.id_interesses AND ip.id_perfil <> ip2.id_perfil
+        JOIN genero_jogos_perfil gjp ON p.id_perfil = gjp.id_perfil
+		JOIN genero_jogos_perfil gjp2 ON gjp.id_genero_jogos = gjp2.id_genero_jogos AND gjp.id_perfil <> gjp2.id_perfil
+        WHERE ip2.id_perfil = var_id_perfil AND ip.is_visivel = 1 AND ip2.is_visivel = 1 AND
+        gjp2.id_perfil = var_id_perfil AND gjp.is_visivel = 1 AND gjp2.is_visivel = 1 AND p.procura_amizade = 1
+        AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil = var_id_perfil AND pd.id_perfil_descurtido = p.id_perfil AND pd.is_valido = 1
+		) AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil_descurtido = var_id_perfil AND pd.id_perfil = p.id_perfil AND pd.is_valido = 1
+		)
+		GROUP BY
+			p.id_perfil, p.id_usuario, p.username, p.biografia, p.nota, p.orientacao_sexual,
+			p.procura_amizade, p.procura_namoro, p.procura_player2, p.is_premium, p.id_plano
+		HAVING
+			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2 LIMIT 50;
+ELSEIF var_procura_amizade in (null,0) AND var_procura_namoro in (null, 0) AND var_procura_player2=1 THEN 
+	SELECT p.* FROM perfis_priorizados as pp
+JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+WHERE pp.id_perfil_fila = var_id_perfil
+UNION DISTINCT
+		SELECT p.* FROM perfil as p 
+		JOIN interesse_perfil ip ON p.id_perfil = ip.id_perfil
+        JOIN interesse_perfil ip2 ON ip.id_interesses = ip2.id_interesses AND ip.id_perfil <> ip2.id_perfil
+        JOIN genero_jogos_perfil gjp ON p.id_perfil = gjp.id_perfil
+		JOIN genero_jogos_perfil gjp2 ON gjp.id_genero_jogos = gjp2.id_genero_jogos AND gjp.id_perfil <> gjp2.id_perfil
+        WHERE ip2.id_perfil = var_id_perfil AND ip.is_visivel = 1 AND ip2.is_visivel = 1 AND
+        gjp2.id_perfil = var_id_perfil AND gjp.is_visivel = 1 AND gjp2.is_visivel = 1 AND p.procura_player2 = 1
+		AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil = var_id_perfil AND pd.id_perfil_descurtido = p.id_perfil AND pd.is_valido = 1
+		) AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil_descurtido = var_id_perfil AND pd.id_perfil = p.id_perfil AND pd.is_valido = 1
+		)
+        GROUP BY
+			p.id_perfil, p.id_usuario, p.username, p.biografia, p.nota, p.orientacao_sexual,
+			p.procura_amizade, p.procura_namoro, p.procura_player2, p.is_premium, p.id_plano
+		HAVING
+			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2 LIMIT 50;
+ELSEIF var_procura_amizade in (null, 0) AND var_procura_namoro =1  AND var_procura_player2 in (null, 0) THEN 
+	SELECT p.* FROM perfis_priorizados as pp
+JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+WHERE pp.id_perfil_fila = var_id_perfil
+UNION DISTINCT
+		SELECT p.* FROM perfil as p 
+		JOIN interesse_perfil ip ON p.id_perfil = ip.id_perfil
+        JOIN interesse_perfil ip2 ON ip.id_interesses = ip2.id_interesses AND ip.id_perfil <> ip2.id_perfil
+        JOIN genero_jogos_perfil gjp ON p.id_perfil = gjp.id_perfil
+		JOIN genero_jogos_perfil gjp2 ON gjp.id_genero_jogos = gjp2.id_genero_jogos AND gjp.id_perfil <> gjp2.id_perfil
+        WHERE ip2.id_perfil = var_id_perfil AND ip.is_visivel = 1 AND ip2.is_visivel = 1 AND
+        gjp2.id_perfil = var_id_perfil AND gjp.is_visivel = 1 AND gjp2.is_visivel = 1 AND p.procura_namoro = 1
+		AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil = var_id_perfil AND pd.id_perfil_descurtido = p.id_perfil AND pd.is_valido = 1
+		) AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil_descurtido = var_id_perfil AND pd.id_perfil = p.id_perfil AND pd.is_valido = 1
+		)
+        GROUP BY
+			p.id_perfil, p.id_usuario, p.username, p.biografia, p.nota, p.orientacao_sexual,
+			p.procura_amizade, p.procura_namoro, p.procura_player2, p.is_premium, p.id_plano
+		HAVING
+			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2 LIMIT 50;
+ELSEIF var_procura_amizade =1 AND var_procura_namoro=1 AND var_procura_player2 in (null, 0) THEN 
+	SELECT p.* FROM perfis_priorizados as pp
+JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+WHERE pp.id_perfil_fila = var_id_perfil
+UNION DISTINCT
+		SELECT p.* FROM perfil as p 
+		JOIN interesse_perfil ip ON p.id_perfil = ip.id_perfil
+        JOIN interesse_perfil ip2 ON ip.id_interesses = ip2.id_interesses AND ip.id_perfil <> ip2.id_perfil
+        JOIN genero_jogos_perfil gjp ON p.id_perfil = gjp.id_perfil
+		JOIN genero_jogos_perfil gjp2 ON gjp.id_genero_jogos = gjp2.id_genero_jogos AND gjp.id_perfil <> gjp2.id_perfil
+        WHERE ip2.id_perfil = var_id_perfil AND ip.is_visivel = 1 AND ip2.is_visivel = 1 AND
+        gjp2.id_perfil = var_id_perfil AND gjp.is_visivel = 1 AND gjp2.is_visivel = 1 AND (p.procura_amizade = 1 OR p.procura_namoro = 1)
+		AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil = var_id_perfil AND pd.id_perfil_descurtido = p.id_perfil AND pd.is_valido = 1
+		) AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil_descurtido = var_id_perfil AND pd.id_perfil = p.id_perfil AND pd.is_valido = 1
+		)
+        GROUP BY
+			p.id_perfil, p.id_usuario, p.username, p.biografia, p.nota, p.orientacao_sexual,
+			p.procura_amizade, p.procura_namoro, p.procura_player2, p.is_premium, p.id_plano
+		HAVING
+			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2 LIMIT 50;
+ELSEIF var_procura_amizade in (null, 0) AND var_procura_namoro = 1 AND var_procura_player2 = 1 THEN 
+	SELECT p.* FROM perfis_priorizados as pp
+JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+WHERE pp.id_perfil_fila = var_id_perfil
+UNION DISTINCT
+		SELECT p.* FROM perfil as p 
+		JOIN interesse_perfil ip ON p.id_perfil = ip.id_perfil
+        JOIN interesse_perfil ip2 ON ip.id_interesses = ip2.id_interesses AND ip.id_perfil <> ip2.id_perfil
+        JOIN genero_jogos_perfil gjp ON p.id_perfil = gjp.id_perfil
+		JOIN genero_jogos_perfil gjp2 ON gjp.id_genero_jogos = gjp2.id_genero_jogos AND gjp.id_perfil <> gjp2.id_perfil
+        WHERE ip2.id_perfil = var_id_perfil AND ip.is_visivel = 1 AND ip2.is_visivel = 1 AND
+        gjp2.id_perfil = var_id_perfil AND gjp.is_visivel = 1 AND gjp2.is_visivel = 1 AND (p.procura_player2 = 1 OR p.procura_namoro = 1)
+		AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil = var_id_perfil AND pd.id_perfil_descurtido = p.id_perfil AND pd.is_valido = 1
+		) AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil_descurtido = var_id_perfil AND pd.id_perfil = p.id_perfil AND pd.is_valido = 1
+		)
+        GROUP BY
+			p.id_perfil, p.id_usuario, p.username, p.biografia, p.nota, p.orientacao_sexual,
+			p.procura_amizade, p.procura_namoro, p.procura_player2, p.is_premium, p.id_plano
+		HAVING
+			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2  LIMIT 50;
+ELSEIF var_procura_amizade =1 AND var_procura_namoro in (null, 0) AND var_procura_player2 = 1 THEN 
+	SELECT p.* FROM perfis_priorizados as pp
+JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+WHERE pp.id_perfil_fila = var_id_perfil
+UNION DISTINCT
+		SELECT p.* FROM perfil as p 
+		JOIN interesse_perfil ip ON p.id_perfil = ip.id_perfil
+        JOIN interesse_perfil ip2 ON ip.id_interesses = ip2.id_interesses AND ip.id_perfil <> ip2.id_perfil
+        JOIN genero_jogos_perfil gjp ON p.id_perfil = gjp.id_perfil
+		JOIN genero_jogos_perfil gjp2 ON gjp.id_genero_jogos = gjp2.id_genero_jogos AND gjp.id_perfil <> gjp2.id_perfil
+        WHERE ip2.id_perfil = var_id_perfil AND ip.is_visivel = 1 AND ip2.is_visivel = 1 AND
+        gjp2.id_perfil = var_id_perfil AND gjp.is_visivel = 1 AND gjp2.is_visivel = 1 AND (p.procura_amizade = 1 OR p.procura_player2 = 1)
+		AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil = var_id_perfil AND pd.id_perfil_descurtido = p.id_perfil AND pd.is_valido = 1
+		) AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil_descurtido = var_id_perfil AND pd.id_perfil = p.id_perfil AND pd.is_valido = 1
+		)
+        GROUP BY
+			p.id_perfil, p.id_usuario, p.username, p.biografia, p.nota, p.orientacao_sexual,
+			p.procura_amizade, p.procura_namoro, p.procura_player2, p.is_premium, p.id_plano
+		HAVING
+			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2 LIMIT 50;
+ELSE SELECT p.* FROM perfis_priorizados as pp
+JOIN perfil as p ON p.id_perfil = pp.perfil_priorizado
+WHERE pp.id_perfil_fila = var_id_perfil
+UNION DISTINCT
+		SELECT p.* FROM perfil as p 
+		JOIN interesse_perfil ip ON p.id_perfil = ip.id_perfil
+        JOIN interesse_perfil ip2 ON ip.id_interesses = ip2.id_interesses AND ip.id_perfil <> ip2.id_perfil
+        JOIN genero_jogos_perfil gjp ON p.id_perfil = gjp.id_perfil
+		JOIN genero_jogos_perfil gjp2 ON gjp.id_genero_jogos = gjp2.id_genero_jogos AND gjp.id_perfil <> gjp2.id_perfil
+        WHERE ip2.id_perfil = var_id_perfil AND ip.is_visivel = 1 AND ip2.is_visivel = 1 AND
+        gjp2.id_perfil = var_id_perfil AND gjp.is_visivel = 1 AND gjp2.is_visivel = 1 AND p.procura_amizade = 1
+		AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil = var_id_perfil AND pd.id_perfil_descurtido = p.id_perfil AND pd.is_valido = 1
+		) AND NOT EXISTS (
+        SELECT 1
+        FROM perfis_descurtidos pd
+        WHERE pd.id_perfil_descurtido = var_id_perfil AND pd.id_perfil = p.id_perfil AND pd.is_valido = 1
+		)
+        GROUP BY
+			p.id_perfil, p.id_usuario, p.username, p.biografia, p.nota, p.orientacao_sexual,
+			p.procura_amizade, p.procura_namoro, p.procura_player2, p.is_premium, p.id_plano
+		HAVING
+			COUNT(ip.id_interesses) >= 1 AND COUNT(gjp.id_genero_jogos) >= 2
+            LIMIT 50;
+END IF;
+
+END$$
+DELIMITER ;
+

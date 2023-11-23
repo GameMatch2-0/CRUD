@@ -12,6 +12,6 @@ import lombok.Setter;
 public class MensagemRequest {
     private Long idMensagem;
     private Integer idConversa;
+    private String idUsuario;
     private String corpoMensagem;
-    private Boolean visivel = true;
 }

@@ -3,6 +3,7 @@ package com.example.matchmaker.matchmakerapi.api.controller.chat;
 import com.example.matchmaker.matchmakerapi.entity.Mensagem;
 import com.example.matchmaker.matchmakerapi.service.ConversaService;
 import com.example.matchmaker.matchmakerapi.service.MensagemService;
+import com.example.matchmaker.matchmakerapi.service.WebSocketService;
 import com.example.matchmaker.matchmakerapi.service.dto.request.MensagemRequest;
 import com.example.matchmaker.matchmakerapi.service.dto.response.ConversaFullResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/conversas/mensagens")
+@RequestMapping("/mensagens")
 @RequiredArgsConstructor
 public class MensagemController {
     private final MensagemService mensagemService;
     private final ConversaService conversaService;
+    private final WebSocketService webSocketService;
 
     // Endpoint para listar as ultimas 30 mensagens de uma conversa ao entrar nela
     @GetMapping("/{idConversa}")
@@ -32,11 +34,14 @@ public class MensagemController {
 
     @PostMapping
     public ResponseEntity<Mensagem> enviarMensagem(@RequestBody Mensagem mensagem) {
-        Mensagem mensagemEnviada = mensagemService.salvar(mensagem.getIdConversa()  , mensagem);
+        Mensagem mensagemEnviada = mensagemService.salvar(mensagem.getIdConversa(), mensagem);
 
         if (mensagemEnviada.getCorpoMensagem().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
+
+        webSocketService.sendMessageToUser(mensagemEnviada, mensagemEnviada.getIdUsuario());
+
         return ResponseEntity.ok(mensagemEnviada);
     }
 
@@ -89,4 +94,6 @@ public class MensagemController {
 
         return ResponseEntity.ok(listaMensagens);
     }
+
+
 }

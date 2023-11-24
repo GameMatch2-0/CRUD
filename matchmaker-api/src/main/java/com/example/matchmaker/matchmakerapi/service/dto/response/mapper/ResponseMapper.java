@@ -4,14 +4,12 @@ import com.example.matchmaker.matchmakerapi.entity.GeneroJogo;
 import com.example.matchmaker.matchmakerapi.entity.GeneroJogoPerfil;
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
-import com.example.matchmaker.matchmakerapi.service.dto.response.GeneroJogoPerfilResponse;
-import com.example.matchmaker.matchmakerapi.service.dto.response.JogoInPerfilResponse;
-import com.example.matchmaker.matchmakerapi.service.dto.response.PerfilFullResponse;
-import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioFullResponse;
+import com.example.matchmaker.matchmakerapi.service.dto.response.*;
 
 import java.util.List;
 
 public class ResponseMapper {
+
     public static UsuarioFullResponse toUsuarioFullResponse(Usuario usuario){
         UsuarioFullResponse usuarioFullResponse = new UsuarioFullResponse();
 
@@ -29,12 +27,31 @@ public class ResponseMapper {
         return usuarioFullResponse;
 
     }
+    public static UsuarioInPerfilResponse toUsuarioInPerfilResponse(Usuario usuario){
+        UsuarioInPerfilResponse usuarioInPerfilResponse = new UsuarioInPerfilResponse();
 
-    public static PerfilFullResponse toPerfilFullResponse(Perfil perfil, List<JogoInPerfilResponse> generoJogoList){
+        usuarioInPerfilResponse.setId(usuario.getId());
+        usuarioInPerfilResponse.setNome(usuario.getNome());
+        usuarioInPerfilResponse.setSobrenome(usuario.getSobrenome());
+        usuarioInPerfilResponse.setDtNascimento(usuario.getDtNascimento());
+        usuarioInPerfilResponse.setEmail(usuario.getEmail());
+        usuarioInPerfilResponse.setContato(usuario.getContato());
+        usuarioInPerfilResponse.setDtCadastro(usuario.getDtCadastro());
+        usuarioInPerfilResponse.setIdentidadeGenero(usuario.getIdentidadeGenero());
+        usuarioInPerfilResponse.setLogado(usuario.isLogado());
+        usuarioInPerfilResponse.setDeleted(usuario.isDeleted());
+
+        return usuarioInPerfilResponse;
+
+    }
+    public static PerfilFullResponse toPerfilFullResponse(
+            Perfil perfil,
+            List<JogoInPerfilResponse> generoJogoList,
+            UsuarioInPerfilResponse usuario){
         PerfilFullResponse perfilFullResponse = new PerfilFullResponse();
 
         perfilFullResponse.setIdPerfil(perfil.getIdPerfil());
-        perfilFullResponse.setIdUsuario(perfil.getUsuario().getId());
+        perfilFullResponse.setUsuario(usuario);
         perfilFullResponse.setUsername(perfil.getUsername());
         perfilFullResponse.setBiografia(perfil.getBiografia());
         perfilFullResponse.setNota(perfil.getNota());

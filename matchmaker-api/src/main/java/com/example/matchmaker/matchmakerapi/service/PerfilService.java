@@ -2,9 +2,11 @@ package com.example.matchmaker.matchmakerapi.service;
 
 import com.example.matchmaker.matchmakerapi.entity.GeneroJogo;
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.entity.repository.PerfilRepository;
 import com.example.matchmaker.matchmakerapi.service.dto.response.JogoInPerfilResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.PerfilFullResponse;
+import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioInPerfilResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ public class PerfilService {
     private final PerfilRepository perfilRepository;
     private final GeneroJogoService generoJogoService;
     private final GeneroJogoPerfilService generoJogoPerfilService;
+    private final UsuarioService usuarioService;
 
     public List<PerfilFullResponse> getPerfil() {
         List<PerfilFullResponse> responseMapperList = new ArrayList<>();
@@ -29,9 +32,12 @@ public class PerfilService {
         }
 
         perfilList.forEach(it ->{
+            Usuario usuario = this.usuarioService.buscarPorId(it.getUsuario().getId());
+            UsuarioInPerfilResponse user = ResponseMapper.toUsuarioInPerfilResponse(usuario);
+
             List<JogoInPerfilResponse> generoJogoList;
             generoJogoList = getGeneroJogosPorPerfilId(it.getIdPerfil());
-            responseMapperList.add(ResponseMapper.toPerfilFullResponse(it ,generoJogoList));
+            responseMapperList.add(ResponseMapper.toPerfilFullResponse(it ,generoJogoList, user));
         });
 
         return responseMapperList;

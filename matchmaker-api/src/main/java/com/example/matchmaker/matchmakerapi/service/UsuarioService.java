@@ -105,12 +105,12 @@ public class UsuarioService {
     }
 
 
-    public UsuarioFullResponse buscarPorId(String id) {
+    public Usuario buscarPorId(String id) {
         Usuario usuario = this.usuarioRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado")
         );
 
-        return ResponseMapper.toUsuarioFullResponse(usuario);
+        return usuario;
     }
 
     public Optional<Usuario> buscarPorNome(String nome) {

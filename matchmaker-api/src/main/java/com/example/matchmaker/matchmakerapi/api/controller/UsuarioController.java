@@ -47,7 +47,8 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioFullResponse> buscar(@PathVariable String id) {
-        UsuarioFullResponse usuarioFullResponse = this.usuarioService.buscarPorId(id);
+        Usuario usuario = this.usuarioService.buscarPorId(id);
+        UsuarioFullResponse usuarioFullResponse = ResponseMapper.toUsuarioFullResponse(usuario);
         return ResponseEntity.ok(usuarioFullResponse);
     }
 

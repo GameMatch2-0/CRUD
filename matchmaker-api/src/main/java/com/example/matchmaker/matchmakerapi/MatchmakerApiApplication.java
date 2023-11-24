@@ -33,12 +33,11 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 		Usuario usuario = new Usuario();
 		usuario.setNome("Adam");
 		usuario.setSobrenome("Sandler");
-		usuario.setSenha("12345");
+		usuario.setSenha("123456");
 		usuario.setIdentidadeGenero("Homem");
 		usuario.setEmail("adam@sandler.com");
 		usuario.setContato("11234456789");
 		usuario.setDtNascimento(LocalDate.of(2000,01,01));
-
 		usuarioRepository.save(usuario);
 
 		Perfil perfil = new Perfil(1L,usuario, "adamSandMan", "ola sou o famoso ator de Bollywood", 10.0F, "Hetero", false, true, false, true, plano,null);

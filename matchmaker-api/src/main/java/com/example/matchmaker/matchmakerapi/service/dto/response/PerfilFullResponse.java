@@ -1,10 +1,5 @@
 package com.example.matchmaker.matchmakerapi.service.dto.response;
 
-import com.example.matchmaker.matchmakerapi.entity.GeneroJogo;
-import com.example.matchmaker.matchmakerapi.entity.GeneroJogoPerfil;
-import com.example.matchmaker.matchmakerapi.entity.Usuario;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +13,7 @@ import java.util.List;
 @Setter
 public class PerfilFullResponse {
     private Long idPerfil;
-    private String idUsuario;
+    private UsuarioInPerfilResponse usuario;
     private String username;
     private String biografia;
     private Float nota;

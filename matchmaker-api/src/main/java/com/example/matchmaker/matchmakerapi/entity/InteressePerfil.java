@@ -17,11 +17,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class InteressePerfil {
     @EmbeddedId
-    private InteressePerfilId interesseJogoPerfilId;
+    private InteressePerfilId id;
     @ManyToOne
     @JoinColumn(name = "idPerfil", insertable = false, updatable = false)
     private Perfil perfil;
     @ManyToOne
-    @JoinColumn(name = "idPerfil", insertable = false, updatable = false)
-    private Interesse InteresseId;
+    @JoinColumn(name = "idInteresse", insertable = false, updatable = false)
+    private Interesse interesse;
+    private boolean isVisible = true;
 }

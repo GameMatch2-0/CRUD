@@ -15,7 +15,13 @@ public class GeneroJogoPerfilService {
     private final GeneroJogoPerfilRepository generoJogoPerfilRepository;
 
     public List<GeneroJogoPerfil> getGeneroJogoPerfil(){
-        return this.generoJogoPerfilRepository.findAll();
+        List<GeneroJogoPerfil> generoJogoPerfilList = this.generoJogoPerfilRepository.findAll();
+
+        if (generoJogoPerfilList.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum perfil atribuido a genero");
+        }
+
+        return generoJogoPerfilList;
     }
 
     public boolean getIsVisibleByPerfilId(Long perfilId){

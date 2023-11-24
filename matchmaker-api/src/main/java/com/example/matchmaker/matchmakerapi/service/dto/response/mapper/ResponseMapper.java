@@ -1,9 +1,6 @@
 package com.example.matchmaker.matchmakerapi.service.dto.response.mapper;
 
-import com.example.matchmaker.matchmakerapi.entity.GeneroJogo;
-import com.example.matchmaker.matchmakerapi.entity.GeneroJogoPerfil;
-import com.example.matchmaker.matchmakerapi.entity.Perfil;
-import com.example.matchmaker.matchmakerapi.entity.Usuario;
+import com.example.matchmaker.matchmakerapi.entity.*;
 import com.example.matchmaker.matchmakerapi.service.dto.response.*;
 
 import java.util.List;
@@ -81,6 +78,16 @@ public class ResponseMapper {
         response.setId(generoJogo.getIdGeneroJogos());
         response.setNome(generoJogo.getNome());
         response.setVisible(isVisible);
+        return response;
+    }
+
+    public static InteresseFullResponse toInteresseFullResponse(Interesse interesse){
+        InteresseFullResponse response = new InteresseFullResponse();
+
+        response.setId(interesse.getIdInteresse());
+        response.setNome(interesse.getNome());
+        response.setDescricao(interesse.getDescricao());
+
         return response;
     }
 }

@@ -34,4 +34,7 @@ public class Perfil{
     private Plano plano;
     @OneToMany(mappedBy = "perfil", cascade = CascadeType.ALL)
     private List<GeneroJogoPerfil> generosJogosPerfil;
+
+    @OneToMany(mappedBy = "perfil", cascade = CascadeType.ALL)
+    private List<InteressePerfil> interessePerfils;
 }

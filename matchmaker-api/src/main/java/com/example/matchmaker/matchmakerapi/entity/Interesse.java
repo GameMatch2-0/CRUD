@@ -1,9 +1,6 @@
 package com.example.matchmaker.matchmakerapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +14,8 @@ import lombok.Setter;
 public class Interesse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idInteresse;
+    @Column(name = "idInteresse")
+    private Long idInteresse;
     private String nome;
     private String descricao;
 }

@@ -2,6 +2,7 @@ package com.example.matchmaker.matchmakerapi;
 
 import com.example.matchmaker.matchmakerapi.entity.*;
 import com.example.matchmaker.matchmakerapi.entity.embeddable.GeneroJogoPerfilId;
+import com.example.matchmaker.matchmakerapi.entity.embeddable.InteressePerfilId;
 import com.example.matchmaker.matchmakerapi.entity.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +21,8 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 	private final PerfilRepository perfilRepository;
 	private final GeneroJogoRepository generoJogoRepository;
 	private final GeneroJogoPerfilRepository generoJogoPerfilRepository;
+	private final InteresseRepository interesseRepository;
+	private final InteressePerfilRepository interessePerfilRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MatchmakerApiApplication.class, args);
@@ -27,7 +30,7 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Plano plano = new Plano(10L, "free", "gratuito", 15.50F);
+		Plano plano = new Plano(null, "free", "gratuito", 15.50F);
 		planoRepository.save(plano);
 
 		Usuario usuario = new Usuario();
@@ -40,11 +43,11 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 		usuario.setDtNascimento(LocalDate.of(2000,01,01));
 		usuarioRepository.save(usuario);
 
-		Perfil perfil = new Perfil(1L,usuario, "adamSandMan", "ola sou o famoso ator de Bollywood", 10.0F, "Hetero", false, true, false, true, plano,null);
+		Perfil perfil = new Perfil(null,usuario, "adamSandMan", "ola sou o famoso ator de Bollywood", 10.0F, "Hetero", false, true, false, true, plano,null,null);
 		perfilRepository.save(perfil);
 
-		GeneroJogo generoJogo = new GeneroJogo(1L, "Esportes", "Jogos como EaFC24, F1 23, NBA 2K");
-		GeneroJogo generoJogo1 = new GeneroJogo(2L, "FPS", "Jogos como CoD, Battlefield, Cs:Go");
+		GeneroJogo generoJogo = new GeneroJogo(null, "Esportes", "Jogos como EaFC24, F1 23, NBA 2K");
+		GeneroJogo generoJogo1 = new GeneroJogo(null, "FPS", "Jogos como CoD, Battlefield, Cs:Go");
 		generoJogoRepository.saveAll(Arrays.asList(generoJogo,generoJogo1));
 
 		GeneroJogoPerfilId generoJogoPerfilId = new GeneroJogoPerfilId(perfil.getIdPerfil(), generoJogo.getIdGeneroJogos());
@@ -52,5 +55,16 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 		GeneroJogoPerfil generoJogoPerfil = new GeneroJogoPerfil(generoJogoPerfilId, perfil, generoJogo, true);
 		GeneroJogoPerfil generoJogoPerfil1 = new GeneroJogoPerfil(generoJogoPerfilId1, perfil, generoJogo1, true);
 		generoJogoPerfilRepository.saveAll(Arrays.asList(generoJogoPerfil,generoJogoPerfil1));
+
+		Interesse interesse = new Interesse(null, "Musica", "Interesse em musicas");
+		Interesse interesse1 = new Interesse(null, "Artes", "Interesse em artes");
+		interesseRepository.saveAll(Arrays.asList(interesse,interesse1));
+
+		InteressePerfilId interessePerfilId = new InteressePerfilId(perfil.getIdPerfil(), interesse.getIdInteresse());
+		InteressePerfilId interessePerfilId1 = new InteressePerfilId(perfil.getIdPerfil(), interesse1.getIdInteresse());
+		InteressePerfil interessePerfil = new InteressePerfil(interessePerfilId,perfil,interesse,true);
+		InteressePerfil interessePerfil1 = new InteressePerfil(interessePerfilId1,perfil,interesse1,true);
+		interessePerfilRepository.saveAll(Arrays.asList(interessePerfil1,interessePerfil));
+
 	}
 }

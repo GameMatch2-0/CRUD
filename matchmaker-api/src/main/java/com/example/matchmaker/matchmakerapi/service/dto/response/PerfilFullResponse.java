@@ -23,4 +23,6 @@ public class PerfilFullResponse {
     private boolean procuraPlayer2;
     private boolean isPremium = false;
     private List<JogoInPerfilResponse> generosJogos;
+    private List<InteresseFullResponse> interesseList;
+    private List<ConsoleFullResponse> consoleList;
 }

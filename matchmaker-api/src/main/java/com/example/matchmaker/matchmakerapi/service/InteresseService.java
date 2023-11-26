@@ -23,4 +23,10 @@ public class InteresseService {
 
         return interesseList;
     }
+
+    public Interesse findById(Long id){
+        return this.interesseRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Interesse não encontrado")
+        );
+    }
 }

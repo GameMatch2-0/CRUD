@@ -5,6 +5,10 @@ import com.example.matchmaker.matchmakerapi.entity.embeddable.InteressePerfilId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface InteressePerfilRepository extends JpaRepository<InteressePerfil, InteressePerfilId> {
+    InteressePerfil findFirstById_PerfilId(Long id);
+    List<InteressePerfil> findAllById_PerfilId(Long id);
 }

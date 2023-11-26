@@ -1,6 +1,7 @@
 package com.example.matchmaker.matchmakerapi;
 
 import com.example.matchmaker.matchmakerapi.entity.*;
+import com.example.matchmaker.matchmakerapi.entity.embeddable.ConsolePerfilId;
 import com.example.matchmaker.matchmakerapi.entity.embeddable.GeneroJogoPerfilId;
 import com.example.matchmaker.matchmakerapi.entity.embeddable.InteressePerfilId;
 import com.example.matchmaker.matchmakerapi.entity.repository.*;
@@ -72,5 +73,10 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 		Console console1 = new Console(null, "XBOX One");
 		consoleRepository.saveAll(Arrays.asList(console1,console));
 
+		ConsolePerfilId consolePerfilId = new ConsolePerfilId(perfil.getIdPerfil(), console.getId());
+		ConsolePerfilId consolePerfilId1 = new ConsolePerfilId(perfil.getIdPerfil(), console1.getId());
+		ConsolePerfil consolePerfil = new ConsolePerfil(consolePerfilId,perfil,console,true);
+		ConsolePerfil consolePerfil1 = new ConsolePerfil(consolePerfilId1,perfil,console1,true);
+		consolePerfilRepository.saveAll(Arrays.asList(consolePerfil,consolePerfil1));
 	}
 }

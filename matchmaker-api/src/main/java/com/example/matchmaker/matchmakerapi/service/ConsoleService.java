@@ -23,4 +23,10 @@ public class ConsoleService {
 
         return consoleList;
     }
+
+    public Console findById(Long id){
+        return this.consoleRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Console não encontrado")
+        );
+    }
 }

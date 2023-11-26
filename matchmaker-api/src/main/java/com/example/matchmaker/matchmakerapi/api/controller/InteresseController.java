@@ -24,7 +24,7 @@ public class InteresseController {
         List<InteresseFullResponse> interesseFullResponseList = new ArrayList<>();
 
         interesseList.forEach(it -> {
-            interesseFullResponseList.add(ResponseMapper.toInteresseFullResponse(it));
+            interesseFullResponseList.add(ResponseMapper.toInteresseFullResponse(it,false));
         });
 
         return ResponseEntity.ok(interesseFullResponseList);

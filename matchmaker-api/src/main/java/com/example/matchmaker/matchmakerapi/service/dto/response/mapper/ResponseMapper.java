@@ -44,22 +44,28 @@ public class ResponseMapper {
     public static PerfilFullResponse toPerfilFullResponse(
             Perfil perfil,
             List<JogoInPerfilResponse> generoJogoList,
-            UsuarioInPerfilResponse usuario){
-        PerfilFullResponse perfilFullResponse = new PerfilFullResponse();
+            UsuarioInPerfilResponse usuario,
+            List<InteresseFullResponse> interesseList,
+            List<ConsoleFullResponse> consoleList
+    ){
 
-        perfilFullResponse.setIdPerfil(perfil.getIdPerfil());
-        perfilFullResponse.setUsuario(usuario);
-        perfilFullResponse.setUsername(perfil.getUsername());
-        perfilFullResponse.setBiografia(perfil.getBiografia());
-        perfilFullResponse.setNota(perfil.getNota());
-        perfilFullResponse.setOrientacaoSexual(perfil.getOrientacaoSexual());
-        perfilFullResponse.setProcuraAmizade(perfilFullResponse.isProcuraAmizade());
-        perfilFullResponse.setProcuraNamoro(perfil.isProcuraNamoro());
-        perfilFullResponse.setProcuraPlayer2(perfil.isProcuraPlayer2());
-        perfilFullResponse.setPremium(perfilFullResponse.isPremium());
-        perfilFullResponse.setGenerosJogos(generoJogoList);
+        PerfilFullResponse response = new PerfilFullResponse();
 
-        return perfilFullResponse;
+        response.setIdPerfil(perfil.getIdPerfil());
+        response.setUsuario(usuario);
+        response.setUsername(perfil.getUsername());
+        response.setBiografia(perfil.getBiografia());
+        response.setNota(perfil.getNota());
+        response.setOrientacaoSexual(perfil.getOrientacaoSexual());
+        response.setProcuraAmizade(response.isProcuraAmizade());
+        response.setProcuraNamoro(perfil.isProcuraNamoro());
+        response.setProcuraPlayer2(perfil.isProcuraPlayer2());
+        response.setPremium(response.isPremium());
+        response.setGenerosJogos(generoJogoList);
+        response.setInteresseList(interesseList);
+        response.setConsoleList(consoleList);
+
+        return response;
     }
 
     public static GeneroJogoPerfilResponse toGeneroJogoPerfilResponse(GeneroJogoPerfil generoJogoPerfil){
@@ -81,12 +87,23 @@ public class ResponseMapper {
         return response;
     }
 
-    public static InteresseFullResponse toInteresseFullResponse(Interesse interesse){
+    public static InteresseFullResponse toInteresseFullResponse(Interesse interesse, boolean isVisible){
         InteresseFullResponse response = new InteresseFullResponse();
 
         response.setId(interesse.getIdInteresse());
         response.setNome(interesse.getNome());
         response.setDescricao(interesse.getDescricao());
+        response.setVisible(isVisible);
+
+        return response;
+    }
+
+    public static ConsoleFullResponse toConsoleFullResponse(Console console, boolean isVisible){
+        ConsoleFullResponse response = new ConsoleFullResponse();
+
+        response.setId(console.getId());
+        response.setNome(console.getNome());
+        response.setVisible(isVisible);
 
         return response;
     }

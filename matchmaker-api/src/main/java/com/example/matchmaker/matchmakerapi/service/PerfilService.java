@@ -1,12 +1,8 @@
 package com.example.matchmaker.matchmakerapi.service;
 
-import com.example.matchmaker.matchmakerapi.entity.GeneroJogo;
-import com.example.matchmaker.matchmakerapi.entity.Perfil;
-import com.example.matchmaker.matchmakerapi.entity.Usuario;
+import com.example.matchmaker.matchmakerapi.entity.*;
 import com.example.matchmaker.matchmakerapi.entity.repository.PerfilRepository;
-import com.example.matchmaker.matchmakerapi.service.dto.response.JogoInPerfilResponse;
-import com.example.matchmaker.matchmakerapi.service.dto.response.PerfilFullResponse;
-import com.example.matchmaker.matchmakerapi.service.dto.response.UsuarioInPerfilResponse;
+import com.example.matchmaker.matchmakerapi.service.dto.response.*;
 import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +19,8 @@ public class PerfilService {
     private final GeneroJogoService generoJogoService;
     private final GeneroJogoPerfilService generoJogoPerfilService;
     private final UsuarioService usuarioService;
+    private final InteressePerfilService interessePerfilService;
+    private final ConsolePerfilService consolePerfilService;
 
     public List<PerfilFullResponse> getPerfil() {
         List<PerfilFullResponse> responseMapperList = new ArrayList<>();
@@ -37,7 +35,14 @@ public class PerfilService {
 
             List<JogoInPerfilResponse> generoJogoList;
             generoJogoList = getGeneroJogosPorPerfilId(it.getIdPerfil());
-            responseMapperList.add(ResponseMapper.toPerfilFullResponse(it ,generoJogoList, user));
+
+            List<InteresseFullResponse> interesseList;
+            interesseList = getInteressePorPerfilId(it.getIdPerfil());
+
+            List<ConsoleFullResponse> consoleList;
+            consoleList = getConsolePorPerfilId(it.getIdPerfil());
+            responseMapperList.add(ResponseMapper.toPerfilFullResponse(it ,generoJogoList, user, interesseList, consoleList));
+
         });
 
         return responseMapperList;
@@ -59,5 +64,29 @@ public class PerfilService {
         });
 
         return generoJogoList;
+    }
+
+    public List<InteresseFullResponse> getInteressePorPerfilId(Long perfilId){
+        List<InteresseFullResponse> interesseList = new ArrayList<>();
+        boolean isVisible = this.interessePerfilService.isVisibleByPerfilId(perfilId);
+
+        List<Interesse> interesses = this.interessePerfilService.getInteresseByPerfilId(perfilId);
+        interesses.forEach(it -> {
+            interesseList.add(ResponseMapper.toInteresseFullResponse(it,isVisible));
+        });
+
+        return interesseList;
+    }
+
+    List<ConsoleFullResponse> getConsolePorPerfilId(Long perfilId){
+        List<ConsoleFullResponse> consoleList = new ArrayList<>();
+        boolean isVisible = this.consolePerfilService.getIsVisibleByPerfilId(perfilId);
+
+        List<Console> consoles = this.consolePerfilService.getConsoleListByPerfilId(perfilId);
+        consoles.forEach(it -> {
+            consoleList.add(ResponseMapper.toConsoleFullResponse(it,isVisible));
+        });
+
+        return consoleList;
     }
 }

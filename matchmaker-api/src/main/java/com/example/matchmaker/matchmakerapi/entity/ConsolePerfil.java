@@ -24,4 +24,5 @@ public class ConsolePerfil {
     @ManyToOne
     @JoinColumn(name = "consoleId",insertable = false, updatable = false)
     private Console console;
+    private boolean isVisible;
 }

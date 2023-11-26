@@ -17,6 +17,8 @@ public class GeneroJogoPerfilService {
     public List<GeneroJogoPerfil> getGeneroJogoPerfil(){
         List<GeneroJogoPerfil> generoJogoPerfilList = this.generoJogoPerfilRepository.findAll();
 
+        //findfirstby - inplemmentar a logica e trocar essa merda de gambiarra do krlh
+
         if (generoJogoPerfilList.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum perfil atribuido a genero");
         }

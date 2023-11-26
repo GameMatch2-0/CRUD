@@ -23,6 +23,8 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 	private final GeneroJogoPerfilRepository generoJogoPerfilRepository;
 	private final InteresseRepository interesseRepository;
 	private final InteressePerfilRepository interessePerfilRepository;
+	private final ConsoleRepository consoleRepository;
+	private final ConsolePerfilRepository consolePerfilRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MatchmakerApiApplication.class, args);
@@ -43,7 +45,7 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 		usuario.setDtNascimento(LocalDate.of(2000,01,01));
 		usuarioRepository.save(usuario);
 
-		Perfil perfil = new Perfil(null,usuario, "adamSandMan", "ola sou o famoso ator de Bollywood", 10.0F, "Hetero", false, true, false, true, plano,null,null);
+		Perfil perfil = new Perfil(null,usuario, "adamSandMan", "ola sou o famoso ator de Bollywood", 10.0F, "Hetero", false, true, false, true, plano,null,null, null);
 		perfilRepository.save(perfil);
 
 		GeneroJogo generoJogo = new GeneroJogo(null, "Esportes", "Jogos como EaFC24, F1 23, NBA 2K");
@@ -65,6 +67,10 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 		InteressePerfil interessePerfil = new InteressePerfil(interessePerfilId,perfil,interesse,true);
 		InteressePerfil interessePerfil1 = new InteressePerfil(interessePerfilId1,perfil,interesse1,true);
 		interessePerfilRepository.saveAll(Arrays.asList(interessePerfil1,interessePerfil));
+
+		Console console = new Console(null, "PS4");
+		Console console1 = new Console(null, "XBOX One");
+		consoleRepository.saveAll(Arrays.asList(console1,console));
 
 	}
 }

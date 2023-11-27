@@ -1,7 +1,10 @@
 package com.example.matchmaker.matchmakerapi.service;
 
 import com.example.matchmaker.matchmakerapi.entity.Midia;
+import com.example.matchmaker.matchmakerapi.entity.Perfil;
 import com.example.matchmaker.matchmakerapi.entity.repository.MidiaRepository;
+import com.example.matchmaker.matchmakerapi.service.dto.request.NewMidiaRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,5 +35,19 @@ public class MidiaService {
         }
 
         return midiaList;
+    }
+@Transactional
+    public void subtituirMidia(Perfil perfil, List<NewMidiaRequest> newMidiaRequests){
+        this.midiaRepository.deleteAllByPerfil_IdPerfil(perfil.getIdPerfil());
+
+        newMidiaRequests.forEach(it -> {
+            Midia midia = new Midia();
+
+            midia.setPerfil(perfil);
+            midia.setLink(it.getLink());
+            midia.setVisible(it.isVisible());
+
+            midiaRepository.save(midia);
+        });
     }
 }

@@ -2,6 +2,7 @@ package com.example.matchmaker.matchmakerapi.service;
 
 import com.example.matchmaker.matchmakerapi.entity.*;
 import com.example.matchmaker.matchmakerapi.entity.repository.PerfilRepository;
+import com.example.matchmaker.matchmakerapi.service.dto.request.NewMidiaRequest;
 import com.example.matchmaker.matchmakerapi.service.dto.response.*;
 import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,8 +56,14 @@ public class PerfilService {
 
     public Perfil getPerfilId(Long id) {
         return this.perfilRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado")
         );
+    }
+
+    public void atualizarMidiasDoPerfil(Long perfilId, List<NewMidiaRequest> midias) {
+        Perfil perfil = getPerfilId(perfilId);
+
+        this.midiaService.subtituirMidia(perfil,midias);
     }
 
     public List<JogoInPerfilResponse> getGeneroJogosPorPerfilId(Long perfilId) {

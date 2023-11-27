@@ -73,7 +73,7 @@ public class UsuarioService {
     }
 
     public void criar(UsuarioRequest usuarioRequest) {
-        final Usuario novoUsuario = RequestMapper.toEntity(usuarioRequest);
+        final Usuario novoUsuario = RequestMapper.toUsuario(usuarioRequest);
 
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
         novoUsuario.setSenha(senhaCriptografada);
@@ -126,7 +126,7 @@ public class UsuarioService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado")
         );
 
-        Usuario updateUsuario = RequestMapper.toEntity(usuarioRequest);
+        Usuario updateUsuario = RequestMapper.toUsuario(usuarioRequest);
         return salvar(updateUsuario);
     }
 

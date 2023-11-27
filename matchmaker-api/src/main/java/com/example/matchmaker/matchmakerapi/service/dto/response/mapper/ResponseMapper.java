@@ -46,7 +46,8 @@ public class ResponseMapper {
             List<JogoInPerfilResponse> generoJogoList,
             UsuarioInPerfilResponse usuario,
             List<InteresseFullResponse> interesseList,
-            List<ConsoleFullResponse> consoleList
+            List<ConsoleFullResponse> consoleList,
+            List<MidiaFullResponse> midiaList
     ){
 
         PerfilFullResponse response = new PerfilFullResponse();
@@ -64,6 +65,7 @@ public class ResponseMapper {
         response.setGenerosJogos(generoJogoList);
         response.setInteresseList(interesseList);
         response.setConsoleList(consoleList);
+        response.setMidiaList(midiaList);
 
         return response;
     }
@@ -104,6 +106,17 @@ public class ResponseMapper {
         response.setId(console.getId());
         response.setNome(console.getNome());
         response.setVisible(isVisible);
+
+        return response;
+    }
+
+    public static MidiaFullResponse toMidiaFullResponse(Midia midia){
+        MidiaFullResponse response = new MidiaFullResponse();
+
+        response.setIdMidia(midia.getIdMidia());
+        response.setIdPerfil(midia.getPerfil().getIdPerfil());
+        response.setLink(midia.getLink());
+        response.setVisible(midia.isVisible());
 
         return response;
     }

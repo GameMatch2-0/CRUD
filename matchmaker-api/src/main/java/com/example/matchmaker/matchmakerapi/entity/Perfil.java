@@ -38,4 +38,6 @@ public class Perfil{
     private List<InteressePerfil> interessePerfils;
     @OneToMany(mappedBy = "perfil",cascade = CascadeType.ALL)
     private List<ConsolePerfil> consolePerfils;
+    @OneToMany(mappedBy = "perfil",cascade = CascadeType.ALL)
+    private List<Midia> midiaList;
 }

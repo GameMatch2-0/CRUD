@@ -25,4 +25,5 @@ public class PerfilFullResponse {
     private List<JogoInPerfilResponse> generosJogos;
     private List<InteresseFullResponse> interesseList;
     private List<ConsoleFullResponse> consoleList;
+    private List<MidiaFullResponse> midiaList;
 }

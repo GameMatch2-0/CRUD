@@ -21,6 +21,7 @@ public class PerfilService {
     private final UsuarioService usuarioService;
     private final InteressePerfilService interessePerfilService;
     private final ConsolePerfilService consolePerfilService;
+    private final MidiaService midiaService;
 
     public List<PerfilFullResponse> getPerfil() {
         List<PerfilFullResponse> responseMapperList = new ArrayList<>();
@@ -41,7 +42,10 @@ public class PerfilService {
 
             List<ConsoleFullResponse> consoleList;
             consoleList = getConsolePorPerfilId(it.getIdPerfil());
-            responseMapperList.add(ResponseMapper.toPerfilFullResponse(it ,generoJogoList, user, interesseList, consoleList));
+
+            List<MidiaFullResponse> midiaList;
+            midiaList = getMidiaByPerfilId(it.getIdPerfil());
+            responseMapperList.add(ResponseMapper.toPerfilFullResponse(it ,generoJogoList, user, interesseList, consoleList,midiaList));
 
         });
 
@@ -88,5 +92,16 @@ public class PerfilService {
         });
 
         return consoleList;
+    }
+
+    List<MidiaFullResponse> getMidiaByPerfilId(Long perfilId){
+        List<MidiaFullResponse> midiaFullResponseList = new ArrayList<>();
+
+        List<Midia> midiaList = midiaService.getMidiaByPerfilId(perfilId);
+        midiaList.forEach(it ->{
+            midiaFullResponseList.add(ResponseMapper.toMidiaFullResponse(it));
+        });
+
+        return midiaFullResponseList;
     }
 }

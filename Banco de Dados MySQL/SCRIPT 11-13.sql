@@ -314,12 +314,43 @@ BEGIN
  INTO var_nota_nova
  FROM avaliacao AS a
  WHERE a.id_perfil_avaliado=var_id_perfil_avaliado AND a.is_ativa = 1;
+
   
 UPDATE avaliacao as a set a.nota_nova = var_nota_nova 
 WHERE a.id_perfil_avaliado =var_id_perfil_avaliado AND a.id_perfil_avaliador = var_id_perfil_avaliador AND a.nota_nova = null;
 
 UPDATE perfil as p set p.nota = var_nota_nova
 where p.id_perfil = var_id_perfil_avaliado;
+END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE PROCEDURE SP_remover_avaliacao(
+  IN var_id_perfil_avaliado INT,
+  IN var_id_perfil_avaliador INT
+)
+BEGIN
+ DECLARE var_id_avaliacao FLOAT;
+
+ SELECT id_avaliacao
+ INTO var_id_avaliacao
+ From avaliacao
+ WHERE id_perfil_avaliado = var_id_perfil_avaliado
+ AND id_perfil_avaliador = var_id_perfil_avaliador;
+
+UPDATE avaliacao as a set a.is_ativa = false
+WHERE a.id_avaliacao = var_id_avaliacao;
+
+ DECLARE var_nota_nova FLOAT;
+
+ SELECT AVG(a.avaliacao)
+ INTO var_nota_nova
+ FROM avaliacao AS a
+ WHERE a.id_perfil_avaliado=var_id_perfil_avaliado AND a.is_ativa = 1;
+
+UPDATE perfil as p set p.nota = var_nota_nova
+where p.id_perfil = var_id_perfil_avaliado;
+
 END $$
 DELIMITER ;
 

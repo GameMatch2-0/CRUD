@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -111,5 +112,14 @@ public class PerfilService {
         });
 
         return midiaFullResponseList;
+    }
+
+    public void curtirPerfil(Integer perfilId, Integer perfilCurtido){
+        LocalDate momento = LocalDate.now();
+        perfilRepository.curtirOutroPerfil(perfilId, perfilCurtido, momento);
+    }
+
+    public void descurtirPerfil(Integer perfilId, Integer perfilCurtido){
+        perfilRepository.descurtirOutroPerfil(perfilId, perfilCurtido);
     }
 }

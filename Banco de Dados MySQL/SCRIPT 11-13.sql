@@ -274,6 +274,15 @@ BEGIN
 END $$
 DELIMITER ;
 
+CREATE PROCEDURE SP_descurtir_perfil(
+  IN var_id_perfil1 INT,
+  IN var_id_perfil2 INT
+)
+BEGIN
+    INSERT INTO perfis_descurtidos (id_perfil, id_perfil_descurtido) VALUES (var_id_perfil1, var_id_perfil2);
+END $$
+DELIMITER ;
+
 DELIMITER $$
 CREATE PROCEDURE SP_nova_avaliacao(
   IN var_id_perfil_avaliado INT,

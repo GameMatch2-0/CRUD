@@ -27,7 +27,7 @@ public class PerfilController {
 
     @PutMapping("/{perfilId}/midias")
     public ResponseEntity<String> atualizarMidiasDoPerfil(
-            @PathVariable String perfilId,
+            @PathVariable Integer perfilId,
             @RequestBody List<NewMidiaRequest> midias) {
 
         this.perfilService.atualizarMidiasDoPerfil(Long.valueOf(perfilId), midias);
@@ -35,5 +35,21 @@ public class PerfilController {
         return ResponseEntity.ok("Mídias atualizadas com sucesso!");
     }
 
+    @PostMapping("/{perfilId}/curtidas/{idPerfilCurtido}")
+    public ResponseEntity<String> curtirPerfil(
+            @PathVariable Integer perfilId,
+            @PathVariable Integer perfilCurtido
+    ){
+        this.perfilService.curtirPerfil(perfilId, perfilCurtido);
+        return ResponseEntity.ok("Perfil curtido com sucesso");
+    }
 
+    @PostMapping("/{perfilId}/curtidas/{idPerfilDescurtido}/descurtir")
+    public ResponseEntity<String> descurtirPerfil(
+            @PathVariable Integer perfilId,
+            @PathVariable Integer perfilDescurtido
+    ){
+        this.perfilService.curtirPerfil(perfilId, perfilDescurtido);
+        return ResponseEntity.ok("Perfil descurtido com sucesso");
+    }
 }

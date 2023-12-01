@@ -1,9 +1,11 @@
 package com.example.matchmaker.matchmakerapi.service.dto.request.mapper;
 
 import com.example.matchmaker.matchmakerapi.entity.Midia;
+import com.example.matchmaker.matchmakerapi.entity.Perfil;
 import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.authentication.dto.UsuarioTokenDto;
 import com.example.matchmaker.matchmakerapi.service.dto.request.NewMidiaRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.request.NewPerfilRequest;
 import com.example.matchmaker.matchmakerapi.service.dto.request.UsuarioRequest;
 
 public class RequestMapper {
@@ -40,6 +42,21 @@ public class RequestMapper {
         midia.setVisible(newMidiaRequest.isVisible());
 
         return midia;
+    }
+
+    public static Perfil toPerfil(NewPerfilRequest newPerfilRequest,Usuario usuario){
+        Perfil perfil = new Perfil();
+
+        perfil.setUsuario(usuario);
+        perfil.setUsername(newPerfilRequest.getUsername());
+        perfil.setBiografia(newPerfilRequest.getBiografia());
+        perfil.setNota(newPerfilRequest.getNota());
+        perfil.setOrientacaoSexual(newPerfilRequest.getOrientacaoSexual());
+        perfil.setProcuraAmizade(newPerfilRequest.isProcuraAmizade());
+        perfil.setProcuraNamoro(newPerfilRequest.isProcuraNamoro());
+        perfil.setProcuraPlayer2(newPerfilRequest.isProcuraPlayer2());
+
+        return perfil;
     }
 
 }

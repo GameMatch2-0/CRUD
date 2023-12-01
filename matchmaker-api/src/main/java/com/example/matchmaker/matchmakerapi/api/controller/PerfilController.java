@@ -1,8 +1,10 @@
 package com.example.matchmaker.matchmakerapi.api.controller;
 
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
+import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.PerfilService;
 import com.example.matchmaker.matchmakerapi.service.dto.request.NewMidiaRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.request.NewUserRequest;
 import com.example.matchmaker.matchmakerapi.service.dto.response.PerfilFullResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,12 @@ public class PerfilController {
         this.perfilService.atualizarMidiasDoPerfil(Long.valueOf(perfilId), midias);
 
         return ResponseEntity.ok("Mídias atualizadas com sucesso!");
+    }
+
+    @PostMapping("/novo-cadastro")
+    public Perfil novoUsuario(@RequestBody NewUserRequest newUserRequest){
+        Perfil perfil = this.perfilService.novoCadastro(newUserRequest);
+        return perfil;
     }
 
 

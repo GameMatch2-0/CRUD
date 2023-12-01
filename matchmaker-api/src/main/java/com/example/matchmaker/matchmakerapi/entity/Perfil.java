@@ -40,4 +40,17 @@ public class Perfil{
     private List<ConsolePerfil> consolePerfils;
     @OneToMany(mappedBy = "perfil",cascade = CascadeType.ALL)
     private List<Midia> midiaList;
+
+    public void addGeneroJogo(GeneroJogoPerfil generoJogoPerfil){
+        this.generosJogosPerfil.add(generoJogoPerfil);
+    }
+    public void addInteressePerfil(InteressePerfil interessePerfil){
+        this.interessePerfils.add(interessePerfil);
+    }
+    public void addGeneroJogo(ConsolePerfil consolePerfil){
+        this.consolePerfils.add(consolePerfil);
+    }
+    public void addMidia(Midia midia){
+        this.midiaList.add(midia);
+    }
 }

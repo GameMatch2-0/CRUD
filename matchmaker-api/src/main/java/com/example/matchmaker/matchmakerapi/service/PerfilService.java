@@ -3,6 +3,8 @@ package com.example.matchmaker.matchmakerapi.service;
 import com.example.matchmaker.matchmakerapi.entity.*;
 import com.example.matchmaker.matchmakerapi.entity.repository.PerfilRepository;
 import com.example.matchmaker.matchmakerapi.service.dto.request.NewMidiaRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.request.NewUserRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.request.mapper.RequestMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.*;
 import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,25 @@ public class PerfilService {
     private final InteressePerfilService interessePerfilService;
     private final ConsolePerfilService consolePerfilService;
     private final MidiaService midiaService;
+
+    public Perfil novoCadastro(NewUserRequest newUserRequest){
+        Usuario usuario = this.usuarioService.criar(newUserRequest.getUsuario());
+
+        Perfil perfil = RequestMapper.toPerfil(newUserRequest.getPerfil(),usuario);
+        perfilRepository.save(perfil);
+
+
+        newUserRequest.getGeneroJogoPerfil().forEach(it ->{
+            GeneroJogo generoJogo = generoJogoService.getGeneroJogoId(it.getGeneroJogoId());
+            perfil.addGeneroJogo(this.generoJogoPerfilService.addGeneroJogoPerfil(perfil, generoJogo,it.isVisible()));
+        });
+
+        newUserRequest.getInteressePerfil().forEach(it ->{
+            perfil.addInteressePerfil(this.interessePerfilService.addInteressePerfil(perfil, it.getInteresseId(), it.isVisible()));
+        });
+
+        return perfil;
+    }
 
     public List<PerfilFullResponse> getPerfil() {
         List<PerfilFullResponse> responseMapperList = new ArrayList<>();

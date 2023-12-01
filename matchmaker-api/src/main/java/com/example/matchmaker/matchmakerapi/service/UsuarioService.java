@@ -58,7 +58,7 @@ public class UsuarioService {
         return RequestMapper.toUsuarioTokenDto(usuarioAutenticado, token);
     }
 
-    public void logof(String id){
+    public void logoff(String id){
         Usuario usuario = this.usuarioRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao fazer logout")
         );
@@ -72,13 +72,14 @@ public class UsuarioService {
         return this.usuarioRepository.save(usuario);
     }
 
-    public void criar(UsuarioRequest usuarioRequest) {
+    public Usuario criar(UsuarioRequest usuarioRequest) {
         final Usuario novoUsuario = RequestMapper.toUsuario(usuarioRequest);
 
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
         novoUsuario.setSenha(senhaCriptografada);
 
         this.usuarioRepository.save(novoUsuario);
+        return novoUsuario;
     }
 
 

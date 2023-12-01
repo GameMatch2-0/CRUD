@@ -30,7 +30,7 @@ public class UsuarioController {
 
     @PostMapping("/logoff/{id}")
     public ResponseEntity<Usuario> logoff (@PathVariable String id){
-        this.usuarioService.logof(id);
+        this.usuarioService.logoff(id);
         return ResponseEntity.ok().build();
     }
 

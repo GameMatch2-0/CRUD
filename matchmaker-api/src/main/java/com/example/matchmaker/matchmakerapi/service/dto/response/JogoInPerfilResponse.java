@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JogoInPerfilResponse {
-    private Long id;
+    private Integer id;
     private String nome;
     private boolean isVisible;
 }

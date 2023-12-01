@@ -20,7 +20,7 @@ public class GeneroJogoService {
         return this.generoJogoRepository.findAll();
     }
 
-    public GeneroJogo getGeneroJogoId(Long id){
+    public GeneroJogo getGeneroJogoId(Integer id){
         return this.generoJogoRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Genero de jogo não encontrado")
         );

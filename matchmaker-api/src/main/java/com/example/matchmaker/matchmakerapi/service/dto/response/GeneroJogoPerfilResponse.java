@@ -11,6 +11,6 @@ import lombok.Setter;
 @Setter
 public class GeneroJogoPerfilResponse {
     private Long perfilId;
-    private Long generoJogoId;
+    private Integer generoJogoId;
     private boolean isVisible;
 }

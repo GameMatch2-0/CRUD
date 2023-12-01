@@ -5,16 +5,20 @@ import com.example.matchmaker.matchmakerapi.entity.embeddable.ConsolePerfilId;
 import com.example.matchmaker.matchmakerapi.entity.embeddable.GeneroJogoPerfilId;
 import com.example.matchmaker.matchmakerapi.entity.embeddable.InteressePerfilId;
 import com.example.matchmaker.matchmakerapi.entity.repository.*;
+import com.example.matchmaker.matchmakerapi.service.GeneroJogoPerfilService;
+import com.example.matchmaker.matchmakerapi.service.GeneroJogoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 
 @SpringBootApplication
 @RequiredArgsConstructor
+@EnableFeignClients
 public class MatchmakerApiApplication implements CommandLineRunner {
 
 	private final UsuarioRepository usuarioRepository;
@@ -27,6 +31,7 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 	private final ConsoleRepository consoleRepository;
 	private final ConsolePerfilRepository consolePerfilRepository;
 	private final MidiaRepository midiaRepository;
+	private final GeneroJogoService generoJogoService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MatchmakerApiApplication.class, args);
@@ -83,5 +88,6 @@ public class MatchmakerApiApplication implements CommandLineRunner {
 		Midia midia = new Midia(null, perfil, "ubesfbdu",false);
 		Midia midia1 = new Midia(null, perfil, "ubsdojbnefesfbdu",true);
 		midiaRepository.saveAll(Arrays.asList(midia,midia1));
+
 	}
 }

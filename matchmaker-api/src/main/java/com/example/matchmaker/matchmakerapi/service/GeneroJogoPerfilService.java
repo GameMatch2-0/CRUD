@@ -1,6 +1,9 @@
 package com.example.matchmaker.matchmakerapi.service;
 
+import com.example.matchmaker.matchmakerapi.entity.GeneroJogo;
 import com.example.matchmaker.matchmakerapi.entity.GeneroJogoPerfil;
+import com.example.matchmaker.matchmakerapi.entity.Perfil;
+import com.example.matchmaker.matchmakerapi.entity.embeddable.GeneroJogoPerfilId;
 import com.example.matchmaker.matchmakerapi.entity.repository.GeneroJogoPerfilRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,26 +22,38 @@ public class GeneroJogoPerfilService {
 
         //findfirstby - inplemmentar a logica e trocar essa merda de gambiarra do krlh
 
-        if (generoJogoPerfilList.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum perfil atribuido a genero");
-        }
+
 
         return generoJogoPerfilList;
     }
 
     public boolean getIsVisibleByPerfilId(Long perfilId){
         List<GeneroJogoPerfil> list = this.generoJogoPerfilRepository.findAllByIdIdPerfil(perfilId);
+
         if (list.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum Genero de jogo vinculado a este perfil");
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum geenero cadastrado neste perfil");
         }
+
         return list.get(0).isVisivel();
     }
 
     public List<GeneroJogoPerfil> getGeneroIdByPerfilId(Long perfilId){
-        List<GeneroJogoPerfil> list = this.generoJogoPerfilRepository.findAllByIdIdPerfil(perfilId);
-        if (list.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum Genero de jogo vinculado a este perfil");
-        }
-        return list;
+        return this.generoJogoPerfilRepository.findAllByIdIdPerfil(perfilId);
+
+    }
+
+    public GeneroJogoPerfil addGeneroJogoPerfil(Perfil perfil, GeneroJogo generoJogo, boolean isVisible){
+        GeneroJogoPerfilId generoJogoPerfilId = new GeneroJogoPerfilId();
+        generoJogoPerfilId.setIdGeneroJogos(generoJogo.getIdGeneroJogos());
+        generoJogoPerfilId.setIdPerfil(perfil.getIdPerfil());
+
+        GeneroJogoPerfil generoJogoPerfil = new GeneroJogoPerfil();
+        generoJogoPerfil.setId(generoJogoPerfilId);
+        generoJogoPerfil.setPerfil(perfil);
+        generoJogoPerfil.setGeneroJogos(generoJogo);
+        generoJogoPerfil.setVisivel(isVisible);
+
+        generoJogoPerfilRepository.save(generoJogoPerfil);
+        return null;
     }
 }

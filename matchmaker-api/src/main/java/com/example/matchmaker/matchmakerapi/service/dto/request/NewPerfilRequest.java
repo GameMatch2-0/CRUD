@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class NewPerfilRequest {
-    private Usuario usuario;
     private String username;
     private String biografia;
     private Float nota;
@@ -20,4 +21,5 @@ public class NewPerfilRequest {
     private boolean procuraNamoro;
     private boolean procuraPlayer2;
     private boolean isPremium = false;
+    private List<String> lista;
 }

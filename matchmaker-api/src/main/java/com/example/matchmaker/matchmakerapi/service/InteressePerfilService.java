@@ -2,6 +2,8 @@ package com.example.matchmaker.matchmakerapi.service;
 
 import com.example.matchmaker.matchmakerapi.entity.Interesse;
 import com.example.matchmaker.matchmakerapi.entity.InteressePerfil;
+import com.example.matchmaker.matchmakerapi.entity.Perfil;
+import com.example.matchmaker.matchmakerapi.entity.embeddable.InteressePerfilId;
 import com.example.matchmaker.matchmakerapi.entity.repository.InteressePerfilRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,5 +35,21 @@ public class InteressePerfilService {
         });
 
         return interesseList;
+    }
+
+    public InteressePerfil addInteressePerfil(Perfil perfil, Long interesseId, boolean isVisible){
+        Interesse interesse = this.interesseService.findById(interesseId);
+
+        InteressePerfilId interessePerfilId = new InteressePerfilId();
+        interessePerfilId.setPerfilId(perfil.getIdPerfil());
+        interessePerfilId.setInteresseId(interesse.getIdInteresse());
+
+        InteressePerfil interessePerfil = new InteressePerfil();
+        interessePerfil.setId(interessePerfilId);
+        interessePerfil.setPerfil(perfil);
+        interessePerfil.setInteresse(interesse);
+        interessePerfil.setVisible(isVisible);
+
+        return interessePerfil;
     }
 }

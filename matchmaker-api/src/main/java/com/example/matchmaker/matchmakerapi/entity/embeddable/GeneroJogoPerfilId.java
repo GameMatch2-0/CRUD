@@ -15,5 +15,5 @@ import java.io.Serializable;
 @Embeddable
 public class GeneroJogoPerfilId implements Serializable {
     private Long idPerfil;
-    private Long idGeneroJogos;
+    private Integer idGeneroJogos;
 }

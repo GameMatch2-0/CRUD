@@ -3,7 +3,7 @@ package com.example.matchmaker.matchmakerapi.service.dto.request;
 import lombok.Data;
 
 @Data
-public class NewMidiaRequest {
-    private String link;
+public class NewInteressePerfil {
+    private Long InteresseId;
     private boolean isVisible;
 }

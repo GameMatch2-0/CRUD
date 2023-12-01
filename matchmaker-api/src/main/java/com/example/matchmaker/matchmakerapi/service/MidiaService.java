@@ -36,7 +36,7 @@ public class MidiaService {
 
         return midiaList;
     }
-@Transactional
+    @Transactional
     public void subtituirMidia(Perfil perfil, List<NewMidiaRequest> newMidiaRequests){
         this.midiaRepository.deleteAllByPerfil_IdPerfil(perfil.getIdPerfil());
 

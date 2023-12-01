@@ -250,6 +250,21 @@ CREATE INDEX fk_perfis_descurtidos_perfil_idx ON perfis_descurtidos(id_perfil);
 CREATE INDEX fk_perfis_descurtidos_perfil_descurtido_idx ON perfis_descurtidos(id_perfil_descurtido);
 
 DELIMITER $$
+CREATE PROCEDURE SP_buscar_amigos(
+  IN var_id_perfil INT
+)
+BEGIN
+  SELECT p.username from perfil p
+  JOIN conversa as c on c.id_perfil1 = p.id_perfil
+  WHERE c.id_perfil2 = var_id_perfil AND c.id_perfil1 != var_id_perfil
+  UNION ORDER BY p.username ASC
+  SELECT p.username from perfil p
+    JOIN conversa as c on c.id_perfil2 = p.id_perfil
+    WHERE c.id_perfil1 = var_id_perfil AND c.id_perfil2 != var_id_perfil;
+END $$
+DELIMITER ;
+
+DELIMITER $$
 CREATE PROCEDURE SP_curtir_perfil(
   IN var_id_perfil1 INT,
   IN var_id_perfil2 INT,
@@ -343,7 +358,7 @@ WHERE a.id_avaliacao = var_id_avaliacao;
 
  DECLARE var_nota_nova FLOAT;
 
- SELECT AVG(a.avaliacao)                                                
+ SELECT AVG(a.avaliacao)
  INTO var_nota_nova
  FROM avaliacao AS a
  WHERE a.id_perfil_avaliado=var_id_perfil_avaliado AND a.is_ativa = 1;

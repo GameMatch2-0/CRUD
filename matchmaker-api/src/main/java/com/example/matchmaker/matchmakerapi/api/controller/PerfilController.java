@@ -1,5 +1,6 @@
 package com.example.matchmaker.matchmakerapi.api.controller;
 
+import com.example.matchmaker.matchmakerapi.FilaObj;
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
 import com.example.matchmaker.matchmakerapi.service.PerfilService;
 import com.example.matchmaker.matchmakerapi.service.dto.request.NewMidiaRequest;
@@ -54,5 +55,14 @@ public class PerfilController {
     }
 
     @GetMapping("/{perfilId}/cards")
-    public ResponseEntity<PerfilFullResponse>
+    public ResponseEntity<FilaObj<PerfilFullResponse>> getCardsPerfil(@PathVariable Integer perfilId){
+        FilaObj filaCards = this.perfilService.getCardsPerfil(perfilId);
+        return ResponseEntity.ok(filaCards);
+    }
+
+    @GetMapping("/{perfilId}/amigos")
+    public ResponseEntity<List<String>> getAmigosPerfil(@PathVariable Integer perfilId){
+        List<String> listaAmigos = this.perfilService.getAmigos(perfilId);
+        return ResponseEntity.ok(listaAmigos);
+    }
 }

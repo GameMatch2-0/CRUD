@@ -56,6 +56,15 @@ public class PerfilService {
         return responseMapperList;
     }
 
+    public List<String> getAmigos(Integer idPerfil) {
+        List<String> amigosList = this.perfilRepository.buscarAmigos(idPerfil);
+        if (amigosList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum amigo encontrado");
+        }
+
+        return amigosList;
+    }
+
     public FilaObj<PerfilFullResponse> getCardsPerfil( Integer perfilId) {
         FilaObj<PerfilFullResponse> responseMapperList = new FilaObj<PerfilFullResponse>();
         List<Perfil> perfilList = this.perfilRepository.buscaPerfisCarrossel(perfilId);

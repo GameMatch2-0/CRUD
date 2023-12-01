@@ -1,5 +1,6 @@
 package com.example.matchmaker.matchmakerapi.service;
 
+import com.example.matchmaker.matchmakerapi.FilaObj;
 import com.example.matchmaker.matchmakerapi.entity.*;
 import com.example.matchmaker.matchmakerapi.entity.repository.PerfilRepository;
 import com.example.matchmaker.matchmakerapi.service.dto.request.NewMidiaRequest;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -75,6 +77,44 @@ public class PerfilService {
         return responseMapperList;
     }
 
+    public List<String> getAmigos(Integer idPerfil) {
+        List<String> amigosList = this.perfilRepository.buscarAmigos(idPerfil);
+        if (amigosList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum amigo encontrado");
+        }
+
+        return amigosList;
+    }
+
+    public FilaObj<PerfilFullResponse> getCardsPerfil( Integer perfilId) {
+        FilaObj<PerfilFullResponse> responseMapperList = new FilaObj<PerfilFullResponse>();
+        List<Perfil> perfilList = this.perfilRepository.buscaPerfisCarrossel(perfilId);
+        if (perfilList.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum perfil encontrado");
+        }
+
+        perfilList.forEach(it ->{
+            Usuario usuario = this.usuarioService.buscarPorId(it.getUsuario().getId());
+            UsuarioInPerfilResponse user = ResponseMapper.toUsuarioInPerfilResponse(usuario);
+
+            List<JogoInPerfilResponse> generoJogoList;
+            generoJogoList = getGeneroJogosPorPerfilId(it.getIdPerfil());
+
+            List<InteresseFullResponse> interesseList;
+            interesseList = getInteressePorPerfilId(it.getIdPerfil());
+
+            List<ConsoleFullResponse> consoleList;
+            consoleList = getConsolePorPerfilId(it.getIdPerfil());
+
+            List<MidiaFullResponse> midiaList;
+            midiaList = getMidiaByPerfilId(it.getIdPerfil());
+            responseMapperList.insert(ResponseMapper.toPerfilFullResponse(it ,generoJogoList, user, interesseList, consoleList,midiaList));
+
+        });
+
+        return responseMapperList;
+    }
+
     public Perfil getPerfilId(Long id) {
         return this.perfilRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado")
@@ -132,5 +172,14 @@ public class PerfilService {
         });
 
         return midiaFullResponseList;
+    }
+
+    public void curtirPerfil(Integer perfilId, Integer perfilCurtido){
+        LocalDate momento = LocalDate.now();
+        perfilRepository.curtirOutroPerfil(perfilId, perfilCurtido, momento);
+    }
+
+    public void descurtirPerfil(Integer perfilId, Integer perfilCurtido){
+        perfilRepository.descurtirOutroPerfil(perfilId, perfilCurtido);
     }
 }

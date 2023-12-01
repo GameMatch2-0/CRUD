@@ -343,7 +343,7 @@ WHERE a.id_avaliacao = var_id_avaliacao;
 
  DECLARE var_nota_nova FLOAT;
 
- SELECT AVG(a.avaliacao)
+ SELECT AVG(a.avaliacao)                                                
  INTO var_nota_nova
  FROM avaliacao AS a
  WHERE a.id_perfil_avaliado=var_id_perfil_avaliado AND a.is_ativa = 1;

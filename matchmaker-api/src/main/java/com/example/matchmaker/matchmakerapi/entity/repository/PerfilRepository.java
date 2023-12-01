@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface PerfilRepository extends JpaRepository<Perfil, Long> {
@@ -17,5 +18,5 @@ public interface PerfilRepository extends JpaRepository<Perfil, Long> {
     void descurtirOutroPerfil(Integer idPerfilLogado, Integer idPerfilDescurtido);
 
     @Procedure("SP_busca_carrossel")
-    FilaObj<Perfil> buscaPerfisCarrossel(Integer idPerfilLogado);
+    List<Perfil> buscaPerfisCarrossel(Integer idPerfilLogado);
 }

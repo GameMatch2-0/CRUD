@@ -49,7 +49,10 @@ public class PerfilController {
             @PathVariable Integer perfilId,
             @PathVariable Integer perfilDescurtido
     ){
-        this.perfilService.curtirPerfil(perfilId, perfilDescurtido);
+        this.perfilService.descurtirPerfil(perfilId, perfilDescurtido);
         return ResponseEntity.ok("Perfil descurtido com sucesso");
     }
+
+    @GetMapping("/{perfilId}/cards")
+    public ResponseEntity<PerfilFullResponse>
 }

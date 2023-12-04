@@ -16,7 +16,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +28,7 @@ public class PerfilService {
     private final ConsolePerfilService consolePerfilService;
     private final MidiaService midiaService;
 
-    public Perfil novoCadastro(NewUserRequest newUserRequest){
+    public PerfilFullResponse novoCadastro(NewUserRequest newUserRequest){
         Usuario usuario = this.usuarioService.criar(newUserRequest.getUsuario());
 
         Perfil perfil = RequestMapper.toPerfil(newUserRequest.getPerfil(),usuario);
@@ -45,8 +44,35 @@ public class PerfilService {
             perfil.addInteressePerfil(this.interessePerfilService.addInteressePerfil(perfil, it.getInteresseId(), it.isVisible()));
         });
 
-        return perfil;
+        newUserRequest.getConsolePerfil().forEach(it -> {
+            perfil.addConsole(this.consolePerfilService.addConsolePerfil(perfil, it.getConsoleId(), it.isVisible()));
+        });
+
+        List<MidiaFullResponse> midiaList = this.midiaService.addMidia(perfil,newUserRequest.getMidiaList());
+        perfilRepository.save(perfil);
+
+        return getPerfilFullResponse(perfil.getIdPerfil());
     }
+
+    public PerfilFullResponse getPerfilFullResponse(Long perfilId){
+        Perfil perfil = this.getPerfilId(perfilId);
+
+        List<JogoInPerfilResponse> generoJogoList = this.getGeneroJogosPorPerfilId(perfilId);
+        List<InteresseFullResponse> interesseList = this.getInteressePorPerfilId(perfilId);
+        UsuarioInPerfilResponse usuario = ResponseMapper.toUsuarioInPerfilResponse(this.usuarioService.buscarPorId(perfil.getUsuario().getId()));
+        List<ConsoleFullResponse> consoleList = this.getConsolePorPerfilId(perfilId);
+        List<MidiaFullResponse> midiaList = this.getMidiaByPerfilId(perfilId);
+
+        return ResponseMapper.toPerfilFullResponse(
+                perfil,
+                generoJogoList,
+                usuario,
+                interesseList,
+                consoleList,
+                midiaList
+        );
+    }
+
 
     public List<PerfilFullResponse> getPerfil() {
         List<PerfilFullResponse> responseMapperList = new ArrayList<>();
@@ -124,7 +150,7 @@ public class PerfilService {
     public void atualizarMidiasDoPerfil(Long perfilId, List<NewMidiaRequest> midias) {
         Perfil perfil = getPerfilId(perfilId);
 
-        this.midiaService.subtituirMidia(perfil,midias);
+        this.midiaService.addMidia(perfil,midias);
     }
 
     public List<JogoInPerfilResponse> getGeneroJogosPorPerfilId(Long perfilId) {

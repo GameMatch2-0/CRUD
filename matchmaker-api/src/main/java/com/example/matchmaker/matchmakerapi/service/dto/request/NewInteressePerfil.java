@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class NewInteressePerfil {
-    private Long InteresseId;
+    private Long interesseId;
     private boolean isVisible;
 }

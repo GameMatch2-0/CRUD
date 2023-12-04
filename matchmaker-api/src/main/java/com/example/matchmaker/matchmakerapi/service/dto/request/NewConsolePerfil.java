@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class NewConsolePerfil {
-    private Long ConsoleId;
+    private Long consoleId;
     private boolean isVisible;
 }

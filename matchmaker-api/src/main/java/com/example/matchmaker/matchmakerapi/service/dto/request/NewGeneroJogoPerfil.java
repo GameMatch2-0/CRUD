@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class NewGeneroJogoPerfil {
-    private Integer GeneroJogoId;
+    private Integer generoJogoId;
     private boolean isVisible;
 }

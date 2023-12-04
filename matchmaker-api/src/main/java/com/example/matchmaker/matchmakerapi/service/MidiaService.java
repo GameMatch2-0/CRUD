@@ -4,12 +4,15 @@ import com.example.matchmaker.matchmakerapi.entity.Midia;
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
 import com.example.matchmaker.matchmakerapi.entity.repository.MidiaRepository;
 import com.example.matchmaker.matchmakerapi.service.dto.request.NewMidiaRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.response.MidiaFullResponse;
+import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,8 +40,9 @@ public class MidiaService {
         return midiaList;
     }
     @Transactional
-    public void subtituirMidia(Perfil perfil, List<NewMidiaRequest> newMidiaRequests){
+    public List<MidiaFullResponse> addMidia(Perfil perfil, List<NewMidiaRequest> newMidiaRequests){
         this.midiaRepository.deleteAllByPerfil_IdPerfil(perfil.getIdPerfil());
+        List<MidiaFullResponse> midiaFullResponses = new ArrayList<>();
 
         newMidiaRequests.forEach(it -> {
             Midia midia = new Midia();
@@ -48,6 +52,9 @@ public class MidiaService {
             midia.setVisible(it.isVisible());
 
             midiaRepository.save(midia);
+            midiaFullResponses.add(ResponseMapper.toMidiaFullResponse(midia));
         });
+
+        return midiaFullResponses;
     }
 }

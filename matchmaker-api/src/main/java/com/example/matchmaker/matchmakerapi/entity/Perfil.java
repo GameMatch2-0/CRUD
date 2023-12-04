@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -33,13 +34,13 @@ public class Perfil{
     @JoinColumn(name = "idPlano")
     private Plano plano;
     @OneToMany(mappedBy = "perfil", cascade = CascadeType.ALL)
-    private List<GeneroJogoPerfil> generosJogosPerfil;
+    private List<GeneroJogoPerfil> generosJogosPerfil = new ArrayList<>();
     @OneToMany(mappedBy = "perfil", cascade = CascadeType.ALL)
-    private List<InteressePerfil> interessePerfils;
+    private List<InteressePerfil> interessePerfils = new ArrayList<>();
     @OneToMany(mappedBy = "perfil",cascade = CascadeType.ALL)
-    private List<ConsolePerfil> consolePerfils;
+    private List<ConsolePerfil> consolePerfils = new ArrayList<>();
     @OneToMany(mappedBy = "perfil",cascade = CascadeType.ALL)
-    private List<Midia> midiaList;
+    private List<Midia> midiaList = new ArrayList<>();
 
     public void addGeneroJogo(GeneroJogoPerfil generoJogoPerfil){
         this.generosJogosPerfil.add(generoJogoPerfil);
@@ -47,9 +48,10 @@ public class Perfil{
     public void addInteressePerfil(InteressePerfil interessePerfil){
         this.interessePerfils.add(interessePerfil);
     }
-    public void addGeneroJogo(ConsolePerfil consolePerfil){
+    public void addConsole(ConsolePerfil consolePerfil){
         this.consolePerfils.add(consolePerfil);
     }
+
     public void addMidia(Midia midia){
         this.midiaList.add(midia);
     }

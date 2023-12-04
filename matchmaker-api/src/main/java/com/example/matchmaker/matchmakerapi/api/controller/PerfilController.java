@@ -38,9 +38,9 @@ public class PerfilController {
     }
 
     @PostMapping("/novo-cadastro")
-    public Perfil novoUsuario(@RequestBody NewUserRequest newUserRequest){
-        Perfil perfil = this.perfilService.novoCadastro(newUserRequest);
-        return perfil;
+    public ResponseEntity<PerfilFullResponse> novoUsuario(@RequestBody NewUserRequest newUserRequest){
+        PerfilFullResponse perfil = this.perfilService.novoCadastro(newUserRequest);
+        return ResponseEntity.ok(perfil);
     }
 
 

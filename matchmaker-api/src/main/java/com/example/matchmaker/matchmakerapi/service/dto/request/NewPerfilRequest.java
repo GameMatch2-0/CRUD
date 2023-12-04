@@ -21,5 +21,4 @@ public class NewPerfilRequest {
     private boolean procuraNamoro;
     private boolean procuraPlayer2;
     private boolean isPremium = false;
-    private List<String> lista;
 }

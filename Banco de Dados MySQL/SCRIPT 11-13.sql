@@ -64,27 +64,17 @@ CREATE TABLE IF NOT EXISTS avaliacao (
     
 CREATE UNIQUE INDEX avaliacao_unique_idx ON avaliacao(id_avaliacao);
 
-CREATE TABLE IF NOT EXISTS tipo_midia (
-  id_tipo INT PRIMARY KEY AUTO_INCREMENT,
-  nome VARCHAR(45),
-  extensao CHAR(4));
 
 CREATE TABLE IF NOT EXISTS midia (
   id_midia INT PRIMARY KEY AUTO_INCREMENT,
   id_perfil INT NOT NULL,
-  id_tipo INT NOT NULL,
   link VARCHAR(255),
   visivel TINYINT DEFAULT TRUE,
   CONSTRAINT fk_midia_perfil
     FOREIGN KEY midia(id_perfil)
-    REFERENCES perfil(id_perfil),
-  CONSTRAINT fk_midia_tipo_midia
-    FOREIGN KEY midia(id_tipo)
-    REFERENCES tipo_midia(id_tipo));
+    REFERENCES perfil(id_perfil);
 
 CREATE INDEX fk_midia_perfil_idx ON midia(id_perfil);
-
-CREATE INDEX fk_midia_tipo_midia_idx ON midia(id_tipo);
 
 CREATE TABLE IF NOT EXISTS curtidas_log (
   horario DATETIME,

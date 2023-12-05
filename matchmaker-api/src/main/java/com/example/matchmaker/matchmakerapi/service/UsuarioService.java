@@ -48,7 +48,6 @@ public class UsuarioService {
                         .orElseThrow(
                                 () -> new ResponseStatusException(404, "Email do usuario não encontrado", null)
                         );
-        usuarioAutenticado.setLogado(true);
         this.usuarioRepository.save(usuarioAutenticado);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -58,14 +57,7 @@ public class UsuarioService {
         return RequestMapper.toUsuarioTokenDto(usuarioAutenticado, token);
     }
 
-    public void logoff(String id){
-        Usuario usuario = this.usuarioRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao fazer logout")
-        );
 
-        usuario.setLogado(false);
-        this.usuarioRepository.save(usuario);
-    }
 
 
     public Usuario salvar(Usuario usuario) {
@@ -180,7 +172,7 @@ public class UsuarioService {
                 for (int i = 0; i < lista.size(); i++) {
                     // Instancia um objeto Cachorro para receber cada elemento da lista
                     Usuario user= lista.get(i);
-                    saida.format("%s;%s;%s;%s;%s;%s;%s;%b;%b\n", user.getId(), user.getNome(), user.getSobrenome(), user.getDtNascimento(), user.getEmail(), user.getContato(), user.getDtCadastro(), user.isDeleted(), user.isLogado());
+                    saida.format("%s;%s;%s;%s;%s;%s;%s;%b;%b\n", user.getId(), user.getNome(), user.getSobrenome(), user.getDtNascimento(), user.getEmail(), user.getCelular(), user.getDtCadastro(), user.isDeleted());
                 }
             } catch (FormatterClosedException erro) {
                 System.out.println("Erro ao gravar no arquivo");

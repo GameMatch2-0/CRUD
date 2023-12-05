@@ -15,10 +15,9 @@ public class ResponseMapper {
         usuarioFullResponse.setSobrenome(usuario.getSobrenome());
         usuarioFullResponse.setDtNascimento(usuario.getDtNascimento());
         usuarioFullResponse.setEmail(usuario.getEmail());
-        usuarioFullResponse.setContato(usuario.getContato());
+        usuarioFullResponse.setContato(usuario.getCelular());
         usuarioFullResponse.setDtCadastro(usuario.getDtCadastro());
         usuarioFullResponse.setIdentidadeGenero(usuario.getIdentidadeGenero());
-        usuarioFullResponse.setLogado(usuario.isLogado());
         usuarioFullResponse.setDeleted(usuario.isDeleted());
 
         return usuarioFullResponse;
@@ -32,10 +31,9 @@ public class ResponseMapper {
         usuarioInPerfilResponse.setSobrenome(usuario.getSobrenome());
         usuarioInPerfilResponse.setDtNascimento(usuario.getDtNascimento());
         usuarioInPerfilResponse.setEmail(usuario.getEmail());
-        usuarioInPerfilResponse.setContato(usuario.getContato());
+        usuarioInPerfilResponse.setContato(usuario.getCelular());
         usuarioInPerfilResponse.setDtCadastro(usuario.getDtCadastro());
         usuarioInPerfilResponse.setIdentidadeGenero(usuario.getIdentidadeGenero());
-        usuarioInPerfilResponse.setLogado(usuario.isLogado());
         usuarioInPerfilResponse.setDeleted(usuario.isDeleted());
 
         return usuarioInPerfilResponse;

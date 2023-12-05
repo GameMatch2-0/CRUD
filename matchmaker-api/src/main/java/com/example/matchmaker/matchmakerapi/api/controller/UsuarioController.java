@@ -28,12 +28,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioToken);
     }
 
-    @PostMapping("/logoff/{id}")
-    public ResponseEntity<Usuario> logoff (@PathVariable String id){
-        this.usuarioService.logoff(id);
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping
     public ResponseEntity<List<UsuarioFullResponse>> listar() {
         List<UsuarioFullResponse> usuarioFullResponseList = this.usuarioService.listar();

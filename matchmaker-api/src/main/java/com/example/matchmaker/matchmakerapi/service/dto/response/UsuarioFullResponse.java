@@ -23,7 +23,7 @@ public class UsuarioFullResponse {
     private LocalDateTime dtCadastro;
     private String identidadeGenero;
     private boolean deleted = false;
-    private boolean logado = false;
+
 
     public String getNomeCompleto(){
         return this.nome + " " + this.sobrenome;

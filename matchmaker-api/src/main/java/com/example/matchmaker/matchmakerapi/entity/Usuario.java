@@ -22,13 +22,12 @@ public class Usuario {
     private String nome;
     private String sobrenome;
     private LocalDate dtNascimento;
+    private String celular;
     private String email;
-    private String contato;
     private String senha;
     private String identidadeGenero;
     private LocalDateTime dtCadastro = LocalDateTime.now();
     private boolean deleted = false;
-    private boolean logado = false;
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Perfil perfil;

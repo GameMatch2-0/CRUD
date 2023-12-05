@@ -17,7 +17,7 @@ public class RequestMapper {
         usuario.setSobrenome(usuarioRequest.getSobrenome());
         usuario.setIdentidadeGenero(usuarioRequest.getIdentidadeGenero());
         usuario.setDtNascimento(usuarioRequest.getDtNascimento());
-        usuario.setContato(usuarioRequest.getContato());
+        usuario.setCelular(usuarioRequest.getContato());
         usuario.setEmail(usuarioRequest.getEmail());
         usuario.setSenha(usuarioRequest.getSenha());
 

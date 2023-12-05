@@ -22,5 +22,4 @@ public class UsuarioInPerfilResponse {
     private LocalDateTime dtCadastro;
     private String identidadeGenero;
     private boolean deleted = false;
-    private boolean logado = false;
 }

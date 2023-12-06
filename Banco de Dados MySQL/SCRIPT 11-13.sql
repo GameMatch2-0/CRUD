@@ -1,3 +1,4 @@
+DROP DATABASE match_making;
 CREATE DATABASE IF NOT EXISTS match_making;
 USE match_making;
 
@@ -107,6 +108,7 @@ CREATE TABLE IF NOT EXISTS console (
     REFERENCES midia(id_midia));
 
 CREATE INDEX fk_console_midia1_idx ON console(id_imagem);
+
 
 CREATE TABLE IF NOT EXISTS console_perfil (
                                               id_console INT AUTO_INCREMENT,
@@ -641,14 +643,6 @@ INSERT into interesse_perfil (id_perfil, id_interesses, visivel) VALUES
                                                                      (4, 4,1),
                                                                      (4, 3,1);
 
--- Inserções para a tabela 'usuario'
-INSERT INTO usuario (id_usuario, nome, sobrenome, email, celular, senha, dt_nascimento, identidade_genero, dt_cadastro)
-VALUES
-    ('xablu', 'João', 'Silva', 'joao@email.com', '123456789', 'senha123', '1990-01-01', 'Masculino', NOW());
-
-INSERT INTO usuario (id_usuario, nome, sobrenome, email, celular, senha, dt_nascimento, identidade_genero, dt_cadastro)
-VALUES
-    ('xablauu', 'Maria', 'Souza', 'maria@email.com', '987654321', 'outrasenha', '1985-05-15', 'Feminino', NOW());
 
 -- Inserções para a tabela 'plano'
 INSERT INTO plano (nome, descricao, preco) VALUES
@@ -657,220 +651,9 @@ INSERT INTO plano (nome, descricao, preco) VALUES
 INSERT INTO plano (nome, descricao, preco) VALUES
     ('Plano B', 'Descrição do Plano B', 29.99);
 
--- Inserções para a tabela 'perfil'
-INSERT INTO perfil (id_usuario, username, biografia, nota, orientacao_sexual, procura_amizade, procura_namoro, procura_player2, is_premium, id_plano) VALUES
-    ('xablu', 'joao_silva', 'Biografia do João', 4.5, 'Heterossexual', 1, 0, 1, 1, 1);
-
-INSERT INTO perfil (id_usuario, username, biografia, nota, orientacao_sexual, procura_amizade, procura_namoro, procura_player2, is_premium, id_plano) VALUES
-    ('xablauu', 'maria_souza', 'Biografia da Maria', 3.8, 'Homossexual', 1, 1, 0, 0, 2);
-
--- Inserções para a tabela 'avaliacao'
-INSERT INTO avaliacao (id_perfil_avaliado, id_perfil_avaliador, avaliacao, descricao, nota_anterior, nota_nova, horario) VALUES
-    (1, 2, 4.0, 'Avaliação positiva', 3.8, 4.0, NOW());
-
-INSERT INTO avaliacao (id_perfil_avaliado, id_perfil_avaliador, avaliacao, descricao, nota_anterior, nota_nova, horario) VALUES
-    (2, 1, 2.5, 'Avaliação neutra', 4.5, 2.5, NOW());
-
--- Inserções para a tabela 'midia'
-INSERT INTO midia (id_perfil, link, visivel) VALUES
-    (1, 'https://linkmidia1.com', 1);
-
-INSERT INTO midia (id_perfil, link, visivel) VALUES
-    (2, 'https://linkmidia2.com', 1);
-
--- Inserções para a tabela 'curtidas_log'
-INSERT INTO curtidas_log (horario, id_perfil1, id_midia, id_perfil2) VALUES
-    (NOW(), 1, 1, 2);
-
-INSERT INTO curtidas_log (horario, id_perfil1, id_midia, id_perfil2) VALUES
-    (NOW(), 2, 2, 1);
-
--- Inserções para a tabela 'console'
-INSERT INTO console (nome, id_imagem) VALUES
-    ('PlayStation 5', 3);
-
-INSERT INTO console (nome, id_imagem) VALUES
-    ('Xbox Series X', 4);
-
--- Inserções para a tabela 'console_perfil'
-INSERT INTO console_perfil (id_console, id_perfil, visivel) VALUES
-    (1, 1, 1);
-
-INSERT INTO console_perfil (id_console, id_perfil, visivel) VALUES
-    (2, 2, 1);
-
--- Inserções para a tabela 'interesse'
-INSERT INTO interesse (nome, descricao) VALUES
-    ('Esportes', 'Interessado em praticar esportes');
-
-INSERT INTO interesse (nome, descricao) VALUES
-    ('Música', 'Apreciador de diversos estilos musicais');
-
--- Inserções para a tabela 'genero_jogos'
-INSERT INTO genero_jogos (nome, descricao) VALUES
-    ('Ação', 'Focado em jogos de ação');
-
-INSERT INTO genero_jogos (nome, descricao) VALUES
-    ('RPG', 'Amante de jogos de RPG');
-
--- Inserções para a tabela 'interesse_perfil'
-INSERT INTO interesse_perfil (id_perfil, id_interesses, visivel) VALUES
-    (1, 1, 1);
-
-INSERT INTO interesse_perfil (id_perfil, id_interesses, visivel) VALUES
-    (2, 2, 1);
-
--- Inserções para a tabela 'genero_jogos_perfil'
-INSERT INTO genero_jogos_perfil (id_perfil, id_genero_jogos, visivel) VALUES
-    (1, 1, 1);
-
-INSERT INTO genero_jogos_perfil (id_perfil, id_genero_jogos, visivel) VALUES
-    (2, 2, 1);
-
--- Inserções para a tabela 'conversa'
-INSERT INTO conversa (id_perfil1, id_perfil2, notificacoes, alerta_notificacao) VALUES
-    (1, 2, 0, 1);
-
-INSERT INTO conversa (id_perfil1, id_perfil2, notificacoes, alerta_notificacao) VALUES
-    (2, 1, 0, 1);
-
--- Inserções para a tabela 'mensagem'
-INSERT INTO mensagem (id_conversa, horario, relator, corpo_mensagem, visualizada) VALUES
-    (1, NOW(), 1, 'Oi, Maria! Como vai?', 0);
-
-INSERT INTO mensagem (id_conversa, horario, relator, corpo_mensagem, visualizada) VALUES
-    (1, NOW(), 2, 'Olá, João! Tudo bem e você?', 0);
-
--- Inserções para a tabela 'curtidas_log'
-INSERT INTO curtidas_log (horario, id_perfil1, id_midia, id_perfil2) VALUES
-    (NOW(), 1, 1, 2);
-
-INSERT INTO curtidas_log (horario, id_perfil1, id_midia, id_perfil2) VALUES
-    (NOW(), 2, 2, 1);
-
--- Inserções para a tabela 'console'
-INSERT INTO console (nome, id_imagem) VALUES
-    ('PlayStation 5', 3);
-
-INSERT INTO console (nome, id_imagem) VALUES
-    ('Xbox Series X', 4);
-
--- Inserções para a tabela 'console_perfil'
-INSERT INTO console_perfil (id_console, id_perfil, visivel) VALUES
-    (1, 1, 1);
-
-INSERT INTO console_perfil (id_console, id_perfil, visivel) VALUES
-    (2, 2, 1);
-
--- Inserções para a tabela 'interesse'
-INSERT INTO interesse (nome, descricao) VALUES
-    ('Esportes', 'Interessado em praticar esportes');
-
-INSERT INTO interesse (nome, descricao) VALUES
-    ('Música', 'Apreciador de diversos estilos musicais');
-
--- Inserções para a tabela 'genero_jogos'
-INSERT INTO genero_jogos (nome, descricao) VALUES
-    ('Ação', 'Focado em jogos de ação');
-
-INSERT INTO genero_jogos (nome, descricao) VALUES
-    ('RPG', 'Amante de jogos de RPG');
-
--- Inserções para a tabela 'interesse_perfil'
-INSERT INTO interesse_perfil (id_perfil, id_interesses, visivel) VALUES
-    (1, 1, 1);
-
-INSERT INTO interesse_perfil (id_perfil, id_interesses, visivel) VALUES
-    (2, 2, 1);
-
--- Inserções para a tabela 'genero_jogos_perfil'
-INSERT INTO genero_jogos_perfil (id_perfil, id_genero_jogos, visivel) VALUES
-    (1, 1, 1);
-
-INSERT INTO genero_jogos_perfil (id_perfil, id_genero_jogos, visivel) VALUES
-    (2, 2, 1);
-
--- Inserções para a tabela 'conversa'
-INSERT INTO conversa (id_perfil1, id_perfil2, notificacoes, alerta_notificacao) VALUES
-    (1, 2, 0, 1);
-
-INSERT INTO conversa (id_perfil1, id_perfil2, notificacoes, alerta_notificacao) VALUES
-    (2, 1, 0, 1);
-
--- Inserções para a tabela 'mensagem'
-INSERT INTO mensagem (id_conversa, horario, relator, corpo_mensagem, visualizada) VALUES
-    (1, NOW(), 1, 'Oi, Maria! Como vai?', 0);
-
-INSERT INTO mensagem (id_conversa, horario, relator, corpo_mensagem, visualizada) VALUES
-    (1, NOW(), 2, 'Olá, João! Tudo bem e você?', 0);
-
--- Inserções para a tabela 'usuario'
-INSERT INTO usuario (id_usuario, nome, sobrenome, email, celular, senha, dt_nascimento, identidade_genero, dt_cadastro, deleted) VALUES
-    ('user100', 'Maria', 'Silva', 'maria@gmail.com', '123456789', 'senha123', '1990-05-15', 'Feminino', NOW(), 0);
-
-INSERT INTO usuario (id_usuario, nome, sobrenome, email, celular, senha, dt_nascimento, identidade_genero, dt_cadastro, deleted) VALUES
-    ('user287', 'João', 'Oliveira', 'joao@gmail.com', '987654321', 'senha456', '1985-08-22', 'Masculino', NOW(), 0);
-
--- Inserções para a tabela 'perfil'
-INSERT INTO perfil ( id_usuario, username, biografia, nota, orientacao_sexual, procura_amizade, procura_namoro, procura_player2, is_premium, id_plano, deleted) VALUES
-    ( 'user100', 'maria_silva', 'Apaixonada por música e esportes.', 4.5, 'Heterossexual', 1, 1, 0, 1, 1, 0);
-
-INSERT INTO perfil ( id_usuario, username, biografia, nota, orientacao_sexual, procura_amizade, procura_namoro, procura_player2, is_premium, id_plano, deleted) VALUES
-    ('user287', 'joao_oliveira', 'Aventuras e RPG são minha paixão.', 4.0, 'Heterossexual', 1, 0, 1, 0, 2, 0);
-
--- Inserções para a tabela 'console'
-INSERT INTO console (nome, id_imagem) VALUES
-    ('PlayStation 5', 3);
-
-INSERT INTO console (nome, id_imagem) VALUES
-    ('Xbox Series X', 4);
-
--- Inserções para a tabela 'interesse'
-INSERT INTO interesse (nome, descricao) VALUES
-    ('Esportes', 'Interessado em praticar esportes');
-
-INSERT INTO interesse (nome, descricao) VALUES
-    ('Música', 'Apreciador de diversos estilos musicais');
-
--- Inserções para a tabela 'genero_jogos'
-INSERT INTO genero_jogos (nome, descricao) VALUES
-    ('Ação', 'Focado em jogos de ação');
-
-INSERT INTO genero_jogos (nome, descricao) VALUES
-    ('RPG', 'Amante de jogos de RPG');
-
--- Inserções para a tabela 'usuario'
-INSERT INTO usuario (id_usuario, nome, sobrenome, email, celular, senha, dt_nascimento, identidade_genero, dt_cadastro, deleted) VALUES
-    ('user355', 'Carlos', 'Santos', 'carlos@gmail.com', '555123456', 'senha789', '1988-02-10', 'Masculino', NOW(), 0);
-
-INSERT INTO usuario (id_usuario, nome, sobrenome, email, celular, senha, dt_nascimento, identidade_genero, dt_cadastro, deleted) VALUES
-    ('user455', 'Amanda', 'Oliveira', 'amanda@gmail.com', '555987654', 'senhaabc', '1995-07-30', 'Feminino', NOW(), 0);
-
--- Inserções para a tabela 'perfil'
-INSERT INTO perfil (id_perfil, id_usuario, username, biografia, nota, orientacao_sexual, procura_amizade, procura_namoro, procura_player2, is_premium, id_plano, deleted) VALUES
-    ( 'user355', 'carlos_santos', 'Apreciador de literatura e tecnologia.', 3.8, 'Heterossexual', 1, 1, 0, 1, 1, 0);
-
-INSERT INTO perfil (id_perfil, id_usuario, username, biografia, nota, orientacao_sexual, procura_amizade, procura_namoro, procura_player2, is_premium, id_plano, deleted) VALUES
-    ( 'user455', 'amanda_oliveira', 'Explorando o mundo dos games.', 4.2, 'Heterossexual', 1, 0, 1, 0, 2, 0);
-
--- Inserções para a tabela 'console'
-INSERT INTO console (nome, id_imagem) VALUES
-    ('Nintendo Switch', 5);
-
-INSERT INTO console (nome, id_imagem) VALUES
-    ('PC Gaming', 6);
-
--- Inserções para a tabela 'interesse'
-INSERT INTO interesse (nome, descricao) VALUES
-    ('Tecnologia', 'Acompanhando as últimas novidades tecnológicas');
-
-INSERT INTO interesse (nome, descricao) VALUES
-    ('Arte', 'Apreciador de diversas formas de arte');
-
--- Inserções para a tabela 'genero_jogos'
-INSERT INTO genero_jogos (nome, descricao) VALUES
-    ('Esportes', 'Focado em jogos de esportes');
-
-INSERT INTO genero_jogos (nome, descricao) VALUES
-    ('Simulação', 'Amando simuladores de vida');
-
+insert into console values 
+(null,'PS4', null),
+(null,'PS5', null),
+(null,'Nintendo Switch', null),
+(null,'PC', null),
+(null,'Mobile', null);

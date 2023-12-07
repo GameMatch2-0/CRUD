@@ -18,7 +18,5 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
     @Procedure("SP_remover_avaliacao")
     void removerAvaliacao(Integer idPerfilAvaliado, Integer idPerfilLogado);
 
-    List<Avaliacao> findByIdPerfil(Integer IdPerfil);
-
 
 }

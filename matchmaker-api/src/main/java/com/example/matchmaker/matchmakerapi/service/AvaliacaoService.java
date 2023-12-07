@@ -32,13 +32,6 @@ public class AvaliacaoService {
         return avaliacao;
     }
 
-    public List<Avaliacao> buscarPorPerfilId(Integer perfild){
-        List<Avaliacao> avaliacaoList = this.avaliacaoRepository.findByIdPerfil(perfild);
-        if (avaliacaoList.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhuma avaliação encontrada");
-        }
-        return avaliacaoList;
-    }
 
     public Optional<Avaliacao> novaAvaliacao(
             Integer idPerfilAvaliado,

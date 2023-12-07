@@ -17,16 +17,16 @@ public class ConsolePerfilService {
     private final ConsolePerfilRepository consolePerfilRepository;
     private final ConsoleService consoleService;
     public boolean getIsVisibleByPerfilId(Long perfilId){
-        return this.consolePerfilRepository.findFirstById_PerfilId(perfilId).isVisible();
+        return this.consolePerfilRepository.findFirstById_IdPerfil(perfilId).isVisivel();
     }
 
     public List<Console> getConsoleListByPerfilId(Long perfilId){
-        List<ConsolePerfil> consolePerfils = this.consolePerfilRepository.findAllById_PerfilId(perfilId);
+        List<ConsolePerfil> consolePerfils = this.consolePerfilRepository.findAllById_IdPerfil(perfilId);
 
         List<Console> consoleList = new ArrayList<>();
 
         consolePerfils.forEach(it -> {
-            consoleList.add(this.consoleService.findById(it.getId().getConsoleId()));
+            consoleList.add(this.consoleService.findById(it.getId().getIdConsole()));
         });
 
         return consoleList;
@@ -36,15 +36,19 @@ public class ConsolePerfilService {
         Console console = this.consoleService.findById(consoleId);
 
         ConsolePerfilId consolePerfilId = new ConsolePerfilId();
-        consolePerfilId.setPerfilId(perfil.getIdPerfil());
-        consolePerfilId.setConsoleId(console.getId());
+        consolePerfilId.setIdPerfil(perfil.getIdPerfil());
+        consolePerfilId.setIdConsole(console.getId());
 
         ConsolePerfil consolePerfil = new ConsolePerfil();
         consolePerfil.setId(consolePerfilId);
         consolePerfil.setPerfil(perfil);
         consolePerfil.setConsole(console);
-        consolePerfil.setVisible(isVisible);
+        consolePerfil.setVisivel(isVisible);
 
         return consolePerfil;
+    }
+
+    public List<ConsolePerfil> getAll(){
+        return this.consolePerfilRepository.findAll();
     }
 }

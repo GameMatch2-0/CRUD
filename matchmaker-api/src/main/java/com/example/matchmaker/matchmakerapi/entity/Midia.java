@@ -16,8 +16,8 @@ public class Midia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMidia;
     @ManyToOne
-    @JoinColumn(name = "perfilId")
+    @JoinColumn(name = "idPerfil")
     private Perfil perfil;
     private String link;
-    private boolean isVisible;
+    private boolean visivel;
 }

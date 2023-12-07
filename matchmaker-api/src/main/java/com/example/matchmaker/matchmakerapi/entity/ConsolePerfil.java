@@ -19,10 +19,10 @@ public class ConsolePerfil {
     @EmbeddedId
     private ConsolePerfilId id;
     @ManyToOne
-    @JoinColumn(name = "perfilId",insertable = false, updatable = false)
+    @JoinColumn(name = "idPerfil",insertable = false, updatable = false)
     private Perfil perfil;
     @ManyToOne
-    @JoinColumn(name = "consoleId",insertable = false, updatable = false)
+    @JoinColumn(name = "idConsole",insertable = false, updatable = false)
     private Console console;
-    private boolean isVisible;
+    private boolean visivel;
 }

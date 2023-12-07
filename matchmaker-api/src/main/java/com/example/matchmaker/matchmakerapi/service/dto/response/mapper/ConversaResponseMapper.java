@@ -9,8 +9,8 @@ public class ConversaResponseMapper {
 
         return new ConversaFullResponse(
                 conversa.getIdConversa(),
-                conversa.getIdUsuarioLogado(),
-                conversa.getIdUsuarioConversa(),
+                conversa.getIdPerfilLogado().getIdPerfil(),
+                conversa.getIdPerfilConversa().getIdPerfil(),
                 conversa.getNotificacoes(),
                 conversa.isAlertaNotificacao(),
                 conversa.isDeleted()

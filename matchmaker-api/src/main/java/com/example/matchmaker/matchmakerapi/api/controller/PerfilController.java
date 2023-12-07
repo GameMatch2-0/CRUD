@@ -2,17 +2,14 @@ package com.example.matchmaker.matchmakerapi.api.controller;
 
 import com.example.matchmaker.matchmakerapi.FilaObj;
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
-import com.example.matchmaker.matchmakerapi.entity.Usuario;
 import com.example.matchmaker.matchmakerapi.service.PerfilService;
 import com.example.matchmaker.matchmakerapi.service.dto.request.NewMidiaRequest;
 import com.example.matchmaker.matchmakerapi.service.dto.request.NewUserRequest;
 import com.example.matchmaker.matchmakerapi.service.dto.response.PerfilFullResponse;
-import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,10 +18,6 @@ import java.util.List;
 public class PerfilController {
 
     private final PerfilService perfilService;
-    @GetMapping("/simple")
-    public List<Perfil> getSimplePerfil(){
-        return this.perfilService.getSimplePerfil();
-    }
 
     @GetMapping
     public List<PerfilFullResponse> getPerfil(){

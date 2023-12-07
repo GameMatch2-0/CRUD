@@ -3,6 +3,7 @@ package com.example.matchmaker.matchmakerapi;
 import com.example.matchmaker.matchmakerapi.entity.repository.*;
 import com.example.matchmaker.matchmakerapi.service.GeneroJogoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -10,7 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @RequiredArgsConstructor
 @EnableFeignClients
-public class MatchmakerApiApplication  {
+public class MatchmakerApiApplication implements CommandLineRunner {
 
 	private final UsuarioRepository usuarioRepository;
 	private final PlanoRepository planoRepository;
@@ -28,8 +29,8 @@ public class MatchmakerApiApplication  {
 		SpringApplication.run(MatchmakerApiApplication.class, args);
 	}
 
-//	@Override
-//	public void run(String... args) throws Exception {
+	@Override
+	public void run(String... args) throws Exception {
 //		Plano plano = new Plano(null, "free", "gratuito", 15.50F);
 //		planoRepository.save(plano);
 //
@@ -80,7 +81,7 @@ public class MatchmakerApiApplication  {
 ////		Midia midia1 = new Midia(null, perfil, "ubsdojbnefesfbdu",true);
 ////		midiaRepository.saveAll(Arrays.asList(midia,midia1));
 //
-//		this.generoJogoService.addJogosApi();
+		this.generoJogoService.addJogosApi();
 //
-//	}
+	}
 }

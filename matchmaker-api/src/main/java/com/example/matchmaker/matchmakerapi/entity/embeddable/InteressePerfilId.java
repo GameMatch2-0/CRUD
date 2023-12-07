@@ -14,6 +14,6 @@ import java.io.Serializable;
 @Setter
 @Embeddable
 public class InteressePerfilId implements Serializable{
-    private Long perfilId;
-    private Long interesseId;
+    private Long idPerfil;
+    private Long idInteresses;
 }

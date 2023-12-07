@@ -47,7 +47,7 @@ public class GeneroJogoService {
 
             generoJogo.setIdGeneroJogos(it.getId());
             generoJogo.setNome(it.getName());
-            generoJogo.setImagem(it.getBackground_image());
+            generoJogo.setDescricao(it.getBackground_image());
 
             this.generoJogoRepository.save(generoJogo);
         });

@@ -1,18 +1,11 @@
-     insert into usuario
- (id_usuario, nome,sobrenome, identidade_genero, dt_nascimento, email, contato, senha, dt_cadastro, deleted, logado)
- values
- ('8121ca69-ed18-4c1c-a606-a9f3b0a0ec6c','John', 'Doe', 'Homem', '2000-01-01', 'john@doe.com', '+55 (11) 91234-5678', '$2a$10$0/TKTGxdREbWaWjWYhwf6e9P1fPOAMMNqEnZgOG95jnSkHSfkkIrC', '2023-08-01 10:15:00', false, false),
-('8169hg69-ex54-3a5c-a753-v4f4c0d9re9p','Jane', 'Jane Doe', 'Mulher', '2000-01-01', 'jane@doe.com', '+55 (11) 98768-5579', '$2a$10$0/TKTGxdREbWaWjWYhwf6e9P1fPOAMMNqEnZgOG95jnSkHSfkkIrC', '2022-10-11 10:15:00', false, false);
--- TESTES E INSERTS
--- Inserts para a tabela usuario
 INSERT INTO usuario (id_usuario, nome, sobrenome, email, celular, senha, dt_nascimento, identidade_genero, dt_cadastro)
 VALUES
     ('1', 'João', 'Silva', 'joao@example.com', '987654321', 'senha123', '1990-01-01', 'Masculino', NOW()),
     ('2', 'Maria', 'Santos', 'maria@example.com', '987654322', 'senha456', '1985-05-15', 'Feminino', NOW()),
     ('3', 'Carlos', 'Oliveira', 'carlos@example.com', '987654323', 'senha789', '1995-08-20', 'Masculino', NOW()),
-    ('4', 'Ana', 'Costa', 'ana@example.com', '987654324', '$2a$10$0/TKTGxdREbWaWjWYhwf6e9P1fPOAMMNqEnZgOG95jnSkHSfkkIrC', '1988-11-10', 'Feminino', NOW()),
-    ('5', 'Pedro', 'Ribeiro', 'pedro@example.com', '987654325', 'senhaxyz', '1992-03-25', 'Masculino', NOW()),
-    ('8121ca69-ed18-4c1c-a606-a9f3b0a0ec6c','John', 'Doe', 'john@doe.com', '91234-5678', '$2a$10$0/TKTGxdREbWaWjWYhwf6e9P1fPOAMMNqEnZgOG95jnSkHSfkkIrC', '2000-01-01', 'Homem', NOW());
+    ('4', 'Ana', 'Costa', 'ana@example.com', '987654324', 'senhaabc', '1988-11-10', 'Feminino', NOW()),
+    ('5', 'Pedro', 'Ribeiro', 'pedro@example.com', '987654325', 'senhaxyz', '1992-03-25', 'Masculino', NOW());
+
 -- Inserts para a tabela plano
 INSERT INTO plano (nome, descricao, preco)
 VALUES
@@ -74,18 +67,3 @@ INSERT into interesse_perfil (id_perfil, id_interesses, visivel) VALUES
                                                                      (3, 4,1),
                                                                      (4, 4,1),
                                                                      (4, 3,1);
-
-
--- Inserções para a tabela 'plano'
-INSERT INTO plano (nome, descricao, preco) VALUES
-    ('Plano A', 'Descrição do Plano A', 19.99);
-
-INSERT INTO plano (nome, descricao, preco) VALUES
-    ('Plano B', 'Descrição do Plano B', 29.99);
-
-insert into console values
-(null,'PS4', null),
-(null,'PS5', null),
-(null,'Nintendo Switch', null),
-(null,'PC', null),
-(null,'Mobile', null);

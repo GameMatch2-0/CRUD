@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface ConsolePerfilRepository extends JpaRepository<ConsolePerfil, ConsolePerfilId> {
-    ConsolePerfil findFirstById_PerfilId(Long id);
-    List<ConsolePerfil> findAllById_PerfilId(Long id);
+    ConsolePerfil findFirstById_IdPerfil(Long id);
+    List<ConsolePerfil> findAllById_IdPerfil(Long id);
 }

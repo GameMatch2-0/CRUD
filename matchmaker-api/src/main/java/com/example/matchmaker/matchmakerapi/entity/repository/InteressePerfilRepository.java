@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface InteressePerfilRepository extends JpaRepository<InteressePerfil, InteressePerfilId> {
-    InteressePerfil findFirstById_PerfilId(Long id);
-    List<InteressePerfil> findAllById_PerfilId(Long id);
+    InteressePerfil findFirstById_IdPerfil(Long id);
+    List<InteressePerfil> findAllById_IdPerfil(Long id);
 }

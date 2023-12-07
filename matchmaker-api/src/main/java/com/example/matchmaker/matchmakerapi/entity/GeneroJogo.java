@@ -20,5 +20,5 @@ public class GeneroJogo {
     private Integer idGeneroJogos;
 
     private String nome;
-    private String imagem;
+    private String descricao;
 }

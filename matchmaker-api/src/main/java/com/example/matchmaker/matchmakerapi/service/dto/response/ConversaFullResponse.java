@@ -11,8 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ConversaFullResponse {
     private Integer idConversa;
-    private String idUsuarioLogado;
-    private String idUsuarioConversa;
+    private Long idUsuarioLogado;
+    private Long idUsuarioConversa;
     private int notificacoes;
     private boolean alertaNotificacao;
     private Boolean deleted = true;

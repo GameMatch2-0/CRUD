@@ -39,6 +39,7 @@ public class ResponseMapper {
         return usuarioInPerfilResponse;
 
     }
+
     public static PerfilFullResponse toPerfilFullResponse(
             Perfil perfil,
             List<JogoInPerfilResponse> generoJogoList,
@@ -114,7 +115,7 @@ public class ResponseMapper {
         response.setIdMidia(midia.getIdMidia());
         response.setIdPerfil(midia.getPerfil().getIdPerfil());
         response.setLink(midia.getLink());
-        response.setVisible(midia.isVisible());
+        response.setVisible(midia.isVisivel());
 
         return response;
     }

@@ -1,9 +1,6 @@
 package com.example.matchmaker.matchmakerapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +15,10 @@ public class Conversa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idConversa;
-    private String idUsuarioLogado;
-    private String idUsuarioConversa;
+    @ManyToOne
+    private Perfil idPerfilLogado;
+    @ManyToOne
+    private Perfil idPerfilConversa;
     private int notificacoes;
     private boolean alertaNotificacao;
     private boolean deleted = false;

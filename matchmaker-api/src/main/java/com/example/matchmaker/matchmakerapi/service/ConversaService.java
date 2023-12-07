@@ -1,7 +1,9 @@
 package com.example.matchmaker.matchmakerapi.service;
 
 import com.example.matchmaker.matchmakerapi.entity.Conversa;
+import com.example.matchmaker.matchmakerapi.entity.Perfil;
 import com.example.matchmaker.matchmakerapi.entity.repository.ConversaRepository;
+import com.example.matchmaker.matchmakerapi.entity.repository.PerfilRepository;
 import com.example.matchmaker.matchmakerapi.service.dto.response.ConversaFullResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ConversaResponseMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,18 +19,25 @@ import java.util.stream.Collectors;
 public class ConversaService {
 
     private final ConversaRepository repo;
+    private final PerfilRepository perfilRepo;
 
-    public List<ConversaFullResponse> listarConversas(String idUsuario){
-         List<Conversa> conversasList = repo.findAllByIdUsuarioLogadoAndDeletedFalse(idUsuario);
+    public List<ConversaFullResponse> listarConversas(Long idPerfil){
+         List<Conversa> conversasList = repo.findAllByIdPerfilLogadoAndDeletedFalse(idPerfil);
             return conversasList.stream()
                     .map(ConversaResponseMapper::of)
                     .collect(Collectors.toList());
     }
 
-    public ConversaFullResponse novaConversa(String idUsuarioLogado, String idUsuarioConversa){
+    public ConversaFullResponse novaConversa(Long idPerfilLogado, Long idPerfilConversa){
         Conversa conversa = new Conversa();
-        conversa.setIdUsuarioLogado(idUsuarioLogado);
-        conversa.setIdUsuarioConversa(idUsuarioConversa);
+        Perfil perfilUsuario = this.perfilRepo.findByIdPerfilAndDeletedFalse(idPerfilLogado).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado")
+        );
+        Perfil perfilConversa = this.perfilRepo.findByIdPerfilAndDeletedFalse(idPerfilConversa).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado")
+        );
+        conversa.setIdPerfilLogado(perfilUsuario);
+        conversa.setIdPerfilConversa(perfilConversa);
         conversa.setNotificacoes(0);
         conversa.setAlertaNotificacao(false);
         conversa.setDeleted(false);

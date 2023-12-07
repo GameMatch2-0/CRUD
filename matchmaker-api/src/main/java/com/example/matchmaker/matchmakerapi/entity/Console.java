@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 public class Console {
     @Id
-    @Column(name = "consoleId")
+    @Column(name = "idConsole")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;

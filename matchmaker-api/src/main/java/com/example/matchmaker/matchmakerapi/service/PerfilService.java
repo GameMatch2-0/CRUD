@@ -8,6 +8,7 @@ import com.example.matchmaker.matchmakerapi.service.dto.request.NewUserRequest;
 import com.example.matchmaker.matchmakerapi.service.dto.request.mapper.RequestMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.*;
 import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ResponseMapper;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -103,6 +104,7 @@ public class PerfilService {
         return responseMapperList;
     }
 
+    @Transactional
     public List<String> getAmigos(Integer idPerfil) {
         List<String> amigosList = this.perfilRepository.buscarAmigos(idPerfil);
         if (amigosList.isEmpty()) {
@@ -112,6 +114,7 @@ public class PerfilService {
         return amigosList;
     }
 
+    @Transactional
     public FilaObj<PerfilFullResponse> getCardsPerfil( Integer perfilId) {
         FilaObj<PerfilFullResponse> responseMapperList = new FilaObj<PerfilFullResponse>();
         List<Perfil> perfilList = this.perfilRepository.buscaPerfisCarrossel(perfilId);
@@ -200,11 +203,13 @@ public class PerfilService {
         return midiaFullResponseList;
     }
 
+    @Transactional
     public void curtirPerfil(Integer perfilId, Integer perfilCurtido){
         LocalDate momento = LocalDate.now();
         perfilRepository.curtirOutroPerfil(perfilId, perfilCurtido, momento);
     }
 
+    @Transactional
     public void descurtirPerfil(Integer perfilId, Integer perfilCurtido){
         perfilRepository.descurtirOutroPerfil(perfilId, perfilCurtido);
     }

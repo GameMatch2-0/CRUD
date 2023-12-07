@@ -20,7 +20,7 @@ public class GeneroJogoPerfil {
     @JoinColumn(name = "idPerfil", insertable = false, updatable = false)
     private Perfil perfil;
     @ManyToOne
-    @JoinColumn(name = "idGenero", insertable = false, updatable = false)
+    @JoinColumn(name = "idGeneroJogos", insertable = false, updatable = false)
     private GeneroJogo generoJogos;
     private boolean isVisivel = true;
 }

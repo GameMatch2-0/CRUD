@@ -13,4 +13,7 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
     // A AVALIACAO TEM QUE VIR JA TRATADA LEVANDO EM CONSIDERAÇÃO A NOTA DO CARA Q TA AVALIANDO PORRA
     @Procedure("SP_nova_avaliacao")
     Optional<Avaliacao> adicionarAvaliacao (Integer idPerfilAvaliado, Integer idPerfilLogado, Double avaliacao, String descricao, LocalDate dataHora);
+
+    @Procedure("SP_remover_avaliacao")
+    void removerAvaliacao(Integer idPerfilAvaliado, Integer idPerfilLogado);
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 public class MensagemFullResponse {
     private Long idMensagem;
     private Integer idConversa;
-    private String idUsuario;
+    private Long idPerfil;
     private String dtEnvio;
     private String dtEdicao;
     private String corpoMensagem;

@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ConversaRequest {
-    private String idUsuarioLogado;
-    private String idUsuarioConversa;
+    private Long idPerfilLogado;
+    private Long idPerfilConversa;
 }

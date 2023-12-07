@@ -18,17 +18,17 @@ public class ConversaService {
 
     private final ConversaRepository repo;
 
-    public List<ConversaFullResponse> listarConversas(String idUsuario){
-         List<Conversa> conversasList = repo.findAllByIdUsuarioLogadoAndDeletedFalse(idUsuario);
+    public List<ConversaFullResponse> listarConversas(Long idPerfil){
+         List<Conversa> conversasList = repo.findAllByIdPerfilLogadoAndDeletedFalse(idPerfil);
             return conversasList.stream()
                     .map(ConversaResponseMapper::of)
                     .collect(Collectors.toList());
     }
 
-    public ConversaFullResponse novaConversa(String idUsuarioLogado, String idUsuarioConversa){
+    public ConversaFullResponse novaConversa(Long idPerfilLogado, Long idPerfilConversa){
         Conversa conversa = new Conversa();
-        conversa.setIdUsuarioLogado(idUsuarioLogado);
-        conversa.setIdUsuarioConversa(idUsuarioConversa);
+        conversa.setIdPerfilLogado(idPerfilLogado);
+        conversa.setIdPerfilConversa(idPerfilConversa);
         conversa.setNotificacoes(0);
         conversa.setAlertaNotificacao(false);
         conversa.setDeleted(false);

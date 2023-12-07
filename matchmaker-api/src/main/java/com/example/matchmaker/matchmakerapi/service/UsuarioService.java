@@ -19,8 +19,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Formatter;
 import java.util.FormatterClosedException;
 import java.util.List;
@@ -48,7 +51,6 @@ public class UsuarioService {
                         .orElseThrow(
                                 () -> new ResponseStatusException(404, "Email do usuario não encontrado", null)
                         );
-        usuarioAutenticado.setLogado(true);
         this.usuarioRepository.save(usuarioAutenticado);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -58,27 +60,21 @@ public class UsuarioService {
         return RequestMapper.toUsuarioTokenDto(usuarioAutenticado, token);
     }
 
-    public void logof(String id){
-        Usuario usuario = this.usuarioRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro ao fazer logout")
-        );
 
-        usuario.setLogado(false);
-        this.usuarioRepository.save(usuario);
-    }
 
 
     public Usuario salvar(Usuario usuario) {
         return this.usuarioRepository.save(usuario);
     }
 
-    public void criar(UsuarioRequest usuarioRequest) {
-        final Usuario novoUsuario = RequestMapper.toEntity(usuarioRequest);
+    public Usuario criar(UsuarioRequest usuarioRequest) {
+        final Usuario novoUsuario = RequestMapper.toUsuario(usuarioRequest);
 
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
         novoUsuario.setSenha(senhaCriptografada);
 
         this.usuarioRepository.save(novoUsuario);
+        return novoUsuario;
     }
 
 
@@ -105,12 +101,12 @@ public class UsuarioService {
     }
 
 
-    public UsuarioFullResponse buscarPorId(String id) {
+    public Usuario buscarPorId(String id) {
         Usuario usuario = this.usuarioRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado")
         );
 
-        return ResponseMapper.toUsuarioFullResponse(usuario);
+        return usuario;
     }
 
     public Optional<Usuario> buscarPorNome(String nome) {
@@ -126,7 +122,7 @@ public class UsuarioService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado")
         );
 
-        Usuario updateUsuario = RequestMapper.toEntity(usuarioRequest);
+        Usuario updateUsuario = RequestMapper.toUsuario(usuarioRequest);
         return salvar(updateUsuario);
     }
 
@@ -159,6 +155,55 @@ public class UsuarioService {
         return this.usuarioRepository.existsById(id);
     }
 
+    public static void gravaRegistro(String registro, String nomeArq) {
+        BufferedWriter saida = null;
+
+        // Bloco try-catch para abrir o arquivo
+        try {
+            saida = new BufferedWriter(new FileWriter(nomeArq, true));
+        }
+        catch (IOException erro) {
+            System.out.println("Erro ao abrir o arquivo");
+        }
+
+        // Bloco try-catch para gravar o registro e fechar o arquivo
+        try {
+            saida.append(registro + "\n");
+            saida.close();
+        }
+        catch (IOException erro) {
+            System.out.println("Erro ao gravar o arquivo");
+            erro.printStackTrace();
+        }
+    }
+
+    public static void gravaArquivoTxt(List<Usuario> lista, String nomeArq) {
+        int contaRegDadosGravados = 0;
+
+        // Monta o registro de header
+        String header = String.format("00USER%s01", LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMM-yyyy HH:mm:ss")));
+
+        // Grava o header
+        gravaRegistro(header, nomeArq);
+
+        // Monta e grava os registros de dados (registros de corpo)
+        for (Usuario u : lista) {
+            String corpo = String.format("02%9s%-45.45s%-100.100s%-100.100s%-45.45s%s%s%s%01d",
+                    u.getId(), u.getNome(), u.getSobrenome(), u.getEmail(), u.getCelular(),
+                    u.getDtNascimento(), u.getDtCadastro(), u.getIdentidadeGenero(), u.isDeleted() ? 1 : 0);
+
+            // Grava o registro de corpo
+            gravaRegistro(corpo, nomeArq);
+
+            // Contabiliza a quantidade de registros de dados gravados
+            contaRegDadosGravados++;
+        }
+
+        // Monta e grava o registro de trailer
+        String trailer = String.format("01%09d", contaRegDadosGravados);
+        gravaRegistro(trailer, nomeArq);
+    }
+
     public void gravaArquivoCsv(List<Usuario> lista, String nomeArq) {
         if (lista.isEmpty()) {
             System.out.println("A lista está vazia. Não há nada para gravar");
@@ -185,7 +230,7 @@ public class UsuarioService {
                 for (int i = 0; i < lista.size(); i++) {
                     // Instancia um objeto Cachorro para receber cada elemento da lista
                     Usuario user= lista.get(i);
-                    saida.format("%s;%s;%s;%s;%s;%s;%s;%b;%b\n", user.getId(), user.getNome(), user.getSobrenome(), user.getDtNascimento(), user.getEmail(), user.getContato(), user.getDtCadastro(), user.isDeleted(), user.isLogado());
+                    saida.format("%s;%s;%s;%s;%s;%s;%s;%b;%b\n", user.getId(), user.getNome(), user.getSobrenome(), user.getDtNascimento(), user.getEmail(), user.getCelular(), user.getDtCadastro(), user.isDeleted());
                 }
             } catch (FormatterClosedException erro) {
                 System.out.println("Erro ao gravar no arquivo");

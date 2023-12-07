@@ -21,7 +21,5 @@ public class UsuarioRequest {
     private String senha;
     private LocalDate dtNascimento;
     private String identidadeGenero;
-    private LocalDateTime dtCadastro;
-
 
 }

@@ -8,8 +8,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,13 +22,12 @@ public class Usuario {
     private String nome;
     private String sobrenome;
     private LocalDate dtNascimento;
+    private String celular;
     private String email;
-    private String contato;
     private String senha;
     private String identidadeGenero;
     private LocalDateTime dtCadastro = LocalDateTime.now();
     private boolean deleted = false;
-    private boolean logado = false;
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Perfil perfil;

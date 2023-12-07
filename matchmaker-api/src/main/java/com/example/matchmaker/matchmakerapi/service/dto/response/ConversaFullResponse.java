@@ -14,6 +14,6 @@ public class ConversaFullResponse {
     private Long idUsuarioLogado;
     private Long idUsuarioConversa;
     private int notificacoes;
-    private int alertaNotificacao;
+    private boolean alertaNotificacao;
     private Boolean deleted = true;
 }

@@ -20,6 +20,6 @@ public class Conversa {
     @ManyToOne
     private Perfil idPerfilConversa;
     private int notificacoes;
-    private int alertaNotificacao;
+    private boolean alertaNotificacao;
     private boolean deleted = false;
 }

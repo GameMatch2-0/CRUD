@@ -28,12 +28,6 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioToken);
     }
 
-    @PostMapping("/logoff/{id}")
-    public ResponseEntity<Usuario> logoff (@PathVariable String id){
-        this.usuarioService.logof(id);
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping
     public ResponseEntity<List<UsuarioFullResponse>> listar() {
         List<UsuarioFullResponse> usuarioFullResponseList = this.usuarioService.listar();
@@ -47,7 +41,8 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioFullResponse> buscar(@PathVariable String id) {
-        UsuarioFullResponse usuarioFullResponse = this.usuarioService.buscarPorId(id);
+        Usuario usuario = this.usuarioService.buscarPorId(id);
+        UsuarioFullResponse usuarioFullResponse = ResponseMapper.toUsuarioFullResponse(usuario);
         return ResponseEntity.ok(usuarioFullResponse);
     }
 
@@ -109,6 +104,15 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
         this.usuarioService.gravaArquivoCsv(lista, nomeArq);
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/gerarTxt")
+    public ResponseEntity<?> gerarArquivoTxtParaUsuariosDeletados(@RequestParam String nomeArq){
+        List<Usuario> lista = this.usuarioService.listarUsuariosParaCsv();
+        if(lista.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        this.usuarioService.gravaArquivoTxt(lista, nomeArq);
         return ResponseEntity.ok().build();
     }
 

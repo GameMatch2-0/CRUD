@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,4 +17,8 @@ public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Integer> {
 
     @Procedure("SP_remover_avaliacao")
     void removerAvaliacao(Integer idPerfilAvaliado, Integer idPerfilLogado);
+
+    List<Avaliacao> findByIdPerfil(Integer IdPerfil);
+
+
 }

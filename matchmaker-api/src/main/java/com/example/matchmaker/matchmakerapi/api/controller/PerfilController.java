@@ -21,6 +21,10 @@ import java.util.List;
 public class PerfilController {
 
     private final PerfilService perfilService;
+    @GetMapping("/simple")
+    public List<Perfil> getSimplePerfil(){
+        return this.perfilService.getSimplePerfil();
+    }
 
     @GetMapping
     public List<PerfilFullResponse> getPerfil(){
@@ -47,18 +51,18 @@ public class PerfilController {
     @PostMapping("/{perfilId}/curtidas/{idPerfilCurtido}")
     public ResponseEntity<String> curtirPerfil(
             @PathVariable Integer perfilId,
-            @PathVariable Integer perfilCurtido
+            @PathVariable Integer idPerfilCurtido
     ){
-        this.perfilService.curtirPerfil(perfilId, perfilCurtido);
+        this.perfilService.curtirPerfil(perfilId, idPerfilCurtido);
         return ResponseEntity.ok("Perfil curtido com sucesso");
     }
 
     @PostMapping("/{perfilId}/curtidas/{idPerfilDescurtido}/descurtir")
     public ResponseEntity<String> descurtirPerfil(
             @PathVariable Integer perfilId,
-            @PathVariable Integer perfilDescurtido
+            @PathVariable Integer idPerfilDescurtido
     ){
-        this.perfilService.descurtirPerfil(perfilId, perfilDescurtido);
+        this.perfilService.descurtirPerfil(perfilId, idPerfilDescurtido);
         return ResponseEntity.ok("Perfil descurtido com sucesso");
     }
 
@@ -73,6 +77,5 @@ public class PerfilController {
         List<String> listaAmigos = this.perfilService.getAmigos(perfilId);
         return ResponseEntity.ok(listaAmigos);
     }
-
 
 }

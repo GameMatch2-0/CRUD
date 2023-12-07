@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/avaliacoes")
 public class AvaliacaoController {
-    private final AvaliacaoService avaliacaoService;
+//    private final AvaliacaoService avaliacaoService;
 
     
 }

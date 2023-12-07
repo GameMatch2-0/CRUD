@@ -13,6 +13,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConsolePerfilId implements Serializable {
-    private Long perfilId;
-    private Long consoleId;
+    private Long idPerfil;
+    private Long idConsole;
 }

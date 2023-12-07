@@ -29,10 +29,6 @@ public class PerfilService {
     private final ConsolePerfilService consolePerfilService;
     private final MidiaService midiaService;
 
-    public List<Perfil> getSimplePerfil(){
-        return this.perfilRepository.findAll();
-    }
-
     public PerfilFullResponse novoCadastro(NewUserRequest newUserRequest){
         Usuario usuario = this.usuarioService.criar(newUserRequest.getUsuario());
 

@@ -49,7 +49,7 @@ public class MidiaService {
 
             midia.setPerfil(perfil);
             midia.setLink(it.getLink());
-            midia.setVisible(it.isVisible());
+            midia.setVisivel(it.isVisible());
 
             midiaRepository.save(midia);
             midiaFullResponses.add(ResponseMapper.toMidiaFullResponse(midia));

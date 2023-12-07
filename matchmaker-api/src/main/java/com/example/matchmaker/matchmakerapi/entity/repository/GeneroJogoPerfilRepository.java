@@ -10,5 +10,4 @@ import java.util.List;
 @Repository
 public interface GeneroJogoPerfilRepository extends JpaRepository<GeneroJogoPerfil, GeneroJogoPerfilId> {
     List<GeneroJogoPerfil> findAllByIdIdPerfil(Long id);
-    GeneroJogoPerfil findFirstById_IdPerfil(Long id);
 }

@@ -39,7 +39,7 @@ public class RequestMapper {
         Midia midia = new Midia();
 
         midia.setLink(newMidiaRequest.getLink());
-        midia.setVisible(newMidiaRequest.isVisible());
+        midia.setVisivel(newMidiaRequest.isVisible());
 
         return midia;
     }

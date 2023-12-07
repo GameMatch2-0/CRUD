@@ -22,7 +22,7 @@ public class InteressePerfil {
     @JoinColumn(name = "idPerfil", insertable = false, updatable = false)
     private Perfil perfil;
     @ManyToOne
-    @JoinColumn(name = "idInteresse", insertable = false, updatable = false)
+    @JoinColumn(name = "idInteresses", insertable = false, updatable = false)
     private Interesse interesse;
-    private boolean isVisible = true;
+    private boolean visivel = true;
 }

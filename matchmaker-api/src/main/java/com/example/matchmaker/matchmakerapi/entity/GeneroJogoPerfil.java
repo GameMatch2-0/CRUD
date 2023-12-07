@@ -22,5 +22,5 @@ public class GeneroJogoPerfil {
     @ManyToOne
     @JoinColumn(name = "idGeneroJogos", insertable = false, updatable = false)
     private GeneroJogo generoJogos;
-    private boolean isVisivel = true;
+    private boolean visivel = true;
 }

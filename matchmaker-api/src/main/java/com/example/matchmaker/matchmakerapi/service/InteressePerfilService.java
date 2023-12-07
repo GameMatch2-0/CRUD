@@ -22,16 +22,16 @@ public class InteressePerfilService {
     }
 
     public boolean isVisibleByPerfilId(Long perfilId){
-        return this.interessePerfilRepository.findFirstById_PerfilId(perfilId).isVisible();
+        return this.interessePerfilRepository.findFirstById_IdPerfil(perfilId).isVisivel();
     }
 
     public List<Interesse> getInteresseByPerfilId(Long perfilId){
-        List<InteressePerfil> interessePerfils = this.interessePerfilRepository.findAllById_PerfilId(perfilId);
+        List<InteressePerfil> interessePerfils = this.interessePerfilRepository.findAllById_IdPerfil(perfilId);
 
         List<Interesse> interesseList = new ArrayList<>();
 
         interessePerfils.forEach(it -> {
-            interesseList.add(this.interesseService.findById(it.getId().getInteresseId()));
+            interesseList.add(this.interesseService.findById(it.getId().getIdInteresses()));
         });
 
         return interesseList;
@@ -41,14 +41,14 @@ public class InteressePerfilService {
         Interesse interesse = this.interesseService.findById(interesseId);
 
         InteressePerfilId interessePerfilId = new InteressePerfilId();
-        interessePerfilId.setPerfilId(perfil.getIdPerfil());
-        interessePerfilId.setInteresseId(interesse.getIdInteresse());
+        interessePerfilId.setIdPerfil(perfil.getIdPerfil());
+        interessePerfilId.setIdInteresses(interesse.getIdInteresse());
 
         InteressePerfil interessePerfil = new InteressePerfil();
         interessePerfil.setId(interessePerfilId);
         interessePerfil.setPerfil(perfil);
         interessePerfil.setInteresse(interesse);
-        interessePerfil.setVisible(isVisible);
+        interessePerfil.setVisivel(isVisible);
 
         return interessePerfil;
     }

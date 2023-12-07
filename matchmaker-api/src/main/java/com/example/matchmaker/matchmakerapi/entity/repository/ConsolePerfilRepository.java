@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ConsolePerfilRepository extends JpaRepository<ConsolePerfil, ConsolePerfilId> {
-    ConsolePerfil findFirstById_IdPerfil(Long id);
+    Optional<ConsolePerfil> findFirstById_IdPerfil(Long id);
     List<ConsolePerfil> findAllById_IdPerfil(Long id);
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +18,14 @@ public class ConsolePerfilService {
     private final ConsolePerfilRepository consolePerfilRepository;
     private final ConsoleService consoleService;
     public boolean getIsVisibleByPerfilId(Long perfilId){
-        return this.consolePerfilRepository.findFirstById_IdPerfil(perfilId).isVisivel();
+//        return true;
+        Optional<ConsolePerfil> consolePerfilOpt = this.consolePerfilRepository.findFirstById_IdPerfil(perfilId);
+
+        if (consolePerfilOpt.isPresent()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public List<Console> getConsoleListByPerfilId(Long perfilId){

@@ -1,5 +1,6 @@
 package com.example.matchmaker.matchmakerapi.service;
 
+import com.example.matchmaker.matchmakerapi.entity.ConsolePerfil;
 import com.example.matchmaker.matchmakerapi.entity.GeneroJogo;
 import com.example.matchmaker.matchmakerapi.entity.GeneroJogoPerfil;
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,22 +21,19 @@ public class GeneroJogoPerfilService {
 
     public List<GeneroJogoPerfil> getGeneroJogoPerfil(){
         List<GeneroJogoPerfil> generoJogoPerfilList = this.generoJogoPerfilRepository.findAll();
-
         //findfirstby - inplemmentar a logica e trocar essa merda de gambiarra do krlh
-
-
 
         return generoJogoPerfilList;
     }
 
     public boolean getIsVisibleByPerfilId(Long perfilId){
-        List<GeneroJogoPerfil> list = this.generoJogoPerfilRepository.findAllByIdIdPerfil(perfilId);
+        Optional<GeneroJogoPerfil> generoJogoPerfilOpt = this.generoJogoPerfilRepository.findFirstById_IdPerfil(perfilId);
 
-        if (list.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum geenero cadastrado neste perfil");
+        if (generoJogoPerfilOpt.isPresent()){
+            return true;
+        }else {
+            return false;
         }
-
-        return list.get(0).isVisivel();
     }
 
     public List<GeneroJogoPerfil> getGeneroIdByPerfilId(Long perfilId){

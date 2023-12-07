@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,13 @@ public class InteressePerfilService {
     }
 
     public boolean isVisibleByPerfilId(Long perfilId){
-        return this.interessePerfilRepository.findFirstById_IdPerfil(perfilId).isVisivel();
+        Optional<InteressePerfil> interessePerfilOpt = this.interessePerfilRepository.findFirstById_IdPerfil(perfilId);
+
+        if (interessePerfilOpt.isPresent()){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public List<Interesse> getInteresseByPerfilId(Long perfilId){

@@ -20,8 +20,8 @@ public class ConversaController {
     private final ConversaService conversaService;
 
     @GetMapping("/{idUsuarioLogado}")
-    public ResponseEntity<List<ConversaFullResponse>> getConversas(@PathVariable String idUsuarioLogado){
-        List<ConversaFullResponse> conversaLista = this.conversaService.listarConversas(idUsuarioLogado);
+    public ResponseEntity<List<ConversaFullResponse>> getConversas(@PathVariable Long idPerfil){
+        List<ConversaFullResponse> conversaLista = this.conversaService.listarConversas(idPerfil);
 
         if (conversaLista.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -31,11 +31,11 @@ public class ConversaController {
     }
 
     @PostMapping("/{idUsuarioLogado}/{idUsuarioConversa}")
-    public ResponseEntity<ConversaFullResponse> novaConversa(@PathVariable String idUsuarioLogado, @PathVariable String idUsuarioConversa){
-        if (idUsuarioLogado.equals(idUsuarioConversa)){
+    public ResponseEntity<ConversaFullResponse> novaConversa(@PathVariable Long idPerfilLogado, @PathVariable Long idPerfilConversa){
+        if (idPerfilLogado.equals(idPerfilConversa)){
             ResponseEntity.status(409).build();
         }
-        ConversaFullResponse conversa = this.conversaService.novaConversa(idUsuarioLogado, idUsuarioConversa);
+        ConversaFullResponse conversa = this.conversaService.novaConversa(idPerfilLogado, idPerfilConversa);
         return ResponseEntity.ok(conversa);
     }
 

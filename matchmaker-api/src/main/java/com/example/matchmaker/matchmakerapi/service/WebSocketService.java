@@ -26,14 +26,14 @@ public class WebSocketService {
     Optional<Conversa> conversa = conversaRepository.findByIdConversaAndDeletedFalse(message.getIdConversa());
 
     if (conversa.isPresent()) {
-      if (conversa.get().getIdUsuarioLogado().equals(username)) {
-        username = conversa.get().getIdUsuarioLogado();
+      if (conversa.get().getIdPerfilLogado().equals(username)) {
+        username = conversa.get().getIdPerfilLogado();
       } else {
-        username = conversa.get().getIdUsuarioConversa();
+        username = conversa.get().getIdPerfilConversa();
       }
     }
 
-    String destination = String.format("/topic/message", username);
+    String destination = String.format("/topic/%s/message", username);
 
     template.convertAndSend(destination, message.getCorpoMensagem());
   }

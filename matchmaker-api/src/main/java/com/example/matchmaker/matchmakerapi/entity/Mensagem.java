@@ -1,15 +1,11 @@
 package com.example.matchmaker.matchmakerapi.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,7 +18,8 @@ public class Mensagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMensagem;
     private Integer idConversa;
-    private String idUsuario;
+    @ManyToOne
+    private Perfil perfil;
     private LocalDateTime dtEnvio;
     private LocalDateTime dtEdicao;
     private String corpoMensagem;

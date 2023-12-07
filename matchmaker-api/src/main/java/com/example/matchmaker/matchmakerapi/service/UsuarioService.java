@@ -138,6 +138,12 @@ public class UsuarioService {
         salvar(usuario);
     }
 
+    public Usuario buscarUsuarioPorIdPerfil(Long idPerfil) {
+        return this.usuarioRepository.findByPerfil(idPerfil).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado")
+        );
+    }
+
     public boolean validaUsuario(UsuarioRequest usuario) {
         return usuario.getNome() != null && !usuario.getNome().isEmpty()
                 && usuario.getIdentidadeGenero() != null

@@ -8,8 +8,8 @@ public class ConversaRequestMapper {
     public static Conversa of(ConversaRequest conversaRequest){
         Conversa conversa = new Conversa();
 
-        conversa.setIdUsuarioLogado(conversaRequest.getIdUsuarioLogado());
-        conversa.setIdUsuarioConversa(conversaRequest.getIdUsuarioConversa());
+//        conversa.setIdPerfilLogado(conversaRequest.getIdPerfilLogado());
+//        conversa.setIdPerfilConversa(conversaRequest.getIdPerfilConversa());
 
         return conversa;
     }

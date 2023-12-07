@@ -98,7 +98,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/gerarCsv")
-    public ResponseEntity<?> generateCsvArchiveDeletedUsers(@RequestParam String nomeArq){
+    public ResponseEntity<?> gerarArquivoCsvParaUsuariosDeletados(@RequestParam String nomeArq){
         List<Usuario> lista = this.usuarioService.listarUsuariosParaCsv();
         if(lista.isEmpty()){
             return ResponseEntity.notFound().build();
@@ -106,6 +106,16 @@ public class UsuarioController {
         this.usuarioService.gravaArquivoCsv(lista, nomeArq);
         return ResponseEntity.ok().build();
     }
+    @GetMapping("/gerarTxt")
+    public ResponseEntity<?> gerarArquivoTxtParaUsuariosDeletados(@RequestParam String nomeArq){
+        List<Usuario> lista = this.usuarioService.listarUsuariosParaCsv();
+        if(lista.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        this.usuarioService.gravaArquivoTxt(lista, nomeArq);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/gerarTxt")
     public ResponseEntity<?> gerarArquivoTxtParaUsuariosDeletados(@RequestParam String nomeArq){
         List<Usuario> lista = this.usuarioService.listarUsuariosParaCsv();

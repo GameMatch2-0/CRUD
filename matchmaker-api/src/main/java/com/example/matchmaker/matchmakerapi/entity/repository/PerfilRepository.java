@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PerfilRepository extends JpaRepository<Perfil, Long> {
@@ -26,4 +27,6 @@ public interface PerfilRepository extends JpaRepository<Perfil, Long> {
 
     @Procedure("SP_buscar_amigos")
     List<String> buscarAmigos(Integer idPerfilLogado);
+
+    Optional<Perfil> findByIdPerfilAndDeletedFalse(Long idPerfil);
 }

@@ -14,7 +14,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AvaliacaoService {
-<<<<<<< HEAD
     private final AvaliacaoRepository avaliacaoRepository;
     private final PerfilService perfilService;
 
@@ -48,7 +47,6 @@ public class AvaliacaoService {
                                  Integer idPerfilLogado){
         this.avaliacaoRepository.removerAvaliacao(idPerfilAvaliado, idPerfilAvaliado.intValue());
     }
-=======
 //    private final AvaliacaoRepository avaliacaoRepository;
 //    private final PerfilService perfilService;
 //
@@ -89,6 +87,5 @@ public class AvaliacaoService {
 //                                 Integer idPerfilLogado){
 //        this.avaliacaoRepository.removerAvaliacao(idPerfilAvaliado, idPerfilAvaliado.intValue());
 //    }
->>>>>>> ae64f4703291db31fa877fb6c15eee2264bfda63
 
 }

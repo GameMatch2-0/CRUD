@@ -40,7 +40,7 @@ public class MensagemController {
             return ResponseEntity.badRequest().build();
         }
 
-        webSocketService.sendMessageToUser(mensagemEnviada, mensagemEnviada.getIdPerfil());
+        webSocketService.sendMessageToUser(mensagemEnviada, mensagemEnviada.getPerfil().getIdPerfil());
 
         return ResponseEntity.ok(mensagemEnviada);
     }

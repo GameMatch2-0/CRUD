@@ -28,5 +28,5 @@ public interface PerfilRepository extends JpaRepository<Perfil, Long> {
     @Procedure("SP_buscar_amigos")
     List<String> buscarAmigos(Integer idPerfilLogado);
 
-    Optional<Perfil> findByIdPerfilAndDeletedFalse(Long idPerfil);
+    Optional<Perfil> findByIdPerfil(Long idPerfil);
 }

@@ -22,18 +22,18 @@ public class WebSocketService {
     template.convertAndSend("/topic/message", message.getCorpoMensagem());
   }
 
-  public void sendMessageToUser(Mensagem message, String username) {
+  public void sendMessageToUser(Mensagem message, Long idPerfil) {
     Optional<Conversa> conversa = conversaRepository.findByIdConversaAndDeletedFalse(message.getIdConversa());
 
     if (conversa.isPresent()) {
-      if (conversa.get().getIdPerfilLogado().equals(username)) {
-        username = conversa.get().getIdPerfilLogado();
+      if (conversa.get().getIdPerfilLogado().equals(idPerfil)) {
+        idPerfil = conversa.get().getIdPerfilLogado().getIdPerfil();
       } else {
-        username = conversa.get().getIdPerfilConversa();
+        idPerfil = conversa.get().getIdPerfilConversa().getIdPerfil();
       }
     }
 
-    String destination = String.format("/topic/%s/message", username);
+    String destination = String.format("/topic/%d/message", idPerfil);
 
     template.convertAndSend(destination, message.getCorpoMensagem());
   }

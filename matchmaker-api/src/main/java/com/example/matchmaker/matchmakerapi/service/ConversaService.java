@@ -30,10 +30,10 @@ public class ConversaService {
 
     public ConversaFullResponse novaConversa(Long idPerfilLogado, Long idPerfilConversa){
         Conversa conversa = new Conversa();
-        Perfil perfilUsuario = this.perfilRepo.findByIdPerfilAndDeletedFalse(idPerfilLogado).orElseThrow(
+        Perfil perfilUsuario = this.perfilRepo.findByIdPerfil(idPerfilLogado).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado")
         );
-        Perfil perfilConversa = this.perfilRepo.findByIdPerfilAndDeletedFalse(idPerfilConversa).orElseThrow(
+        Perfil perfilConversa = this.perfilRepo.findByIdPerfil(idPerfilConversa).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado")
         );
         conversa.setIdPerfilLogado(perfilUsuario);

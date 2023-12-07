@@ -7,6 +7,19 @@ import java.util.List;
 
 public class ResponseMapper {
 
+    public static PerfilShortResponse toPerfilShortResponse(Perfil perfil){
+        PerfilShortResponse response = new PerfilShortResponse();
+
+        response.setIdPerfil(perfil.getIdPerfil());
+        response.setIdUsuario(perfil.getUsuario().getId());
+        response.setUsername(perfil.getUsername());
+        response.setBiografia(perfil.getBiografia());
+        response.setNota(perfil.getNota());
+        response.setPremium(perfil.isPremium());
+
+        return response;
+    }
+
     public static UsuarioFullResponse toUsuarioFullResponse(Usuario usuario){
         UsuarioFullResponse usuarioFullResponse = new UsuarioFullResponse();
 

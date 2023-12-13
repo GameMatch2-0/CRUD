@@ -12,6 +12,7 @@ public class ResponseMapper {
 
         response.setIdPerfil(perfil.getIdPerfil());
         response.setIdUsuario(perfil.getUsuario().getId());
+        response.setNomeCompleto(perfil.getUsuario().getNome(),perfil.getUsuario().getSobrenome());
         response.setUsername(perfil.getUsername());
         response.setBiografia(perfil.getBiografia());
         response.setNota(perfil.getNota());

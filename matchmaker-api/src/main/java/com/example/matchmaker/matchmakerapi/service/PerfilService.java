@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class PerfilService {
     private final ConsolePerfilService consolePerfilService;
     private final MidiaService midiaService;
 
-    public PerfilFullResponse novoCadastro(NewUserRequest newUserRequest){
+    public void novoCadastro(NewUserRequest newUserRequest){
         Usuario usuario = this.usuarioService.criar(newUserRequest.getUsuario());
 
         Perfil perfil = RequestMapper.toPerfil(newUserRequest.getPerfil(),usuario);
@@ -52,57 +51,35 @@ public class PerfilService {
 
         List<MidiaFullResponse> midiaList = this.midiaService.addMidia(perfil,newUserRequest.getMidiaList());
         perfilRepository.save(perfil);
-
-        return getPerfilFullResponse(perfil.getIdPerfil());
-    }
-
-    public PerfilFullResponse getPerfilFullResponse(Long perfilId){
-        Perfil perfil = this.getPerfilId(perfilId);
-
-        List<JogoInPerfilResponse> generoJogoList = this.getGeneroJogosPorPerfilId(perfilId);
-        List<InteresseFullResponse> interesseList = this.getInteressePorPerfilId(perfilId);
-        UsuarioInPerfilResponse usuario = ResponseMapper.toUsuarioInPerfilResponse(this.usuarioService.buscarPorId(perfil.getUsuario().getId()));
-        List<ConsoleFullResponse> consoleList = this.getConsolePorPerfilId(perfilId);
-        List<MidiaFullResponse> midiaList = this.getMidiaByPerfilId(perfilId);
-
-        return ResponseMapper.toPerfilFullResponse(
-                perfil,
-                generoJogoList,
-                usuario,
-                interesseList,
-                consoleList,
-                midiaList
-        );
     }
 
 
-    public List<PerfilFullResponse> getPerfil() {
-        List<PerfilFullResponse> responseMapperList = new ArrayList<>();
+    public List<Perfil> getPerfil() {
         List<Perfil> perfilList = this.perfilRepository.findAll();
         if (perfilList.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum perfil Cadastrado");
         }
 
-        perfilList.forEach(it ->{
-            Usuario usuario = this.usuarioService.buscarPorId(it.getUsuario().getId());
-            UsuarioInPerfilResponse user = ResponseMapper.toUsuarioInPerfilResponse(usuario);
+//        perfilList.forEach(it ->{
+//            Usuario usuario = this.usuarioService.buscarPorId(it.getUsuario().getId());
+//            UsuarioInPerfilResponse user = ResponseMapper.toUsuarioInPerfilResponse(usuario);
+//
+//            List<JogoInPerfilResponse> generoJogoList;
+//            generoJogoList = getGeneroJogosPorPerfilId(it.getIdPerfil());
+//
+//            List<InteresseFullResponse> interesseList;
+//            interesseList = getInteressePorPerfilId(it.getIdPerfil());
+//
+//            List<ConsoleFullResponse> consoleList;
+//            consoleList = getConsolePorPerfilId(it.getIdPerfil());
+//
+//            List<MidiaFullResponse> midiaList;
+//            midiaList = getMidiaByPerfilId(it.getIdPerfil());
+//            responseMapperList.add(ResponseMapper.toPerfilFullResponse(it ,generoJogoList, user, interesseList, consoleList,midiaList));
+//
+//        });
 
-            List<JogoInPerfilResponse> generoJogoList;
-            generoJogoList = getGeneroJogosPorPerfilId(it.getIdPerfil());
-
-            List<InteresseFullResponse> interesseList;
-            interesseList = getInteressePorPerfilId(it.getIdPerfil());
-
-            List<ConsoleFullResponse> consoleList;
-            consoleList = getConsolePorPerfilId(it.getIdPerfil());
-
-            List<MidiaFullResponse> midiaList;
-            midiaList = getMidiaByPerfilId(it.getIdPerfil());
-            responseMapperList.add(ResponseMapper.toPerfilFullResponse(it ,generoJogoList, user, interesseList, consoleList,midiaList));
-
-        });
-
-        return responseMapperList;
+        return perfilList;
     }
 
     @Transactional

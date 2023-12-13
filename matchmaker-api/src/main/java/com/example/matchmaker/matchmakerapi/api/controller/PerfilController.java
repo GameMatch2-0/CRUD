@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +29,18 @@ public class PerfilController {
         return ResponseEntity.ok(ResponseMapper.toPerfilShortResponse(perfil));
     }
 
+    @GetMapping
+    public ResponseEntity<List<PerfilShortResponse>> getPerfil(){
+        List<Perfil> perfilList = this.perfilService.getPerfil();
+
+
+        List<PerfilShortResponse> responses = perfilList.stream()
+                .map(ResponseMapper::toPerfilShortResponse)
+                .collect(Collectors.toList());
+
+
+        return ResponseEntity.ok(responses);
+    }
 
     @PutMapping("/{perfilId}/midias")
     public ResponseEntity<String> atualizarMidiasDoPerfil(
@@ -40,9 +53,8 @@ public class PerfilController {
     }
 
     @PostMapping("/novo-cadastro")
-    public ResponseEntity<PerfilFullResponse> novoUsuario(@RequestBody NewUserRequest newUserRequest){
-        PerfilFullResponse perfil = this.perfilService.novoCadastro(newUserRequest);
-//        return ResponseEntity.ok(perfil);
+    public ResponseEntity<Perfil> novoUsuario(@RequestBody NewUserRequest newUserRequest){
+        this.perfilService.novoCadastro(newUserRequest);
         return ResponseEntity.status(201).build();
     }
 
@@ -68,11 +80,6 @@ public class PerfilController {
     public ResponseEntity<FilaObj<PerfilFullResponse>> getCardsPerfil(@PathVariable Integer perfilId){
         FilaObj filaCards = this.perfilService.getCardsPerfil(perfilId);
         return ResponseEntity.ok(filaCards);
-    }
-    @GetMapping
-    public List<PerfilFullResponse> getPerfil(){
-        List<PerfilFullResponse> perfilList = this.perfilService.getPerfil();
-        return perfilList;
     }
 
     @GetMapping("/{perfilId}/amigos")

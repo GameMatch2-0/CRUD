@@ -58,7 +58,8 @@ public class SecurityConfiguracao {
             new AntPathRequestMatcher("/error/**"),
             new AntPathRequestMatcher("/usuarios", HttpMethod.POST.toString()),
             new AntPathRequestMatcher("/perfis/novo-cadastro", HttpMethod.POST.toString()),
-            new AntPathRequestMatcher("/websocket/**")
+            new AntPathRequestMatcher("/websocket/**"),
+            new AntPathRequestMatcher("/genero-jogos/all", HttpMethod.GET.toString())
 
     };
 

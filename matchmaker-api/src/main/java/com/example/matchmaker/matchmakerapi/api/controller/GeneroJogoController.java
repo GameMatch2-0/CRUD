@@ -24,7 +24,7 @@ public class GeneroJogoController {
 
     @Autowired
     private GameIntegration gameIntegration;
-    @GetMapping("/get-all")
+    @GetMapping("/all")
     public ResponseEntity<GameApiRequest> getGames(){
         GameApiRequest result = gameIntegration.getGames("da40d031fc32436faa42101ca4a33508");
         return ResponseEntity.ok(result);

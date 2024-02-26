@@ -60,25 +60,6 @@ public class PerfilService {
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Nenhum perfil Cadastrado");
         }
 
-//        perfilList.forEach(it ->{
-//            Usuario usuario = this.usuarioService.buscarPorId(it.getUsuario().getId());
-//            UsuarioInPerfilResponse user = ResponseMapper.toUsuarioInPerfilResponse(usuario);
-//
-//            List<JogoInPerfilResponse> generoJogoList;
-//            generoJogoList = getGeneroJogosPorPerfilId(it.getIdPerfil());
-//
-//            List<InteresseFullResponse> interesseList;
-//            interesseList = getInteressePorPerfilId(it.getIdPerfil());
-//
-//            List<ConsoleFullResponse> consoleList;
-//            consoleList = getConsolePorPerfilId(it.getIdPerfil());
-//
-//            List<MidiaFullResponse> midiaList;
-//            midiaList = getMidiaByPerfilId(it.getIdPerfil());
-//            responseMapperList.add(ResponseMapper.toPerfilFullResponse(it ,generoJogoList, user, interesseList, consoleList,midiaList));
-//
-//        });
-
         return perfilList;
     }
 

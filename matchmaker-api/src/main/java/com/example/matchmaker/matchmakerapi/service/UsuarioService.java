@@ -69,6 +69,9 @@ public class UsuarioService {
 
     public Usuario criar(UsuarioRequest usuarioRequest) {
         final Usuario novoUsuario = RequestMapper.toUsuario(usuarioRequest);
+        if (buscarPorEmail(novoUsuario.getEmail()).isPresent()){
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
 
         String senhaCriptografada = passwordEncoder.encode(novoUsuario.getSenha());
         novoUsuario.setSenha(senhaCriptografada);

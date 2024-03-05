@@ -20,8 +20,8 @@ public class Mensagem {
     private Integer idConversa;
     @ManyToOne
     private Perfil perfil;
-    private LocalDateTime dtEnvio;
-    private LocalDateTime dtEdicao;
+    private LocalDateTime dtEnvio = LocalDateTime.now();
+    private LocalDateTime dtEdicao = LocalDateTime.now();
     private String corpoMensagem;
     private Boolean visivel = true;
 

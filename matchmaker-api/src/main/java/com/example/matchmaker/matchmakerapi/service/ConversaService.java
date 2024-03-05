@@ -4,6 +4,7 @@ import com.example.matchmaker.matchmakerapi.entity.Conversa;
 import com.example.matchmaker.matchmakerapi.entity.Perfil;
 import com.example.matchmaker.matchmakerapi.entity.repository.ConversaRepository;
 import com.example.matchmaker.matchmakerapi.entity.repository.PerfilRepository;
+import com.example.matchmaker.matchmakerapi.service.dto.request.mapper.ConversaRequestMapper;
 import com.example.matchmaker.matchmakerapi.service.dto.response.ConversaFullResponse;
 import com.example.matchmaker.matchmakerapi.service.dto.response.mapper.ConversaResponseMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class ConversaService {
 
     private final ConversaRepository repo;
-    private final PerfilRepository perfilRepo;
+    private final PerfilService service;
 
     public List<ConversaFullResponse> listarConversas(Long idPerfil){
          List<Conversa> conversasList = repo.findAllByIdPerfilLogadoAndDeletedFalse(idPerfil);
@@ -29,18 +30,10 @@ public class ConversaService {
     }
 
     public ConversaFullResponse novaConversa(Long idPerfilLogado, Long idPerfilConversa){
-        Conversa conversa = new Conversa();
-        Perfil perfilUsuario = this.perfilRepo.findByIdPerfil(idPerfilLogado).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado")
-        );
-        Perfil perfilConversa = this.perfilRepo.findByIdPerfil(idPerfilConversa).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado")
-        );
-        conversa.setIdPerfilLogado(perfilUsuario);
-        conversa.setIdPerfilConversa(perfilConversa);
-        conversa.setNotificacoes(0);
-        conversa.setAlertaNotificacao(false);
-        conversa.setDeleted(false);
+        Perfil perfilUsuario = this.service.getPerfilId(idPerfilLogado);
+        Perfil perfilConversa = this.service.getPerfilId(idPerfilConversa);
+
+        final var conversa = ConversaRequestMapper.toConversa(perfilUsuario,perfilConversa);
         repo.save(conversa);
         return ConversaResponseMapper.of(conversa);
     }

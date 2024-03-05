@@ -4,6 +4,8 @@ import com.example.matchmaker.matchmakerapi.ListaObj;
 import com.example.matchmaker.matchmakerapi.entity.Mensagem;
 import com.example.matchmaker.matchmakerapi.entity.repository.MensagemRepository;
 import com.example.matchmaker.matchmakerapi.service.dto.request.MensagemRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.request.NewMensagemDto;
+import com.example.matchmaker.matchmakerapi.service.dto.request.mapper.MensagemRequestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,17 +19,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MensagemService {
     private final MensagemRepository repo;
+    private final PerfilService perfilService;
 
     public List<Mensagem> getUltimas30Mensagens(Integer idConversa) {
         return repo.findTop30ByIdConversa(idConversa);
     }
 
-    public Mensagem salvar(Integer idConversa, Mensagem mensagem) {
-        mensagem.setIdConversa(idConversa);
-        mensagem.setDtEnvio(LocalDateTime.now());
-        mensagem.setDtEdicao(LocalDateTime.now());
-        mensagem.setVisivel(true);
-        return repo.save(mensagem);
+    public Mensagem salvar(final NewMensagemDto request) {
+        final var perfil = perfilService.getPerfilId(request.getPerfilId());
+
+        return repo.save(MensagemRequestMapper.toMensagem(request,perfil));
     }
 
     public Mensagem deletar(Long idMensagem, Integer idConversa) {

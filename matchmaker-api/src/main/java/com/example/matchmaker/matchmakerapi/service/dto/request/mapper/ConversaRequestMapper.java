@@ -1,15 +1,21 @@
 package com.example.matchmaker.matchmakerapi.service.dto.request.mapper;
 
 import com.example.matchmaker.matchmakerapi.entity.Conversa;
-import com.example.matchmaker.matchmakerapi.service.dto.request.ConversaRequest;
+import com.example.matchmaker.matchmakerapi.entity.Perfil;
 
 public class ConversaRequestMapper {
 
-    public static Conversa of(ConversaRequest conversaRequest){
+    public static Conversa toConversa(
+            final Perfil perfilUsuario,
+            final Perfil perfilConversa) {
+
         Conversa conversa = new Conversa();
 
-//        conversa.setIdPerfilLogado(conversaRequest.getIdPerfilLogado());
-//        conversa.setIdPerfilConversa(conversaRequest.getIdPerfilConversa());
+        conversa.setIdPerfilConversa(perfilConversa);
+        conversa.setIdPerfilLogado(perfilUsuario);
+        conversa.setNotificacoes(0);
+        conversa.setAlertaNotificacao(false);
+        conversa.setDeleted(false);
 
         return conversa;
     }

@@ -5,6 +5,7 @@ import com.example.matchmaker.matchmakerapi.service.ConversaService;
 import com.example.matchmaker.matchmakerapi.service.MensagemService;
 import com.example.matchmaker.matchmakerapi.service.WebSocketService;
 import com.example.matchmaker.matchmakerapi.service.dto.request.MensagemRequest;
+import com.example.matchmaker.matchmakerapi.service.dto.request.NewMensagemDto;
 import com.example.matchmaker.matchmakerapi.service.dto.response.ConversaFullResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,8 @@ public class MensagemController {
     }
 
     @PostMapping
-    public ResponseEntity<Mensagem> enviarMensagem(@RequestBody Mensagem mensagem) {
-        Mensagem mensagemEnviada = mensagemService.salvar(mensagem.getIdConversa(), mensagem);
+    public ResponseEntity<Mensagem> enviarMensagem(@RequestBody NewMensagemDto request) {
+        Mensagem mensagemEnviada = mensagemService.salvar(request);
 
         if (mensagemEnviada.getCorpoMensagem().isEmpty()) {
             return ResponseEntity.badRequest().build();

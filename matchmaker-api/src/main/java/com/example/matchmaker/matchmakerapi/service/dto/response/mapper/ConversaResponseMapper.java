@@ -5,12 +5,13 @@ import com.example.matchmaker.matchmakerapi.service.dto.response.ConversaFullRes
 
 public class ConversaResponseMapper {
 
-    public static ConversaFullResponse of(Conversa conversa){
+    public static ConversaFullResponse of(Conversa conversa, String ultimaMensagem){
 
         return new ConversaFullResponse(
                 conversa.getIdConversa(),
                 conversa.getIdPerfilLogado().getIdPerfil(),
                 conversa.getIdPerfilConversa().getIdPerfil(),
+                ultimaMensagem,
                 conversa.getNotificacoes(),
                 conversa.isAlertaNotificacao(),
                 conversa.isDeleted()

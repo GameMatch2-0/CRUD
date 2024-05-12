@@ -31,6 +31,15 @@ public class MensagemService {
         return repo.save(MensagemRequestMapper.toMensagem(request,perfil));
     }
 
+    public String ultimaMensagem(Long idConversa, Long idPerfilLogado){
+        final var mensagem = repo.ultimaMensagem(idConversa, idPerfilLogado);
+        if (mensagem.isPresent()) {
+            return mensagem.get().getCorpoMensagem();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
     public Mensagem deletar(Long idMensagem, Integer idConversa) {
         Mensagem mensagemDeletada = repo.findByIdMensagemAndIdConversaAndVisivelTrue(idMensagem, idConversa).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario não encontrado")

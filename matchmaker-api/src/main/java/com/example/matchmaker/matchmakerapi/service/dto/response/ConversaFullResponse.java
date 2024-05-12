@@ -13,6 +13,7 @@ public class ConversaFullResponse {
     private Integer idConversa;
     private Long idUsuarioLogado;
     private Long idUsuarioConversa;
+    private String ultimaMensagem;
     private int notificacoes;
     private boolean alertaNotificacao;
     private Boolean deleted = true;

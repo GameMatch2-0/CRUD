@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +22,20 @@ public class ConversaService {
 
     private final ConversaRepository repo;
     private final PerfilService service;
+    private final MensagemService mensagemService;
 
     public List<ConversaFullResponse> listarConversas(Long idPerfil){
-         List<Conversa> conversasList = repo.findAllByIdPerfilLogadoAndDeletedFalse(idPerfil);
-            return conversasList.stream()
-                    .map(ConversaResponseMapper::of)
-                    .collect(Collectors.toList());
+         List<Conversa> conversasList = repo.buscarConversas(idPerfil.intValue());
+         List<ConversaFullResponse> conversaFullResponses = new ArrayList<>();
+
+         conversasList.forEach(conversa ->{
+             final var ultimaMensagem = mensagemService.ultimaMensagem(conversa.getIdConversa().longValue(), idPerfil);
+
+             conversaFullResponses.add(
+                     ConversaResponseMapper.of(conversa, ultimaMensagem)
+             );
+         });
+            return conversaFullResponses;
     }
 
     public ConversaFullResponse novaConversa(Long idPerfilLogado, Long idPerfilConversa){
@@ -35,7 +44,7 @@ public class ConversaService {
 
         final var conversa = ConversaRequestMapper.toConversa(perfilUsuario,perfilConversa);
         repo.save(conversa);
-        return ConversaResponseMapper.of(conversa);
+        return ConversaResponseMapper.of(conversa, null);
     }
 
     public ConversaFullResponse deletarConversa(Integer idConversa){
@@ -44,14 +53,14 @@ public class ConversaService {
         );
         conversa.setDeleted(true);
         repo.save(conversa);
-        return ConversaResponseMapper.of(conversa);
+        return ConversaResponseMapper.of(conversa, null);
     }
 
     public ConversaFullResponse buscarPorIdConversa(Integer idConversa){
         Conversa conversa = repo.findByIdConversaAndDeletedFalse(idConversa).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Conversa não encontrada")
         );
-        return ConversaResponseMapper.of(conversa);
+        return ConversaResponseMapper.of(conversa, null);
     }
 
 

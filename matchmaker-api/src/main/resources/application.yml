@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://srv-match-making.database.windows.net:1433;database=matchmaking;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    username: matchmaking
+    password: m4tch-m4king
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.SQLServer2012Dialect
+
+server:
+  pert: 9090

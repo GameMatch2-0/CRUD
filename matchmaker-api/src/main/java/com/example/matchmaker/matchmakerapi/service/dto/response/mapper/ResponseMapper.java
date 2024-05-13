@@ -71,9 +71,9 @@ public class ResponseMapper {
         response.setBiografia(perfil.getBiografia());
         response.setNota(perfil.getNota());
         response.setOrientacaoSexual(perfil.getOrientacaoSexual());
-        response.setProcuraAmizade(response.isProcuraAmizade());
-        response.setProcuraNamoro(perfil.isProcuraNamoro());
-        response.setProcuraPlayer2(perfil.isProcuraPlayer2());
+//        response.setProcuraAmizade(response.isProcuraAmizade());
+//        response.setProcuraNamoro(perfil.isProcuraNamoro());
+//        response.setProcuraPlayer2(perfil.isProcuraPlayer2());
         response.setPremium(response.isPremium());
         response.setGenerosJogos(generoJogoList);
         response.setInteresseList(interesseList);

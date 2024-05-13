@@ -52,9 +52,9 @@ public class RequestMapper {
         perfil.setBiografia(newPerfilRequest.getBiografia());
         perfil.setNota(newPerfilRequest.getNota());
         perfil.setOrientacaoSexual(newPerfilRequest.getOrientacaoSexual());
-        perfil.setProcuraAmizade(newPerfilRequest.isProcuraAmizade());
-        perfil.setProcuraNamoro(newPerfilRequest.isProcuraNamoro());
-        perfil.setProcuraPlayer2(newPerfilRequest.isProcuraPlayer2());
+//        perfil.setProcuraAmizade(newPerfilRequest.isProcuraAmizade());
+//        perfil.setProcuraNamoro(newPerfilRequest.isProcuraNamoro());
+//        perfil.setProcuraPlayer2(newPerfilRequest.isProcuraPlayer2());
 
         return perfil;
     }

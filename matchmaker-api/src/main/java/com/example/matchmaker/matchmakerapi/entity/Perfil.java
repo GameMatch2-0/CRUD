@@ -26,9 +26,9 @@ public class Perfil{
     private String biografia;
     private Float nota;
     private String orientacaoSexual;
-    private boolean procuraAmizade;
-    private boolean procuraNamoro;
-    private boolean procuraPlayer2;
+//    private boolean procuraAmizade;
+//    private boolean procuraNamoro;
+//    private boolean procuraPlayer2;
     private boolean isPremium = false;
     @ManyToOne
     @JoinColumn(name = "idPlano")

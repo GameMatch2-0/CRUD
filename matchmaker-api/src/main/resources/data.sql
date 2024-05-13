@@ -16,13 +16,13 @@ VALUES
     ('Teste', 'Plano de teste', 5.99);
 
 -- Inserts para a tabela perfil
-INSERT INTO perfil (id_usuario, username, biografia, nota, orientacao_sexual, procura_amizade, procura_namoro, procura_player2, is_premium, id_plano)
+INSERT INTO perfil (id_usuario, username, biografia, nota, orientacao_sexual, is_premium, id_plano)
 VALUES
-    ('1', 'joao_silva', 'Olá, sou o João!', 4.5, 'Heterossexual', 1, 1, 1, 1, 3),
-    ('2', 'maria_santos', 'Oi, eu sou a Maria!', 4.8, 'Heterossexual', 1, 1, 1, 1, 2),
-    ('3', 'carlos_oliveira', 'E aí, sou o Carlos!', 3.9, 'Homossexual', 1, 1, 1, 0, 1),
-    ('4', 'ana_costa', 'Oi, sou a Ana!', 4.2, 'Homossexual', 1, 1, 1, 1, 4),
-    ('5', 'pedro_ribeiro', 'Oi, aqui é o Pedro!', 4.1, 'Heterossexual', 1, 1, 1, 0, 5);
+    ('1', 'joao_silva', 'Olá, sou o João!', 4.5, 'Heterossexual', 0, 3),
+    ('2', 'maria_santos', 'Oi, eu sou a Maria!', 4.8, 'Heterossexual', 0, 2),
+    ('3', 'carlos_oliveira', 'E aí, sou o Carlos!', 3.9, 'Homossexual', 0, 1),
+    ('4', 'ana_costa', 'Oi, sou a Ana!', 4.2, 'Homossexual', 0,4),
+    ('5', 'pedro_ribeiro', 'Oi, aqui é o Pedro!', 4.1, 'Heterossexual', 0, 5);
 
 -- Inserts para a tabela interesse
 INSERT INTO interesse (nome, descricao)
